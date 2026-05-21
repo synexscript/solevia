@@ -3,19 +3,16 @@
 
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=no" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=no, maximum-scale=1.0" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
   <title>.SOLEVIA | Premium Footwear</title>
 
   <!-- Tailwind -->
   <script src="https://cdn.tailwindcss.com"></script>
 
   <!-- Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
-    rel="stylesheet" />
-
-  <!-- AOS -->
-  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet" />
-  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
 
   <style>
     * {
@@ -23,6 +20,7 @@
       margin: 0;
       padding: 0;
       box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
     }
 
     body {
@@ -31,22 +29,24 @@
       overflow-x: hidden;
       min-height: 100vh;
       width: 100%;
+      position: relative;
     }
 
-    /* Main container - FULL WIDTH FIX */
-    .main-wrapper {
-      width: 100%;
-      max-width: 100%;
-      overflow-x: hidden;
+    /* iPhone Safe Areas */
+    .safe-top {
+      padding-top: env(safe-area-inset-top);
+    }
+    .safe-bottom {
+      padding-bottom: env(safe-area-inset-bottom);
+    }
+    .safe-left {
+      padding-left: env(safe-area-inset-left);
+    }
+    .safe-right {
+      padding-right: env(safe-area-inset-right);
     }
 
-    .container-custom {
-      width: 100%;
-      max-width: 1400px;
-      margin: 0 auto;
-      padding: 0 16px;
-    }
-
+    /* Glass morphism */
     .glass {
       background: rgba(255, 255, 255, 0.05);
       backdrop-filter: blur(12px);
@@ -60,15 +60,11 @@
       transition: all 0.3s ease;
     }
 
-    .card {
-      transition: 0.3s ease;
-      cursor: pointer;
+    .glass-card:active {
+      transform: scale(0.98);
     }
 
-    .card:hover {
-      transform: translateY(-5px);
-    }
-
+    /* Toast Notification */
     .toast {
       position: fixed;
       bottom: 80px;
@@ -76,13 +72,14 @@
       transform: translateX(-50%);
       background: white;
       color: black;
-      padding: 10px 20px;
-      border-radius: 8px;
-      font-weight: 500;
+      padding: 12px 20px;
+      border-radius: 30px;
+      font-weight: 600;
       z-index: 9999;
       animation: toastUp 0.3s ease;
       font-size: 13px;
       white-space: nowrap;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.3);
     }
 
     @keyframes toastUp {
@@ -96,10 +93,11 @@
       }
     }
 
+    /* Modal Animations */
     .modal {
-      background: rgba(0, 0, 0, 0.95);
+      background: rgba(0, 0, 0, 0.96);
       backdrop-filter: blur(20px);
-      animation: fadeIn 0.2s ease;
+      animation: fadeIn 0.25s ease;
     }
 
     @keyframes fadeIn {
@@ -107,21 +105,55 @@
       to { opacity: 1; }
     }
 
+    /* Custom Scrollbar */
     ::-webkit-scrollbar {
       width: 3px;
     }
-
+    ::-webkit-scrollbar-track {
+      background: #0a0a0a;
+    }
     ::-webkit-scrollbar-thumb {
       background: #444;
       border-radius: 5px;
     }
 
+    /* iPhone-specific grid - PERFECT 2 COLUMN */
+    .products-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+      width: 100%;
+    }
+
+    /* Product Card */
+    .product-card {
+      width: 100%;
+      overflow: hidden;
+      border-radius: 16px;
+    }
+    
+    .product-card img {
+      width: 100%;
+      height: 160px;
+      object-fit: cover;
+    }
+    
+    /* Hero Banner - iPhone optimized */
+    .hero-banner {
+      width: 100%;
+      height: 200px;
+      border-radius: 20px;
+      overflow: hidden;
+      position: relative;
+    }
+    
+    /* Floating Cart Button */
     .floating-cart {
       position: fixed;
-      bottom: 80px;
+      bottom: 90px;
       right: 16px;
-      width: 50px;
-      height: 50px;
+      width: 52px;
+      height: 52px;
       border-radius: 50%;
       background: linear-gradient(135deg, #ffffff, #e0e0e0);
       color: black;
@@ -130,7 +162,7 @@
       justify-content: center;
       cursor: pointer;
       z-index: 55;
-      box-shadow: 0 4px 12px rgba(255, 255, 255, 0.2);
+      box-shadow: 0 4px 15px rgba(255, 255, 255, 0.2);
       font-size: 14px;
       font-weight: bold;
     }
@@ -139,7 +171,7 @@
       position: absolute;
       top: -5px;
       right: -5px;
-      background: red;
+      background: #ff3b30;
       color: white;
       border-radius: 50%;
       width: 20px;
@@ -151,136 +183,13 @@
       font-weight: bold;
     }
 
-    /* Status badges */
-    .status-pending {
-      background: #f59e0b;
-      color: black;
-      padding: 2px 8px;
-      border-radius: 20px;
-      font-size: 10px;
-      font-weight: bold;
-      display: inline-block;
-    }
-    .status-confirmed {
-      background: #3b82f6;
-      color: white;
-      padding: 2px 8px;
-      border-radius: 20px;
-      font-size: 10px;
-      font-weight: bold;
-      display: inline-block;
-    }
-    .status-shipped {
-      background: #8b5cf6;
-      color: white;
-      padding: 2px 8px;
-      border-radius: 20px;
-      font-size: 10px;
-      font-weight: bold;
-      display: inline-block;
-    }
-    .status-delivered {
-      background: #10b981;
-      color: white;
-      padding: 2px 8px;
-      border-radius: 20px;
-      font-size: 10px;
-      font-weight: bold;
-      display: inline-block;
-    }
+    /* Status Badges */
+    .status-pending { background: #f59e0b; color: black; padding: 4px 10px; border-radius: 20px; font-size: 10px; font-weight: bold; display: inline-block; }
+    .status-confirmed { background: #3b82f6; color: white; padding: 4px 10px; border-radius: 20px; font-size: 10px; font-weight: bold; display: inline-block; }
+    .status-shipped { background: #8b5cf6; color: white; padding: 4px 10px; border-radius: 20px; font-size: 10px; font-weight: bold; display: inline-block; }
+    .status-delivered { background: #10b981; color: white; padding: 4px 10px; border-radius: 20px; font-size: 10px; font-weight: bold; display: inline-block; }
 
-    /* Products grid - FULL WIDTH FIX */
-    .products-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 16px;
-      width: 100%;
-    }
-    
-    @media (min-width: 640px) {
-      .products-grid {
-        grid-template-columns: repeat(3, 1fr);
-        gap: 20px;
-      }
-    }
-    
-    @media (min-width: 1024px) {
-      .products-grid {
-        grid-template-columns: repeat(4, 1fr);
-        gap: 24px;
-      }
-    }
-
-    /* Product card - FULL WIDTH */
-    .product-card {
-      width: 100%;
-      overflow: hidden;
-    }
-    
-    .product-card img {
-      width: 100%;
-      height: 200px;
-      object-fit: cover;
-    }
-    
-    @media (min-width: 768px) {
-      .product-card img {
-        height: 250px;
-      }
-    }
-
-    /* Hero banner - PROPER SIZE */
-    .hero-banner-container {
-      width: 100%;
-      aspect-ratio: 16 / 7;
-      max-height: 400px;
-      border-radius: 20px;
-      overflow: hidden;
-      position: relative;
-    }
-    
-    @media (max-width: 768px) {
-      .hero-banner-container {
-        aspect-ratio: 16 / 10;
-        max-height: 250px;
-        border-radius: 16px;
-      }
-      
-      .products-grid {
-        gap: 12px;
-      }
-      
-      .product-card img {
-        height: 150px;
-      }
-      
-      .toast {
-        bottom: 70px;
-        font-size: 12px;
-        padding: 8px 16px;
-        white-space: normal;
-        text-align: center;
-        max-width: 90%;
-      }
-      
-      input, select, button {
-        font-size: 16px !important;
-      }
-      
-      .glass-card {
-        border-radius: 14px;
-      }
-    }
-
-    input:-webkit-autofill,
-    input:-webkit-autofill:hover,
-    input:-webkit-autofill:focus,
-    input:-webkit-autofill:active {
-      -webkit-box-shadow: 0 0 0 30px #1a1a1a inset !important;
-      -webkit-text-fill-color: white !important;
-    }
-    
-    /* Payment option styles */
+    /* Payment Option */
     .payment-option {
       transition: all 0.2s ease;
       cursor: pointer;
@@ -289,296 +198,291 @@
       border-color: #10b981;
       background: rgba(16, 185, 129, 0.1);
     }
+
+    /* iPhone Input Fix */
+    input, select, button, textarea {
+      font-size: 16px !important;
+      border-radius: 12px;
+    }
     
-    /* Cart sidebar full height */
-    .cart-sidebar {
-      height: 100vh;
+    /* Remove input zoom on focus for iPhone */
+    @media (max-width: 768px) {
+      input:focus, select:focus, textarea:focus {
+        font-size: 16px;
+      }
+      
+      .toast {
+        bottom: 80px;
+        font-size: 12px;
+        padding: 10px 18px;
+        white-space: normal;
+        text-align: center;
+        max-width: 85%;
+      }
+      
+      .hero-banner {
+        height: 160px;
+        border-radius: 16px;
+      }
+      
+      .products-grid {
+        gap: 10px;
+      }
+      
+      .product-card img {
+        height: 140px;
+      }
+      
+      .floating-cart {
+        bottom: 90px;
+        right: 16px;
+        width: 48px;
+        height: 48px;
+      }
+    }
+
+    /* Autofill fix for iPhone */
+    input:-webkit-autofill,
+    input:-webkit-autofill:hover,
+    input:-webkit-autofill:focus,
+    input:-webkit-autofill:active {
+      -webkit-box-shadow: 0 0 0 30px #1a1a1a inset !important;
+      -webkit-text-fill-color: white !important;
+      transition: background-color 5000s ease-in-out 0s;
+    }
+
+    /* Modal full height fix for iPhone */
+    .modal-full {
+      max-height: 85vh;
       overflow-y: auto;
-    }
-    
-    /* Remove body margin/padding issues */
-    body {
-      margin: 0;
-      padding: 0;
-    }
-    
-    /* Full width sections */
-    section {
-      width: 100%;
+      -webkit-overflow-scrolling: touch;
     }
   </style>
 </head>
 
 <body>
 
-  <div class="main-wrapper">
-    <!-- NAVBAR -->
-    <div class="fixed top-0 left-0 w-full z-50 bg-black/80 backdrop-blur-xl border-b border-white/10">
-      <div class="container-custom py-3 flex justify-between items-center">
-        <h1 class="text-xl md:text-2xl font-black tracking-tight cursor-pointer" 
-          onclick="window.scrollTo({top:0,behavior:'smooth'})">
-          .SOLEVIA
-        </h1>
+  <!-- NAVBAR -->
+  <div class="fixed top-0 left-0 w-full z-50 bg-black/90 backdrop-blur-xl border-b border-white/10 safe-top">
+    <div class="px-4 py-3 flex justify-between items-center">
+      <h1 class="text-xl font-black tracking-tight cursor-pointer" onclick="window.scrollTo({top:0,behavior:'smooth'})">
+        .SOLEVIA
+      </h1>
 
-        <div class="hidden md:flex gap-2 items-center">
-          <div id="auth-desktop" class="flex gap-2 items-center"></div>
-          <button onclick="openOrderTracking()" class="glass px-4 py-2 rounded-lg text-sm font-semibold hover:bg-white/10 transition">
-            ORDERS
-          </button>
-          <button onclick="toggleWishlistView()" class="glass px-4 py-2 rounded-lg text-sm font-semibold hover:bg-white/10 transition">
-            WISHLIST (<span id="wishlist-count-nav">0</span>)
-          </button>
-          <button onclick="toggleCart()" class="glass px-4 py-2 rounded-lg text-sm font-semibold flex items-center gap-2 hover:bg-white/10 transition">
-            CART <span id="cart-count" class="bg-white/20 px-2 py-0.5 rounded-full text-xs min-w-[22px]">0</span>
-          </button>
+      <div class="hidden md:flex gap-2 items-center">
+        <div id="auth-desktop" class="flex gap-2 items-center"></div>
+        <button onclick="openOrderTracking()" class="glass px-4 py-2 rounded-lg text-sm font-semibold hover:bg-white/10 transition">ORDERS</button>
+        <button onclick="toggleWishlistView()" class="glass px-4 py-2 rounded-lg text-sm font-semibold hover:bg-white/10 transition">WISHLIST (<span id="wishlist-count-nav">0</span>)</button>
+        <button onclick="toggleCart()" class="glass px-4 py-2 rounded-lg text-sm font-semibold flex items-center gap-2 hover:bg-white/10 transition">CART <span id="cart-count" class="bg-white/20 px-2 py-0.5 rounded-full text-xs">0</span></button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MOBILE BOTTOM NAVIGATION - iPhone optimized -->
+  <div class="md:hidden fixed bottom-0 left-0 w-full bg-black/90 backdrop-blur-2xl border-t border-white/10 z-[65] grid grid-cols-4 safe-bottom" style="padding-bottom: env(safe-area-inset-bottom);">
+    <button onclick="window.scrollTo({top:0,behavior:'smooth'}); showMainProducts();" class="flex flex-col items-center justify-center py-2 text-zinc-400 active:text-white transition">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2h-5v-7H9v7H4a2 2 0 0 1-2-2z"/></svg>
+      <span class="text-[9px] font-bold mt-0.5">HOME</span>
+    </button>
+    <button onclick="toggleWishlistView()" class="flex flex-col items-center justify-center py-2 text-zinc-400 active:text-white relative transition">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+      <span class="text-[9px] font-bold mt-0.5">WISHLIST</span>
+      <span id="wishlist-count-mob" class="absolute -top-1 right-4 bg-white text-black text-[8px] font-black rounded-full px-1.5 py-0.5 min-w-[16px] text-center">0</span>
+    </button>
+    <button onclick="toggleCart()" class="flex flex-col items-center justify-center py-2 text-zinc-400 active:text-white relative transition">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+      <span class="text-[9px] font-bold mt-0.5">CART</span>
+      <span id="cart-count-mob" class="absolute -top-1 right-4 bg-red-600 text-white text-[8px] font-black rounded-full px-1.5 py-0.5 min-w-[16px] text-center">0</span>
+    </button>
+    <button onclick="openOrderTracking()" class="flex flex-col items-center justify-center py-2 text-zinc-400 active:text-white transition">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+      <span class="text-[9px] font-bold mt-0.5">ORDERS</span>
+    </button>
+  </div>
+
+  <!-- FLOATING CART BUTTON -->
+  <div class="hidden md:flex floating-cart" onclick="toggleCart()">
+    🛒 <span id="floating-cart-count">0</span>
+  </div>
+
+  <!-- HERO SECTION -->
+  <section id="hero-section" class="pt-20 pb-4 px-4">
+    <div class="hero-banner relative">
+      <div id="hero-banner" class="absolute inset-0 bg-cover bg-center transition-all duration-500" style="background-image: url('https://images.unsplash.com/photo-1542291026-7eec264c27ff?q=80&w=800&auto=format');"></div>
+      <div class="absolute inset-0 bg-black/40"></div>
+      <div class="relative z-10 flex items-center justify-start h-full p-5">
+        <div>
+          <p id="banner-subtitle" class="uppercase tracking-wider text-zinc-300 text-[10px] mb-1">Limited Release</p>
+          <h1 id="banner-title" class="text-xl font-black leading-tight">FUTURE SNEAKERS</h1>
+          <p id="banner-desc" class="text-zinc-200 text-xs mt-1">Premium sneakers engineered with futuristic aesthetics.</p>
+          <button onclick="document.getElementById('products-container').scrollIntoView({behavior:'smooth'})" class="mt-3 bg-white text-black px-5 py-1.5 rounded-full font-black text-xs transition active:scale-95">SHOP NOW</button>
+        </div>
+      </div>
+      <div id="banner-dots" class="absolute bottom-2 left-1/2 transform -translate-x-1/2 flex gap-1.5 z-20"></div>
+    </div>
+  </section>
+
+  <!-- FILTER SECTION -->
+  <section class="px-4 pb-3">
+    <div class="flex flex-col gap-2">
+      <input type="search" id="search" placeholder="Search products..." autocomplete="off" class="glass px-4 py-3 rounded-xl bg-transparent outline-none text-sm w-full">
+      <select id="filter" class="glass px-4 py-3 rounded-xl bg-black outline-none text-sm cursor-pointer w-full">
+        <option value="all">All Categories</option>
+        <option value="Running">Running</option>
+        <option value="Streetwear">Streetwear</option>
+        <option value="Basketball">Basketball</option>
+      </select>
+    </div>
+  </section>
+
+  <!-- PRODUCTS GRID -->
+  <section id="products-container" class="px-4 pb-24">
+    <div class="flex justify-between items-center mb-3">
+      <h2 id="grid-title" class="text-xl font-black tracking-tighter">Latest Drops</h2>
+      <div id="product-count" class="glass px-3 py-1 rounded-full text-[10px] font-bold">LOADING</div>
+    </div>
+    <div id="products" class="products-grid">
+      <div class="glass rounded-xl h-[200px] animate-pulse"></div>
+      <div class="glass rounded-xl h-[200px] animate-pulse"></div>
+    </div>
+  </section>
+
+  <!-- LOGIN MODAL -->
+  <div id="login-modal" class="hidden fixed inset-0 z-[100] modal flex items-center justify-center p-4">
+    <div class="max-w-md w-full bg-zinc-900 rounded-2xl p-5 border border-white/10">
+      <div class="flex justify-between items-center mb-4">
+        <h2 class="text-xl font-bold">Login</h2>
+        <button onclick="closeLoginModal()" class="text-gray-400 hover:text-white text-2xl">&times;</button>
+      </div>
+      <div id="login-form">
+        <div class="space-y-3">
+          <input type="email" id="login-email" placeholder="Email address" autocomplete="off" class="w-full p-3 rounded-lg bg-white/10 border border-white/10 outline-none text-white">
+          <input type="password" id="login-password" placeholder="Password" autocomplete="new-password" class="w-full p-3 rounded-lg bg-white/10 border border-white/10 outline-none text-white">
+          <button onclick="handleLogin()" class="w-full bg-white text-black py-3 rounded-lg font-semibold transition">Login</button>
+          <p class="text-center text-gray-400 text-sm">No account? <button onclick="switchToSignup()" class="text-white underline">Create account</button></p>
+        </div>
+      </div>
+      <div id="signup-form" class="hidden">
+        <div class="space-y-3">
+          <input type="text" id="signup-name" placeholder="Full name" autocomplete="off" class="w-full p-3 rounded-lg bg-white/10 border border-white/10 outline-none text-white">
+          <input type="email" id="signup-email" placeholder="Email address" autocomplete="off" class="w-full p-3 rounded-lg bg-white/10 border border-white/10 outline-none text-white">
+          <input type="password" id="signup-password" placeholder="Password (min 6 characters)" autocomplete="new-password" class="w-full p-3 rounded-lg bg-white/10 border border-white/10 outline-none text-white">
+          <button onclick="handleSignup()" class="w-full bg-white text-black py-3 rounded-lg font-semibold transition">Create account</button>
+          <p class="text-center text-gray-400 text-sm">Have an account? <button onclick="switchToLogin()" class="text-white underline">Login</button></p>
         </div>
       </div>
     </div>
+  </div>
 
-    <!-- MOBILE BOTTOM NAVIGATION -->
-    <div class="md:hidden fixed bottom-0 left-0 w-full bg-black/90 backdrop-blur-2xl border-t border-white/10 z-[65] grid grid-cols-4">
-      <button onclick="window.scrollTo({top:0,behavior:'smooth'}); showMainProducts();" class="flex flex-col items-center justify-center py-3 text-zinc-400 active:text-white transition">
-        <span class="text-base">SHOP</span>
-        <span class="text-[9px] font-bold mt-0.5">HOME</span>
-      </button>
-      <button onclick="toggleWishlistView()" class="flex flex-col items-center justify-center py-3 text-zinc-400 active:text-white relative transition">
-        <span class="text-base">WISH</span>
-        <span class="text-[9px] font-bold mt-0.5">LIST</span>
-        <span id="wishlist-count-mob" class="absolute -top-1 right-5 bg-white text-black text-[8px] font-black rounded-full px-1.5 py-0.5 min-w-[16px] text-center">0</span>
-      </button>
-      <button onclick="toggleCart()" class="flex flex-col items-center justify-center py-3 text-zinc-400 active:text-white relative transition">
-        <span class="text-base">CART</span>
-        <span id="cart-count-mob" class="absolute -top-1 right-5 bg-red-600 text-white text-[8px] font-black rounded-full px-1.5 py-0.5 min-w-[16px] text-center">0</span>
-      </button>
-      <button onclick="openOrderTracking()" class="flex flex-col items-center justify-center py-3 text-zinc-400 active:text-white transition">
-        <span class="text-base">ORDER</span>
-        <span class="text-[9px] font-bold mt-0.5">TRACK</span>
-      </button>
-    </div>
-
-    <!-- FLOATING CART BUTTON -->
-    <div class="hidden md:flex floating-cart" onclick="toggleCart()">
-      CART <span id="floating-cart-count">0</span>
-    </div>
-
-    <!-- HERO SECTION -->
-    <section id="hero-section" class="pt-20 md:pt-28 pb-6 px-4">
-      <div class="hero-banner-container container-custom">
-        <div id="hero-banner" class="absolute inset-0 bg-cover bg-center transition-all duration-500"
-          style="background-image: url('https://images.unsplash.com/photo-1542291026-7eec264c27ff?q=80&w=1200&auto=format&fit=crop');">
-        </div>
-        <div class="absolute inset-0 bg-black/40"></div>
-        <div class="relative z-10 flex items-center justify-start h-full p-5 md:p-10">
-          <div class="max-w-2xl">
-            <p id="banner-subtitle" class="uppercase tracking-wider text-zinc-300 text-[10px] md:text-xs mb-1">Limited Release</p>
-            <h1 id="banner-title" class="text-xl md:text-4xl lg:text-5xl font-black leading-tight">FUTURE SNEAKERS</h1>
-            <p id="banner-desc" class="text-zinc-200 text-xs md:text-sm mt-1 max-w-lg">Premium sneakers engineered with futuristic aesthetics.</p>
-            <button onclick="document.getElementById('products-container').scrollIntoView({behavior:'smooth'})"
-              class="mt-2 md:mt-4 bg-white text-black px-4 py-1.5 md:px-5 md:py-2 rounded-full font-black text-xs md:text-sm transition active:scale-95">
-              SHOP NOW
-            </button>
-          </div>
-        </div>
-        <div id="banner-dots" class="absolute bottom-2 left-1/2 transform -translate-x-1/2 flex gap-1.5 z-20"></div>
+  <!-- ADDRESS & PAYMENT MODAL -->
+  <div id="address-modal" class="hidden fixed inset-0 z-[70] modal flex items-end md:items-center justify-center p-0 md:p-4">
+    <div class="max-w-2xl w-full bg-zinc-950 rounded-t-2xl md:rounded-2xl p-5 max-h-[85vh] overflow-y-auto border-t border-white/10 md:border modal-full">
+      <div class="flex justify-between items-center mb-4 sticky top-0 bg-zinc-950 py-2 z-10">
+        <h2 class="text-xl font-bold">Delivery & Payment</h2>
+        <button onclick="closeAddressModal()" class="text-gray-400 text-2xl">&times;</button>
       </div>
-    </section>
-
-    <!-- FILTER -->
-    <section class="px-4 pb-4">
-      <div class="container-custom flex flex-col md:flex-row gap-3">
-        <input type="search" id="search" placeholder="Search products..." autocomplete="off" class="glass px-4 py-3 rounded-xl bg-transparent outline-none text-sm w-full">
-        <select id="filter" class="glass px-4 py-3 rounded-xl bg-black outline-none text-sm cursor-pointer w-full md:w-48">
-          <option value="all">All Categories</option>
-          <option value="Running">Running</option>
-          <option value="Streetwear">Streetwear</option>
-          <option value="Basketball">Basketball</option>
-        </select>
-      </div>
-    </section>
-
-    <!-- PRODUCTS GRID - FULL WIDTH -->
-    <section id="products-container" class="px-4 pb-24">
-      <div class="container-custom">
-        <div class="flex justify-between items-center mb-4 md:mb-6">
-          <h2 id="grid-title" class="text-xl md:text-3xl font-black tracking-tighter">Latest Drops</h2>
-          <div id="product-count" class="glass px-3 py-1.5 rounded-full text-xs font-bold">LOADING</div>
-        </div>
-        <div id="products" class="products-grid">
-          <div class="glass rounded-xl h-[280px] md:h-[320px] animate-pulse"></div>
-          <div class="glass rounded-xl h-[280px] md:h-[320px] animate-pulse"></div>
-          <div class="glass rounded-xl h-[280px] md:h-[320px] animate-pulse"></div>
-          <div class="glass rounded-xl h-[280px] md:h-[320px] animate-pulse"></div>
-        </div>
-      </div>
-    </section>
-
-    <!-- LOGIN MODAL -->
-    <div id="login-modal" class="hidden fixed inset-0 z-[100] modal flex items-center justify-center p-4">
-      <div class="max-w-md w-full bg-zinc-900 rounded-2xl p-6 border border-white/10">
-        <div class="flex justify-between items-center mb-5">
-          <h2 class="text-xl md:text-2xl font-bold">Login</h2>
-          <button onclick="closeLoginModal()" class="text-gray-400 hover:text-white text-2xl">&times;</button>
-        </div>
-        <div id="login-form">
-          <div class="space-y-3">
-            <input type="email" id="login-email" placeholder="Email address" autocomplete="off" class="w-full p-3 rounded-lg bg-white/10 border border-white/10 outline-none text-white text-base">
-            <input type="password" id="login-password" placeholder="Password" autocomplete="new-password" class="w-full p-3 rounded-lg bg-white/10 border border-white/10 outline-none text-white text-base">
-            <button onclick="handleLogin()" class="w-full bg-white text-black py-3 rounded-lg font-semibold hover:bg-gray-200 transition text-base">Login</button>
-            <p class="text-center text-gray-400 text-sm">No account? <button onclick="switchToSignup()" class="text-white underline">Create account</button></p>
-          </div>
-        </div>
-        <div id="signup-form" class="hidden">
-          <div class="space-y-3">
-            <input type="text" id="signup-name" placeholder="Full name" autocomplete="off" class="w-full p-3 rounded-lg bg-white/10 border border-white/10 outline-none text-white text-base">
-            <input type="email" id="signup-email" placeholder="Email address" autocomplete="off" class="w-full p-3 rounded-lg bg-white/10 border border-white/10 outline-none text-white text-base">
-            <input type="password" id="signup-password" placeholder="Password (min 6 characters)" autocomplete="new-password" class="w-full p-3 rounded-lg bg-white/10 border border-white/10 outline-none text-white text-base">
-            <button onclick="handleSignup()" class="w-full bg-white text-black py-3 rounded-lg font-semibold hover:bg-gray-200 transition text-base">Create account</button>
-            <p class="text-center text-gray-400 text-sm">Have an account? <button onclick="switchToLogin()" class="text-white underline">Login</button></p>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- ADDRESS & PAYMENT MODAL -->
-    <div id="address-modal" class="hidden fixed inset-0 z-[70] modal flex items-end md:items-center justify-center p-0 md:p-5">
-      <div class="max-w-2xl w-full bg-zinc-950 rounded-t-2xl md:rounded-2xl p-5 md:p-8 max-h-[90vh] overflow-y-auto border-t border-white/10 md:border">
-        <div class="flex justify-between items-center mb-5 sticky top-0 bg-zinc-950 py-2 z-10">
-          <h2 class="text-xl md:text-2xl font-bold">Delivery & Payment</h2>
-          <button onclick="closeAddressModal()" class="text-gray-400 text-2xl">&times;</button>
-        </div>
-        
-        <!-- Address Section -->
-        <h3 class="text-sm font-bold mb-3 text-zinc-400">Shipping Address</h3>
-        <div class="space-y-3 mb-6">
-          <input id="full-name" type="text" placeholder="Full name" autocomplete="off" class="w-full p-3 rounded-xl bg-white/10 border border-white/10 outline-none text-base">
-          <input id="phone" type="tel" placeholder="Phone number" autocomplete="off" class="w-full p-3 rounded-xl bg-white/10 border border-white/10 outline-none text-base">
-          <input id="address-line" type="text" placeholder="Street address" autocomplete="off" class="w-full p-3 rounded-xl bg-white/10 border border-white/10 outline-none text-base">
-          <div class="grid grid-cols-2 gap-3">
-            <input id="city" type="text" placeholder="City" autocomplete="off" class="w-full p-3 rounded-xl bg-white/10 border border-white/10 outline-none text-base">
-            <input id="pincode" type="text" placeholder="Pincode" autocomplete="off" class="w-full p-3 rounded-xl bg-white/10 border border-white/10 outline-none text-base">
-          </div>
-        </div>
-        
-        <!-- Payment Options Section -->
-        <h3 class="text-sm font-bold mb-3 text-zinc-400">Payment Method</h3>
-        <div class="space-y-3 mb-6">
-          <div id="payment-cod" class="payment-option glass p-4 rounded-xl cursor-pointer border-2 border-transparent flex items-center justify-between" onclick="selectPaymentMethod('cod')">
-            <div>
-              <span class="font-bold">Cash on Delivery</span>
-              <p class="text-xs text-zinc-400 mt-0.5">Pay when you receive the order</p>
-            </div>
-            <div class="w-5 h-5 rounded-full border-2 border-white/30 flex items-center justify-center">
-              <div id="cod-check" class="w-3 h-3 rounded-full bg-green-500 hidden"></div>
-            </div>
-          </div>
-          <div id="payment-online" class="payment-option glass p-4 rounded-xl cursor-pointer border-2 border-transparent flex items-center justify-between" onclick="selectPaymentMethod('online')">
-            <div>
-              <span class="font-bold">Online Payment</span>
-              <p class="text-xs text-zinc-400 mt-0.5">UPI, Card, NetBanking</p>
-            </div>
-            <div class="w-5 h-5 rounded-full border-2 border-white/30 flex items-center justify-center">
-              <div id="online-check" class="w-3 h-3 rounded-full bg-green-500 hidden"></div>
-            </div>
-          </div>
-        </div>
-        
-        <!-- Order Summary -->
-        <div class="border-t border-white/10 pt-4 mb-4">
-          <div class="flex justify-between text-sm mb-2">
-            <span>Subtotal</span>
-            <span id="modal-subtotal">₹0</span>
-          </div>
-          <div id="modal-discount-row" class="flex justify-between text-sm text-green-400 hidden">
-            <span>Discount</span>
-            <span id="modal-discount">-₹0</span>
-          </div>
-          <div class="flex justify-between text-lg font-bold mt-2 pt-2 border-t border-white/10">
-            <span>Total to Pay</span>
-            <span id="modal-total">₹0</span>
-          </div>
-        </div>
-        
-        <button onclick="placeOrderWithPayment()" class="w-full bg-white text-black py-3 rounded-xl font-bold mt-2 transition active:scale-95 text-base">
-          PLACE ORDER
-        </button>
-      </div>
-    </div>
-
-    <!-- ORDERS MODAL -->
-    <div id="tracking-modal" class="hidden fixed inset-0 z-[70] modal flex items-center justify-center p-4 md:p-5">
-      <div class="max-w-4xl w-full bg-zinc-950 rounded-2xl p-5 md:p-8 max-h-[85vh] overflow-y-auto border border-white/10">
-        <div class="flex justify-between items-center mb-5 sticky top-0 bg-zinc-950 py-2 z-10">
-          <h2 class="text-xl md:text-2xl font-bold">My Orders</h2>
-          <button onclick="closeTrackingModal()" class="text-gray-400 text-2xl">&times;</button>
-        </div>
-        <div id="orders-list" class="space-y-3"></div>
-      </div>
-    </div>
-
-    <!-- PRODUCT DETAIL MODAL -->
-    <div id="modal" class="hidden fixed inset-0 z-50 modal flex items-end md:items-center justify-center p-0 md:p-5">
-      <div class="max-w-4xl w-full bg-zinc-950 rounded-t-2xl md:rounded-2xl overflow-hidden max-h-[90vh] overflow-y-auto">
-        <div class="relative h-[250px] md:h-[400px]">
-          <img id="modal-image" class="w-full h-full object-cover">
-          <button id="modal-wishlist-btn" class="absolute top-3 right-3 bg-black/60 backdrop-blur-md p-2 rounded-full text-lg border border-white/10">♡</button>
-          <button onclick="closeModal()" class="absolute top-3 left-3 bg-black/60 backdrop-blur-md p-2 rounded-full text-lg border border-white/10">&times;</button>
-        </div>
-        <div class="p-5 pb-8">
-          <p id="modal-category" class="uppercase text-zinc-500 text-xs tracking-wider"></p>
-          <h2 id="modal-name" class="text-2xl md:text-3xl font-bold mt-1"></h2>
-          <div class="mt-3 flex gap-2 items-center">
-            <span id="modal-price" class="text-2xl font-bold"></span>
-            <span id="modal-old" class="text-zinc-500 line-through text-sm"></span>
-          </div>
-          <p id="modal-desc" class="text-zinc-300 mt-3 leading-relaxed text-sm"></p>
-          <button onclick="addToCart(selectedProduct)" class="w-full bg-white text-black py-3 rounded-xl font-bold mt-5 transition active:scale-95 text-base">ADD TO CART</button>
-        </div>
-      </div>
-    </div>
-
-    <!-- CART SIDEBAR -->
-    <div id="cart" class="cart-sidebar hidden fixed top-0 right-0 h-full w-full md:w-[400px] bg-black/95 backdrop-blur-2xl z-[60] border-l border-white/10 p-4 overflow-y-auto">
-      <div class="flex justify-between items-center mb-4 sticky top-0 bg-black py-2 z-10">
-        <h2 class="text-xl font-bold">Your Cart</h2>
-        <button onclick="toggleCart()" class="text-gray-400 text-2xl">&times;</button>
-      </div>
-      <div id="cart-items" class="space-y-3"></div>
       
-      <div class="mt-4 pt-3 border-t border-white/10">
-        <p class="text-xs font-bold text-zinc-400 mb-2 uppercase">Promo code</p>
-        <div class="flex gap-2">
-          <input id="promo-input" type="text" placeholder="ENTER CODE" autocomplete="off" class="flex-1 bg-white/10 border border-white/10 px-3 py-2 rounded-lg outline-none text-xs uppercase">
-          <button onclick="applyPromoCode()" class="bg-zinc-200 text-black px-3 py-2 rounded-lg font-bold text-xs">APPLY</button>
+      <h3 class="text-sm font-bold mb-2 text-zinc-400">Shipping Address</h3>
+      <div class="space-y-2 mb-5">
+        <input id="full-name" type="text" placeholder="Full name" autocomplete="off" class="w-full p-3 rounded-xl bg-white/10 border border-white/10 outline-none text-base">
+        <input id="phone" type="tel" placeholder="Phone number" autocomplete="off" class="w-full p-3 rounded-xl bg-white/10 border border-white/10 outline-none text-base">
+        <input id="address-line" type="text" placeholder="Street address" autocomplete="off" class="w-full p-3 rounded-xl bg-white/10 border border-white/10 outline-none text-base">
+        <div class="grid grid-cols-2 gap-2">
+          <input id="city" type="text" placeholder="City" autocomplete="off" class="w-full p-3 rounded-xl bg-white/10 border border-white/10 outline-none text-base">
+          <input id="pincode" type="text" placeholder="Pincode" autocomplete="off" class="w-full p-3 rounded-xl bg-white/10 border border-white/10 outline-none text-base">
         </div>
-        <div id="promo-status" class="text-xs mt-2 hidden"></div>
       </div>
+      
+      <h3 class="text-sm font-bold mb-2 text-zinc-400">Payment Method</h3>
+      <div class="space-y-2 mb-5">
+        <div id="payment-cod" class="payment-option glass p-3 rounded-xl cursor-pointer border-2 border-transparent flex items-center justify-between" onclick="selectPaymentMethod('cod')">
+          <div>
+            <span class="font-bold text-sm">Cash on Delivery</span>
+            <p class="text-[10px] text-zinc-400">Pay when you receive</p>
+          </div>
+          <div class="w-5 h-5 rounded-full border-2 border-white/30 flex items-center justify-center">
+            <div id="cod-check" class="w-3 h-3 rounded-full bg-green-500 hidden"></div>
+          </div>
+        </div>
+        <div id="payment-online" class="payment-option glass p-3 rounded-xl cursor-pointer border-2 border-transparent flex items-center justify-between" onclick="selectPaymentMethod('online')">
+          <div>
+            <span class="font-bold text-sm">Online Payment</span>
+            <p class="text-[10px] text-zinc-400">UPI, Card, NetBanking</p>
+          </div>
+          <div class="w-5 h-5 rounded-full border-2 border-white/30 flex items-center justify-center">
+            <div id="online-check" class="w-3 h-3 rounded-full bg-green-500 hidden"></div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="border-t border-white/10 pt-3 mb-4">
+        <div class="flex justify-between text-sm mb-1"><span>Subtotal</span><span id="modal-subtotal">₹0</span></div>
+        <div id="modal-discount-row" class="flex justify-between text-sm text-green-400 hidden"><span>Discount</span><span id="modal-discount">-₹0</span></div>
+        <div class="flex justify-between text-base font-bold mt-2 pt-2 border-t border-white/10"><span>Total</span><span id="modal-total">₹0</span></div>
+      </div>
+      
+      <button onclick="placeOrderWithPayment()" class="w-full bg-white text-black py-3 rounded-xl font-bold transition active:scale-95">PLACE ORDER</button>
+    </div>
+  </div>
 
-      <div class="mt-4 pt-3 space-y-2 text-sm">
-        <div class="flex justify-between"><span>Subtotal</span><span id="summary-subtotal">₹0</span></div>
-        <div id="summary-promo-row" class="flex justify-between text-green-400 hidden"><span>Discount</span><span id="summary-promo-discount">-₹0</span></div>
-        <div class="flex justify-between text-lg font-bold pt-2 border-t border-white/10">
-          <span>TOTAL</span><span id="cart-total">₹0</span>
-        </div>
-        <button onclick="initiateCheckout()" class="w-full bg-white text-black py-3 rounded-xl font-bold text-sm mt-3 transition active:scale-95">CHECKOUT</button>
+  <!-- ORDERS MODAL -->
+  <div id="tracking-modal" class="hidden fixed inset-0 z-[70] modal flex items-center justify-center p-4">
+    <div class="max-w-4xl w-full bg-zinc-950 rounded-2xl p-5 max-h-[80vh] overflow-y-auto border border-white/10 modal-full">
+      <div class="flex justify-between items-center mb-4 sticky top-0 bg-zinc-950 py-2 z-10">
+        <h2 class="text-xl font-bold">My Orders</h2>
+        <button onclick="closeTrackingModal()" class="text-gray-400 text-2xl">&times;</button>
       </div>
+      <div id="orders-list" class="space-y-3"></div>
+    </div>
+  </div>
+
+  <!-- PRODUCT DETAIL MODAL -->
+  <div id="modal" class="hidden fixed inset-0 z-50 modal flex items-end md:items-center justify-center p-0 md:p-4">
+    <div class="max-w-4xl w-full bg-zinc-950 rounded-t-2xl md:rounded-2xl overflow-hidden max-h-[85vh] overflow-y-auto">
+      <div class="relative h-[250px]">
+        <img id="modal-image" class="w-full h-full object-cover">
+        <button id="modal-wishlist-btn" class="absolute top-3 right-3 bg-black/60 backdrop-blur-md p-2 rounded-full text-lg border border-white/10">♡</button>
+        <button onclick="closeModal()" class="absolute top-3 left-3 bg-black/60 backdrop-blur-md p-2 rounded-full text-lg border border-white/10">&times;</button>
+      </div>
+      <div class="p-5 pb-8">
+        <p id="modal-category" class="uppercase text-zinc-500 text-[10px] tracking-wider"></p>
+        <h2 id="modal-name" class="text-xl font-bold mt-1"></h2>
+        <p id="modal-price" class="text-2xl font-bold mt-2"></p>
+        <p id="modal-desc" class="text-zinc-300 mt-2 leading-relaxed text-sm"></p>
+        <button onclick="addToCart(selectedProduct)" class="w-full bg-white text-black py-3 rounded-xl font-bold mt-5 transition active:scale-95">ADD TO CART</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- CART SIDEBAR -->
+  <div id="cart" class="cart-sidebar hidden fixed top-0 right-0 h-full w-full bg-black/95 backdrop-blur-2xl z-[60] border-l border-white/10 p-4 overflow-y-auto" style="width: 100%; max-width: 100%;">
+    <div class="flex justify-between items-center mb-4 sticky top-0 bg-black py-2 z-10">
+      <h2 class="text-xl font-bold">Your Cart</h2>
+      <button onclick="toggleCart()" class="text-gray-400 text-2xl">&times;</button>
+    </div>
+    <div id="cart-items" class="space-y-3"></div>
+    
+    <div class="mt-4 pt-3 border-t border-white/10">
+      <p class="text-xs font-bold text-zinc-400 mb-2 uppercase">Promo code</p>
+      <div class="flex gap-2">
+        <input id="promo-input" type="text" placeholder="ENTER CODE" autocomplete="off" class="flex-1 bg-white/10 border border-white/10 px-3 py-2 rounded-lg outline-none text-xs uppercase">
+        <button onclick="applyPromoCode()" class="bg-zinc-200 text-black px-3 py-2 rounded-lg font-bold text-xs">APPLY</button>
+      </div>
+      <div id="promo-status" class="text-xs mt-2 hidden"></div>
+    </div>
+
+    <div class="mt-4 pt-3 space-y-2 text-sm">
+      <div class="flex justify-between"><span>Subtotal</span><span id="summary-subtotal">₹0</span></div>
+      <div id="summary-promo-row" class="flex justify-between text-green-400 hidden"><span>Discount</span><span id="summary-promo-discount">-₹0</span></div>
+      <div class="flex justify-between text-lg font-bold pt-2 border-t border-white/10"><span>TOTAL</span><span id="cart-total">₹0</span></div>
+      <button onclick="initiateCheckout()" class="w-full bg-white text-black py-3 rounded-xl font-bold text-sm mt-3 transition active:scale-95">CHECKOUT</button>
     </div>
   </div>
 
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-    import { 
-      getAuth, 
-      onAuthStateChanged, 
-      signInWithEmailAndPassword, 
-      createUserWithEmailAndPassword, 
-      signOut 
-    } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
-    import { 
-      getFirestore, 
-      doc, 
-      setDoc, 
-      getDoc
-    } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+    import { getAuth, onAuthStateChanged, signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+    import { getFirestore, doc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
     import { getDatabase, ref, onValue, push, get } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
 
     const firebaseConfig = {
@@ -605,9 +509,8 @@
     let currentUser = null;
     let activePromo = null;
     let selectedPaymentMethod = "cod";
-    
-    let bannerImages = []; let bannerTitles = [];
-    let currentBannerIndex = 0; let bannerInterval = null;
+    let bannerImages = [], bannerTitles = [];
+    let currentBannerIndex = 0, bannerInterval = null;
     let viewingWishlist = false;
 
     window.selectedProduct = null;
@@ -642,13 +545,12 @@
 
     function updateAuthUI() {
       const authDesktop = document.getElementById("auth-desktop");
-      if (currentUser) {
-        authDesktop.innerHTML = `
-          <span class="text-sm text-zinc-300 hidden md:inline">${currentUser.email.split('@')[0]}</span>
-          <button onclick="handleLogout()" class="glass px-3 py-1.5 md:px-4 md:py-2 rounded-lg text-xs md:text-sm font-semibold hover:bg-white/10 transition">LOGOUT</button>
-        `;
-      } else {
-        authDesktop.innerHTML = `<button onclick="openLoginModal()" class="glass px-3 py-1.5 md:px-4 md:py-2 rounded-lg text-xs md:text-sm font-semibold hover:bg-white/10 transition">LOGIN</button>`;
+      if (authDesktop) {
+        if (currentUser) {
+          authDesktop.innerHTML = `<span class="text-sm text-zinc-300 hidden md:inline">${currentUser.email.split('@')[0]}</span><button onclick="handleLogout()" class="glass px-3 py-1.5 rounded-lg text-xs font-semibold">LOGOUT</button>`;
+        } else {
+          authDesktop.innerHTML = `<button onclick="openLoginModal()" class="glass px-3 py-1.5 rounded-lg text-xs font-semibold">LOGIN</button>`;
+        }
       }
     }
 
@@ -656,17 +558,14 @@
       document.getElementById("login-modal").classList.remove("hidden");
       document.getElementById("login-form").style.display = "block";
       document.getElementById("signup-form").style.display = "none";
-      document.getElementById("login-email").value = "";
-      document.getElementById("login-password").value = "";
     };
-
     window.closeLoginModal = () => { document.getElementById("login-modal").classList.add("hidden"); };
     window.switchToSignup = () => { document.getElementById("login-form").style.display = "none"; document.getElementById("signup-form").style.display = "block"; };
     window.switchToLogin = () => { document.getElementById("login-form").style.display = "block"; document.getElementById("signup-form").style.display = "none"; };
 
     window.handleLogin = async () => {
-      const email = document.getElementById("login-email").value.trim();
-      const password = document.getElementById("login-password").value;
+      const email = document.getElementById("login-email")?.value.trim();
+      const password = document.getElementById("login-password")?.value;
       if (!email || !password) { toast("Please enter email and password", true); return; }
       try {
         await signInWithEmailAndPassword(auth, email, password);
@@ -676,27 +575,20 @@
     };
 
     window.handleSignup = async () => {
-      const name = document.getElementById("signup-name").value.trim();
-      const email = document.getElementById("signup-email").value.trim();
-      const password = document.getElementById("signup-password").value;
+      const name = document.getElementById("signup-name")?.value.trim();
+      const email = document.getElementById("signup-email")?.value.trim();
+      const password = document.getElementById("signup-password")?.value;
       if (!name || !email || !password) { toast("Please fill all fields", true); return; }
       if (password.length < 6) { toast("Password must be at least 6 characters", true); return; }
       try {
         const userCredential = await createUserWithEmailAndPassword(auth, email, password);
         await setDoc(doc(firestore, "users", userCredential.user.uid), { name, email, createdAt: new Date() });
-        toast("Account created successfully");
-        closeLoginModal();
+        toast("Account created! Please login.");
+        switchToLogin();
       } catch (error) { toast("Signup failed: " + error.message, true); }
     };
 
-    window.handleLogout = async () => {
-      await signOut(auth);
-      toast("Logged out");
-      cart = [];
-      wishlist = [];
-      renderCart();
-      filterAndRenderProducts();
-    };
+    window.handleLogout = async () => { await signOut(auth); toast("Logged out"); cart = []; wishlist = []; renderCart(); filterAndRenderProducts(); };
 
     async function loadWishlist() {
       if (!currentUser) { wishlist = []; updateWishlistCounters(); return; }
@@ -721,55 +613,37 @@
       await saveWishlist();
       updateWishlistCounters();
       if (viewingWishlist) filterAndRenderProducts();
-      if (window.selectedProduct && window.selectedProduct.id === productId) updateModalWishlistButton(productId);
     };
 
     function updateWishlistCounters() {
       const count = wishlist.length;
-      if (document.getElementById("wishlist-count-nav")) document.getElementById("wishlist-count-nav").innerText = count;
-      if (document.getElementById("wishlist-count-mob")) document.getElementById("wishlist-count-mob").innerText = count;
+      const nav = document.getElementById("wishlist-count-nav");
+      const mob = document.getElementById("wishlist-count-mob");
+      if (nav) nav.innerText = count;
+      if (mob) mob.innerText = count;
     }
 
     window.toggleWishlistView = () => {
       if (!currentUser) { toast("Please login to view wishlist", true); openLoginModal(); return; }
       viewingWishlist = !viewingWishlist;
       document.getElementById("grid-title").innerText = viewingWishlist ? "My Wishlist" : "Latest Drops";
-      const heroSection = document.getElementById("hero-section");
-      if (heroSection) heroSection.style.display = viewingWishlist ? "none" : "block";
+      const hero = document.getElementById("hero-section");
+      if (hero) hero.style.display = viewingWishlist ? "none" : "block";
       filterAndRenderProducts();
     };
 
-    window.showMainProducts = () => { 
-      viewingWishlist = false; 
-      document.getElementById("grid-title").innerText = "Latest Drops"; 
-      const heroSection = document.getElementById("hero-section");
-      if (heroSection) heroSection.style.display = "block";
-      filterAndRenderProducts(); 
-    };
-
-    function updateModalWishlistButton(productId) {
-      const btn = document.getElementById("modal-wishlist-btn");
-      if (wishlist.includes(productId)) {
-        btn.innerText = "♥";
-        btn.className = "absolute top-3 right-3 bg-red-600 p-2 rounded-full text-lg border border-transparent";
-      } else {
-        btn.innerText = "♡";
-        btn.className = "absolute top-3 right-3 bg-black/60 backdrop-blur-md p-2 rounded-full text-lg border border-white/10";
-      }
-      btn.onclick = () => window.toggleWishlist(productId);
-    }
+    window.showMainProducts = () => { viewingWishlist = false; document.getElementById("grid-title").innerText = "Latest Drops"; const hero = document.getElementById("hero-section"); if (hero) hero.style.display = "block"; filterAndRenderProducts(); };
 
     function addToCart(product) {
       if (!currentUser) { toast("Please login first", true); openLoginModal(); return; }
       if (!product) return;
-      const cartItem = { ...product, price: product.displayPrice || product.price };
-      cart.push(cartItem);
+      cart.push({ ...product, price: product.displayPrice || product.price });
       saveCart();
       renderCart();
       toast(`${product.name} added to cart`);
     }
 
-    function saveCart() { if (currentUser) { localStorage.setItem(`cart_${currentUser.uid}`, JSON.stringify(cart)); } }
+    function saveCart() { if (currentUser) localStorage.setItem(`cart_${currentUser.uid}`, JSON.stringify(cart)); }
     function loadCart() { if (currentUser) { const saved = localStorage.getItem(`cart_${currentUser.uid}`); cart = saved ? JSON.parse(saved) : []; } else { cart = []; } renderCart(); }
 
     window.removeCartItem = (i) => { cart.splice(i, 1); saveCart(); renderCart(); };
@@ -777,19 +651,22 @@
 
     function renderCart() {
       const count = cart.length;
-      if (document.getElementById("cart-count")) document.getElementById("cart-count").innerText = count;
-      if (document.getElementById("cart-count-mob")) document.getElementById("cart-count-mob").innerText = count;
-      if (document.getElementById("floating-cart-count")) document.getElementById("floating-cart-count").innerText = count;
+      const cartCount = document.getElementById("cart-count");
+      const cartCountMob = document.getElementById("cart-count-mob");
+      const floatingCount = document.getElementById("floating-cart-count");
+      if (cartCount) cartCount.innerText = count;
+      if (cartCountMob) cartCountMob.innerText = count;
+      if (floatingCount) floatingCount.innerText = count;
 
       const itemsContainer = document.getElementById("cart-items");
       if (!cart.length) {
         itemsContainer.innerHTML = `<div class="text-center text-zinc-500 py-8 text-sm">Your cart is empty</div>`;
-        document.getElementById("summary-promo-row").classList.add("hidden");
+        document.getElementById("summary-promo-row")?.classList.add("hidden");
         activePromo = null;
       } else {
         itemsContainer.innerHTML = cart.map((item, i) => `
           <div class="glass p-3 rounded-xl flex gap-3 items-center">
-            <img src="${item.image}" class="w-14 h-14 rounded-lg object-cover">
+            <img src="${item.image}" class="w-14 h-14 rounded-lg object-cover" onerror="this.src='https://placehold.co/100x100/333/white?text=No+Image'">
             <div class="flex-1"><h3 class="font-bold text-sm">${item.name}</h3><p class="text-zinc-400 text-xs">₹${item.price.toLocaleString()}</p></div>
             <button onclick="removeCartItem(${i})" class="text-zinc-500 hover:text-white px-2 text-lg">&times;</button>
           </div>
@@ -798,7 +675,6 @@
 
       const subtotal = cart.reduce((sum, item) => sum + item.price, 0);
       document.getElementById("summary-subtotal").innerText = `₹${subtotal.toLocaleString()}`;
-
       let total = subtotal;
       if (activePromo) {
         let discountVal = activePromo.type === "percentage" ? Math.floor(subtotal * (activePromo.value / 100)) : activePromo.value;
@@ -812,7 +688,7 @@
     }
 
     window.applyPromoCode = () => {
-      const input = document.getElementById("promo-input").value.trim().toUpperCase();
+      const input = document.getElementById("promo-input")?.value.trim().toUpperCase();
       const statusEl = document.getElementById("promo-status");
       if (!input) { toast("Enter a code", true); return; }
       if (cart.length === 0) { toast("Cart is empty", true); return; }
@@ -820,16 +696,13 @@
         activePromo = { code: "SOLEVA10", type: "percentage", value: 10 };
         statusEl.className = "text-xs mt-2 text-green-400";
         statusEl.innerText = "10% discount applied!";
-        statusEl.classList.remove("hidden");
       } else if (input === "FUTURE20") {
         activePromo = { code: "FUTURE20", type: "percentage", value: 20 };
         statusEl.className = "text-xs mt-2 text-green-400";
         statusEl.innerText = "20% discount applied!";
-        statusEl.classList.remove("hidden");
       } else {
         statusEl.className = "text-xs mt-2 text-red-400";
         statusEl.innerText = "Invalid code";
-        statusEl.classList.remove("hidden");
         activePromo = null;
       }
       renderCart();
@@ -837,12 +710,12 @@
 
     function loadBanners() {
       onValue(ref(db, "storeSettings/bannerCarousel"), (snapshot) => {
-        if (snapshot.exists() && snapshot.val().banners && snapshot.val().banners.length > 0) {
+        if (snapshot.exists() && snapshot.val().banners?.length) {
           const banners = snapshot.val().banners;
           bannerImages = banners.map(b => b.image).slice(0, 5);
           bannerTitles = banners.map(b => b.title || "SALE").slice(0, 5);
         } else {
-          bannerImages = ["https://images.unsplash.com/photo-1542291026-7eec264c27ff?q=80&w=1200&auto=format&fit=crop"];
+          bannerImages = ["https://images.unsplash.com/photo-1542291026-7eec264c27ff?q=80&w=800&auto=format"];
           bannerTitles = ["FUTURE SNEAKERS"];
         }
         createBannerDots(); startBannerRotation(); updateBannerDisplay();
@@ -863,16 +736,17 @@
 
     function goToBanner(index) { currentBannerIndex = index; updateBannerDisplay(); createBannerDots(); }
     function updateBannerDisplay() {
-      const heroSection = document.getElementById("hero-banner");
-      if (heroSection && bannerImages[currentBannerIndex]) heroSection.style.backgroundImage = `url('${bannerImages[currentBannerIndex]}')`;
-      if (document.getElementById("banner-title") && bannerTitles[currentBannerIndex]) document.getElementById("banner-title").innerText = bannerTitles[currentBannerIndex];
+      const heroBanner = document.getElementById("hero-banner");
+      const bannerTitle = document.getElementById("banner-title");
+      if (heroBanner && bannerImages[currentBannerIndex]) heroBanner.style.backgroundImage = `url('${bannerImages[currentBannerIndex]}')`;
+      if (bannerTitle && bannerTitles[currentBannerIndex]) bannerTitle.innerText = bannerTitles[currentBannerIndex];
     }
     function startBannerRotation() { if (bannerInterval) clearInterval(bannerInterval); if (bannerImages.length > 1) bannerInterval = setInterval(() => { currentBannerIndex = (currentBannerIndex + 1) % bannerImages.length; updateBannerDisplay(); createBannerDots(); }, 5000); }
 
     const DEMO_PRODUCTS = [
-      { id: "demo1", name: "NEO ZENITH", category: "Streetwear", price: 18999, image: "https://images.unsplash.com/photo-1600185365483-26d7a4cc7519?q=80&w=500&auto=format", description: "Futuristic silhouette with breathable mesh upper." },
-      { id: "demo2", name: "ORBIT PRO", category: "Running", price: 15999, image: "https://images.unsplash.com/photo-1608231387042-66d1773070a5?q=80&w=500&auto=format", description: "Carbon-fiber propulsion plate for speed." },
-      { id: "demo3", name: "SHADOW MESH", category: "Basketball", price: 20999, image: "https://images.unsplash.com/photo-1606107557195-0e29a4b5b4aa?q=80&w=500&auto=format", description: "High-top support with impact absorption." }
+      { id: "demo1", name: "NEO ZENITH", category: "Streetwear", price: 18999, image: "https://images.unsplash.com/photo-1600185365483-26d7a4cc7519?q=80&w=400&auto=format", description: "Futuristic silhouette with breathable mesh upper." },
+      { id: "demo2", name: "ORBIT PRO", category: "Running", price: 15999, image: "https://images.unsplash.com/photo-1608231387042-66d1773070a5?q=80&w=400&auto=format", description: "Carbon-fiber propulsion plate for speed." },
+      { id: "demo3", name: "SHADOW MESH", category: "Basketball", price: 20999, image: "https://images.unsplash.com/photo-1606107557195-0e29a4b5b4aa?q=80&w=400&auto=format", description: "High-top support with impact absorption." }
     ];
 
     onValue(productsRef, (snapshot) => {
@@ -882,8 +756,8 @@
     });
 
     function filterAndRenderProducts() {
-      const searchQuery = document.getElementById("search").value.toLowerCase();
-      const categoryFilter = document.getElementById("filter").value;
+      const searchQuery = document.getElementById("search")?.value.toLowerCase() || "";
+      const categoryFilter = document.getElementById("filter")?.value || "all";
       let filtered = allProducts;
       
       if (viewingWishlist && currentUser) {
@@ -911,25 +785,20 @@
       productsContainer.innerHTML = products.map(product => {
         const isWishlisted = currentUser && wishlist.includes(product.id);
         return `
-          <div class="product-card card glass-card rounded-xl overflow-hidden relative">
-            <button onclick="event.stopPropagation(); window.toggleWishlist('${product.id}')" class="absolute top-2 right-2 z-20 bg-black/50 p-1.5 rounded-full backdrop-blur-md text-sm">
-              ${isWishlisted ? "♥" : "♡"}
-            </button>
+          <div class="product-card glass-card rounded-xl overflow-hidden relative">
+            <button onclick="event.stopPropagation(); window.toggleWishlist('${product.id}')" class="absolute top-2 right-2 z-20 bg-black/50 p-1.5 rounded-full backdrop-blur-md text-sm">${isWishlisted ? "♥" : "♡"}</button>
             <div onclick="openModal('${product.id}')">
-              <img src="${product.image}" class="w-full h-40 md:h-52 object-cover" onerror="this.src='https://placehold.co/400x400/333/white?text=No+Image'">
-              <div class="p-3">
-                <p class="text-zinc-500 text-[10px] uppercase tracking-wide">${product.category || 'Uncategorized'}</p>
-                <h3 class="text-sm font-bold mt-0.5">${product.name}</h3>
-                <p class="text-base font-bold mt-1">₹${product.price.toLocaleString()}</p>
-                <button onclick="event.stopPropagation(); addToCart(${JSON.stringify(product)})" class="w-full bg-white text-black py-1.5 rounded-lg font-semibold text-xs mt-2 transition active:scale-95">
-                  ADD TO CART
-                </button>
+              <img src="${product.image}" class="w-full h-36 object-cover" onerror="this.src='https://placehold.co/400x400/333/white?text=No+Image'">
+              <div class="p-2">
+                <p class="text-zinc-500 text-[9px] uppercase tracking-wide">${product.category || 'Uncategorized'}</p>
+                <h3 class="text-xs font-bold mt-0.5">${product.name}</h3>
+                <p class="text-sm font-bold mt-1">₹${product.price.toLocaleString()}</p>
+                <button onclick="event.stopPropagation(); addToCart(${JSON.stringify(product)})" class="w-full bg-white text-black py-1.5 rounded-lg font-semibold text-[10px] mt-2 transition active:scale-95">ADD TO CART</button>
               </div>
             </div>
           </div>
         `;
       }).join("");
-      if (window.AOS) AOS.init();
     }
 
     window.openModal = (id) => {
@@ -943,7 +812,6 @@
       document.getElementById("modal-price").innerHTML = `₹${product.price.toLocaleString()}`;
       document.getElementById("modal-desc").innerText = product.description || "Premium production model.";
       window.selectedProduct.displayPrice = product.price;
-      if (currentUser) updateModalWishlistButton(product.id);
     };
 
     window.closeModal = () => { document.getElementById("modal").classList.add("hidden"); };
@@ -955,41 +823,31 @@
       
       const subtotal = cart.reduce((sum, item) => sum + item.price, 0);
       let total = subtotal;
-      let discountAmount = 0;
-      
       if (activePromo) {
-        discountAmount = activePromo.type === "percentage" ? Math.floor(subtotal * (activePromo.value / 100)) : activePromo.value;
-        total = Math.max(0, subtotal - discountAmount);
+        let discountVal = activePromo.type === "percentage" ? Math.floor(subtotal * (activePromo.value / 100)) : activePromo.value;
+        total = Math.max(0, subtotal - discountVal);
         document.getElementById("modal-discount-row").classList.remove("hidden");
-        document.getElementById("modal-discount").innerText = `-₹${discountAmount.toLocaleString()}`;
+        document.getElementById("modal-discount").innerText = `-₹${discountVal.toLocaleString()}`;
       } else {
         document.getElementById("modal-discount-row").classList.add("hidden");
       }
-      
       document.getElementById("modal-subtotal").innerText = `₹${subtotal.toLocaleString()}`;
       document.getElementById("modal-total").innerText = `₹${total.toLocaleString()}`;
-      
       document.getElementById("address-modal").classList.remove("hidden");
-      document.getElementById("full-name").value = "";
-      document.getElementById("phone").value = "";
-      document.getElementById("address-line").value = "";
-      document.getElementById("city").value = "";
-      document.getElementById("pincode").value = "";
       selectPaymentMethod("cod");
     };
 
     window.closeAddressModal = () => { document.getElementById("address-modal").classList.add("hidden"); };
 
     window.placeOrderWithPayment = async () => {
-      const fullName = document.getElementById("full-name").value.trim();
-      const phone = document.getElementById("phone").value.trim();
-      const address = document.getElementById("address-line").value.trim();
-      const city = document.getElementById("city").value.trim();
-      const pincode = document.getElementById("pincode").value.trim();
+      const fullName = document.getElementById("full-name")?.value.trim();
+      const phone = document.getElementById("phone")?.value.trim();
+      const address = document.getElementById("address-line")?.value.trim();
+      const city = document.getElementById("city")?.value.trim();
+      const pincode = document.getElementById("pincode")?.value.trim();
       
       if (!fullName || !phone || !address || !city || !pincode) { toast("Please complete all address fields", true); return; }
       
-      // Show "Coming Soon" for Online Payment
       if (selectedPaymentMethod === "online") {
         toast("UPI / Online Payment Coming Soon! Please select Cash on Delivery", true);
         return;
@@ -997,10 +855,9 @@
       
       const addressData = { fullName, phone, address, city, pincode };
       let totalAmount = cart.reduce((sum, item) => sum + item.price, 0);
-      
       if (activePromo) {
         if (activePromo.type === "percentage") totalAmount = Math.floor(totalAmount * (1 - activePromo.value / 100));
-        else if (activePromo.type === "fixed") totalAmount = Math.max(0, totalAmount - activePromo.value);
+        else totalAmount = Math.max(0, totalAmount - activePromo.value);
       }
       
       const orderData = {
@@ -1014,14 +871,11 @@
         status: "pending",
         orderId: "ORD" + Date.now().toString().slice(-8)
       };
-
       await push(ordersRef, orderData);
-      toast("Order placed successfully! Payment: Cash on Delivery");
-      cart = []; 
-      activePromo = null;
+      toast("Order placed! Payment: Cash on Delivery");
+      cart = []; activePromo = null;
       saveCart();
       document.getElementById("promo-input").value = "";
-      document.getElementById("promo-status").classList.add("hidden");
       renderCart(); 
       closeAddressModal();
       document.getElementById("cart").classList.add("hidden");
@@ -1029,50 +883,23 @@
 
     async function renderOrdersList() {
       if (!currentUser) return;
-      
       const snapshot = await get(ordersRef);
       const ordersList = document.getElementById("orders-list");
-      
       if (snapshot.exists()) {
         const myOrders = [];
-        snapshot.forEach(child => {
-          const o = child.val();
-          if (o.customerId === currentUser.uid) myOrders.push({ id: child.key, ...o });
-        });
+        snapshot.forEach(child => { const o = child.val(); if (o.customerId === currentUser.uid) myOrders.push({ id: child.key, ...o }); });
         myOrders.sort((a,b) => b.createdAt - a.createdAt);
-        
-        if (!myOrders.length) {
-          ordersList.innerHTML = `<div class="text-center py-8 text-zinc-500 text-sm">No orders yet</div>`;
-        } else {
+        if (!myOrders.length) { ordersList.innerHTML = `<div class="text-center py-8 text-zinc-500 text-sm">No orders yet</div>`; }
+        else {
           ordersList.innerHTML = myOrders.map(o => {
             let statusClass = "status-pending";
             if (o.status === "confirmed") statusClass = "status-confirmed";
             else if (o.status === "shipped") statusClass = "status-shipped";
             else if (o.status === "delivered") statusClass = "status-delivered";
-            
-            return `<div class="glass p-3 rounded-xl">
-              <div class="flex justify-between items-center mb-2 flex-wrap gap-2">
-                <span class="font-mono text-xs text-zinc-400">${o.orderId}</span>
-                <span class="${statusClass}">${(o.status || 'pending').toUpperCase()}</span>
-              </div>
-              <p class="text-[10px] text-zinc-500 mb-2">${new Date(o.createdAt).toLocaleString()}</p>
-              <div class="border-t border-white/5 pt-2 space-y-1">
-                ${o.items ? o.items.map(i => `<div class="flex justify-between text-xs"><span>${i.name}</span><span>₹${i.price.toLocaleString()}</span></div>`).join("") : ""}
-              </div>
-              <div class="border-t border-white/5 mt-2 pt-2 flex justify-between font-bold text-sm">
-                <span>Total</span>
-                <span>₹${o.total?.toLocaleString() || 0}</span>
-              </div>
-              <div class="text-[10px] text-zinc-500 mt-2">
-                Payment: ${o.paymentMethod || "Cash on Delivery"}<br>
-                Delivery to: ${o.address?.fullName}, ${o.address?.city}
-              </div>
-            </div>`;
+            return `<div class="glass p-3 rounded-xl"><div class="flex justify-between items-center mb-2 flex-wrap gap-2"><span class="font-mono text-xs text-zinc-400">${o.orderId}</span><span class="${statusClass}">${(o.status || 'pending').toUpperCase()}</span></div><p class="text-[10px] text-zinc-500 mb-2">${new Date(o.createdAt).toLocaleString()}</p><div class="border-t border-white/5 pt-2 space-y-1">${o.items ? o.items.map(i => `<div class="flex justify-between text-xs"><span>${i.name}</span><span>₹${i.price.toLocaleString()}</span></div>`).join("") : ""}</div><div class="border-t border-white/5 mt-2 pt-2 flex justify-between font-bold text-sm"><span>Total</span><span>₹${o.total?.toLocaleString() || 0}</span></div><div class="text-[10px] text-zinc-500 mt-2">Payment: ${o.paymentMethod || "Cash on Delivery"}<br>Delivery to: ${o.address?.fullName}, ${o.address?.city}</div></div>`;
           }).join("");
         }
-      } else {
-        ordersList.innerHTML = `<div class="text-center py-8 text-zinc-500 text-sm">No orders found</div>`;
-      }
+      } else { ordersList.innerHTML = `<div class="text-center py-8 text-zinc-500 text-sm">No orders found</div>`; }
     }
 
     window.openOrderTracking = async () => {
@@ -1083,24 +910,14 @@
 
     window.closeTrackingModal = () => { document.getElementById("tracking-modal").classList.add("hidden"); };
 
-    document.getElementById("search").addEventListener("input", filterAndRenderProducts);
-    document.getElementById("filter").addEventListener("change", filterAndRenderProducts);
+    document.getElementById("search")?.addEventListener("input", filterAndRenderProducts);
+    document.getElementById("filter")?.addEventListener("change", filterAndRenderProducts);
 
     onAuthStateChanged(auth, async (user) => {
       currentUser = user;
       updateAuthUI();
-      if (user) { 
-        await loadWishlist(); 
-        loadCart(); 
-        filterAndRenderProducts();
-        await renderOrdersList();
-      } else { 
-        wishlist = []; 
-        cart = []; 
-        updateWishlistCounters(); 
-        renderCart(); 
-        filterAndRenderProducts();
-      }
+      if (user) { await loadWishlist(); loadCart(); filterAndRenderProducts(); await renderOrdersList(); } 
+      else { wishlist = []; cart = []; updateWishlistCounters(); renderCart(); filterAndRenderProducts(); }
     });
 
     loadBanners(); 
