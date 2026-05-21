@@ -569,7 +569,7 @@
   <!-- MAIN CONTENT -->
   <div class="desktop-container" style="padding-top: 90px; padding-bottom: 60px;">
     
-    <!-- HERO -->
+    <!-- HERO SECTION WITH LIVE BANNER ROTATION -->
     <div class="hero">
       <div id="hero-bg" class="hero-bg" style="background-image: url('https://images.unsplash.com/photo-1542291026-7eec264c27ff?q=80&w=1200&auto=format');"></div>
       <div class="hero-overlay"></div>
@@ -627,76 +627,11 @@
     </div>
   </div>
 
-  <!-- MODALS -->
-  <div id="login-modal" class="modal-overlay">
-    <div class="modal-container">
-      <div style="display: flex; justify-content: space-between; margin-bottom: 20px;"><h2 style="font-size: 24px;">Login</h2><button onclick="closeLoginModal()" style="background: none; border: none; color: white; font-size: 24px;">&times;</button></div>
-      <div id="login-form">
-        <input type="email" id="login-email" placeholder="Email" autocomplete="off" style="margin-bottom: 12px;">
-        <input type="password" id="login-password" placeholder="Password" autocomplete="new-password" style="margin-bottom: 20px;">
-        <button onclick="handleLogin()" style="background: white; color: black; padding: 14px; border-radius: 40px; font-weight: bold; width: 100%; border: none;">Login</button>
-        <p style="text-align: center; margin-top: 16px; color: #a1a1aa;">New user? <button onclick="switchToSignup()" style="background: none; border: none; color: white; text-decoration: underline;">Create account</button></p>
-      </div>
-      <div id="signup-form" style="display: none;">
-        <input type="text" id="signup-name" placeholder="Full name" autocomplete="off" style="margin-bottom: 12px;">
-        <input type="email" id="signup-email" placeholder="Email" autocomplete="off" style="margin-bottom: 12px;">
-        <input type="password" id="signup-password" placeholder="Password (min 6)" autocomplete="new-password" style="margin-bottom: 20px;">
-        <button onclick="handleSignup()" style="background: white; color: black; padding: 14px; border-radius: 40px; font-weight: bold; width: 100%; border: none;">Create Account</button>
-        <p style="text-align: center; margin-top: 16px; color: #a1a1aa;">Have an account? <button onclick="switchToLogin()" style="background: none; border: none; color: white; text-decoration: underline;">Login</button></p>
-      </div>
-    </div>
-  </div>
-
-  <div id="address-modal" class="modal-overlay">
-    <div class="modal-container">
-      <div style="display: flex; justify-content: space-between; margin-bottom: 20px;"><h2>Delivery & Payment</h2><button onclick="closeAddressModal()" style="background: none; border: none; color: white; font-size: 24px;">&times;</button></div>
-      <input id="full-name" placeholder="Full name" style="margin-bottom: 12px;">
-      <input id="phone" placeholder="Phone number" style="margin-bottom: 12px;">
-      <input id="address-line" placeholder="Street address" style="margin-bottom: 12px;">
-      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 20px;">
-        <input id="city" placeholder="City">
-        <input id="pincode" placeholder="Pincode">
-      </div>
-      <div id="payment-cod" class="payment-option glass" style="padding: 14px; border-radius: 16px; margin-bottom: 10px; border: 2px solid transparent; background: rgba(255,255,255,0.05); cursor: pointer;" onclick="selectPaymentMethod('cod')">
-        <div style="display: flex; justify-content: space-between;"><span style="font-weight: bold;">Cash on Delivery</span><span id="cod-check" style="display: none;">✓</span></div>
-        <p style="font-size: 11px; color: #a1a1aa;">Pay when you receive the order</p>
-      </div>
-      <div id="payment-online" class="payment-option glass" style="padding: 14px; border-radius: 16px; margin-bottom: 20px; border: 2px solid transparent; background: rgba(255,255,255,0.05); cursor: pointer;" onclick="selectPaymentMethod('online')">
-        <div style="display: flex; justify-content: space-between;"><span style="font-weight: bold;">Online Payment</span><span id="online-check" style="display: none;">✓</span></div>
-        <p style="font-size: 11px; color: #a1a1aa;">UPI, Card, NetBanking</p>
-      </div>
-      <div style="border-top: 1px solid rgba(255,255,255,0.1); padding-top: 15px; margin-bottom: 20px;">
-        <div style="display: flex; justify-content: space-between;"><span>Subtotal</span><span id="modal-subtotal">₹0</span></div>
-        <div id="modal-discount-row" style="display: none; justify-content: space-between; color: #10b981;"><span>Discount</span><span id="modal-discount">-₹0</span></div>
-        <div style="display: flex; justify-content: space-between; font-size: 18px; font-weight: bold; margin-top: 10px;"><span>Total</span><span id="modal-total">₹0</span></div>
-      </div>
-      <button onclick="placeOrderWithPayment()" style="background: white; color: black; padding: 14px; border-radius: 40px; font-weight: bold; width: 100%; border: none;">PLACE ORDER</button>
-    </div>
-  </div>
-
-  <div id="orders-modal" class="modal-overlay">
-    <div class="modal-container">
-      <div style="display: flex; justify-content: space-between; margin-bottom: 20px;"><h2>My Orders</h2><button onclick="closeOrdersModal()" style="background: none; border: none; color: white; font-size: 24px;">&times;</button></div>
-      <div id="orders-list"></div>
-    </div>
-  </div>
-
-  <div id="product-modal" class="modal-overlay">
-    <div class="modal-container" style="padding: 0; overflow: hidden;">
-      <div style="position: relative; height: 300px;">
-        <img id="modal-img" style="width: 100%; height: 100%; object-fit: cover;">
-        <button onclick="closeProductModal()" style="position: absolute; top: 12px; left: 12px; background: rgba(0,0,0,0.6); border: none; padding: 8px 12px; border-radius: 30px; color: white;">&times;</button>
-        <button id="modal-wishlist-btn" style="position: absolute; top: 12px; right: 12px; background: rgba(0,0,0,0.6); border: none; padding: 8px 12px; border-radius: 30px; color: white;">♡</button>
-      </div>
-      <div style="padding: 20px;">
-        <p id="modal-category" style="color: #a1a1aa; font-size: 11px; text-transform: uppercase;"></p>
-        <h2 id="modal-name" style="font-size: 22px; margin: 8px 0;"></h2>
-        <p id="modal-price" style="font-size: 24px; font-weight: bold;"></p>
-        <p id="modal-desc" style="color: #d4d4d8; margin-top: 12px; line-height: 1.5;"></p>
-        <button onclick="addToCart(selectedProduct)" style="background: white; color: black; padding: 14px; border-radius: 40px; font-weight: bold; width: 100%; margin-top: 20px; border: none;">ADD TO CART</button>
-      </div>
-    </div>
-  </div>
+  <!-- MODALS (Login, Address, Orders, Product) - same as before -->
+  <div id="login-modal" class="modal-overlay"><div class="modal-container"><div style="display: flex; justify-content: space-between; margin-bottom: 20px;"><h2 style="font-size: 24px;">Login</h2><button onclick="closeLoginModal()" style="background: none; border: none; color: white; font-size: 24px;">&times;</button></div><div id="login-form"><input type="email" id="login-email" placeholder="Email" style="margin-bottom: 12px;"><input type="password" id="login-password" placeholder="Password" style="margin-bottom: 20px;"><button onclick="handleLogin()" style="background: white; color: black; padding: 14px; border-radius: 40px; font-weight: bold; width: 100%;">Login</button><p style="text-align: center; margin-top: 16px; color: #a1a1aa;">New user? <button onclick="switchToSignup()" style="background: none; border: none; color: white; text-decoration: underline;">Create account</button></p></div><div id="signup-form" style="display: none;"><input type="text" id="signup-name" placeholder="Full name" style="margin-bottom: 12px;"><input type="email" id="signup-email" placeholder="Email" style="margin-bottom: 12px;"><input type="password" id="signup-password" placeholder="Password (min 6)" style="margin-bottom: 20px;"><button onclick="handleSignup()" style="background: white; color: black; padding: 14px; border-radius: 40px; font-weight: bold; width: 100%;">Create Account</button><p style="text-align: center; margin-top: 16px; color: #a1a1aa;">Have an account? <button onclick="switchToLogin()" style="background: none; border: none; color: white; text-decoration: underline;">Login</button></p></div></div></div>
+  <div id="address-modal" class="modal-overlay"><div class="modal-container"><div style="display: flex; justify-content: space-between; margin-bottom: 20px;"><h2>Delivery & Payment</h2><button onclick="closeAddressModal()" style="background: none; border: none; color: white; font-size: 24px;">&times;</button></div><input id="full-name" placeholder="Full name" style="margin-bottom: 12px;"><input id="phone" placeholder="Phone number" style="margin-bottom: 12px;"><input id="address-line" placeholder="Street address" style="margin-bottom: 12px;"><div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 20px;"><input id="city" placeholder="City"><input id="pincode" placeholder="Pincode"></div><div id="payment-cod" class="payment-option" style="padding: 14px; border-radius: 16px; margin-bottom: 10px; border: 2px solid transparent; background: rgba(255,255,255,0.05); cursor: pointer;" onclick="selectPaymentMethod('cod')"><div style="display: flex; justify-content: space-between;"><span style="font-weight: bold;">Cash on Delivery</span><span id="cod-check" style="display: none;">✓</span></div><p style="font-size: 11px;">Pay when you receive</p></div><div id="payment-online" class="payment-option" style="padding: 14px; border-radius: 16px; margin-bottom: 20px; border: 2px solid transparent; background: rgba(255,255,255,0.05); cursor: pointer;" onclick="selectPaymentMethod('online')"><div style="display: flex; justify-content: space-between;"><span style="font-weight: bold;">Online Payment</span><span id="online-check" style="display: none;">✓</span></div><p style="font-size: 11px;">UPI, Card, NetBanking</p></div><div style="border-top: 1px solid rgba(255,255,255,0.1); padding-top: 15px; margin-bottom: 20px;"><div style="display: flex; justify-content: space-between;"><span>Subtotal</span><span id="modal-subtotal">₹0</span></div><div id="modal-discount-row" style="display: none; justify-content: space-between; color: #10b981;"><span>Discount</span><span id="modal-discount">-₹0</span></div><div style="display: flex; justify-content: space-between; font-size: 18px; font-weight: bold; margin-top: 10px;"><span>Total</span><span id="modal-total">₹0</span></div></div><button onclick="placeOrderWithPayment()" style="background: white; color: black; padding: 14px; border-radius: 40px; font-weight: bold; width: 100%;">PLACE ORDER</button></div></div>
+  <div id="orders-modal" class="modal-overlay"><div class="modal-container"><div style="display: flex; justify-content: space-between; margin-bottom: 20px;"><h2>My Orders</h2><button onclick="closeOrdersModal()" style="background: none; border: none; color: white; font-size: 24px;">&times;</button></div><div id="orders-list"></div></div></div>
+  <div id="product-modal" class="modal-overlay"><div class="modal-container" style="padding: 0;"><div style="position: relative; height: 300px;"><img id="modal-img" style="width: 100%; height: 100%; object-fit: cover;"><button onclick="closeProductModal()" style="position: absolute; top: 12px; left: 12px; background: rgba(0,0,0,0.6); border: none; padding: 8px 12px; border-radius: 30px;">&times;</button><button id="modal-wishlist-btn" style="position: absolute; top: 12px; right: 12px; background: rgba(0,0,0,0.6); border: none; padding: 8px 12px; border-radius: 30px;">♡</button></div><div style="padding: 20px;"><p id="modal-category" style="color: #a1a1aa; font-size: 11px;"></p><h2 id="modal-name" style="font-size: 22px; margin: 8px 0;"></h2><p id="modal-price" style="font-size: 24px; font-weight: bold;"></p><p id="modal-desc" style="color: #d4d4d8; margin-top: 12px;"></p><button onclick="addToCart(selectedProduct)" style="background: white; color: black; padding: 14px; border-radius: 40px; font-weight: bold; width: 100%; margin-top: 20px;">ADD TO CART</button></div></div></div>
 
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
@@ -721,9 +656,13 @@
 
     const productsRef = ref(db, "products");
     const ordersRef = ref(db, "orders");
+    const storeSettingsRef = ref(db, "storeSettings/bannerCarousel");
 
     let allProducts = [], cart = [], wishlist = [], currentUser = null, activePromo = null, selectedPaymentMethod = "cod", viewingWishlist = false;
     window.selectedProduct = null;
+    
+    // Banner rotation variables
+    let bannerImages = [], bannerTitles = [], bannerSubs = [], currentBannerIndex = 0, bannerInterval = null;
 
     const DEMO_PRODUCTS = [
       { id: "demo1", name: "NEO ZENITH", category: "Streetwear", price: 18999, image: "https://images.unsplash.com/photo-1600185365483-26d7a4cc7519?q=80&w=500&auto=format", description: "Futuristic silhouette with breathable mesh upper." },
@@ -742,6 +681,50 @@
       document.body.appendChild(el);
       setTimeout(() => el.remove(), 2500);
     }
+
+    // ========== BANNER LOADING AND ROTATION (FIXED) ==========
+    function loadBannersFromFirebase() {
+      onValue(storeSettingsRef, (snapshot) => {
+        const data = snapshot.val();
+        if (data && data.banners && Array.isArray(data.banners) && data.banners.length > 0) {
+          bannerImages = data.banners.map(b => b.image || "").filter(url => url && url.trim() !== "");
+          bannerTitles = data.banners.map(b => b.title || "SOLEVIA DROP");
+          bannerSubs = data.banners.map(b => b.subtitle || "LIMITED RELEASE");
+        } else {
+          // Default banners if none in Firebase
+          bannerImages = [
+            "https://images.unsplash.com/photo-1542291026-7eec264c27ff?q=80&w=1200&auto=format",
+            "https://images.unsplash.com/photo-1608231387042-66d1773070a5?q=80&w=1200&auto=format",
+            "https://images.unsplash.com/photo-1600185365483-26d7a4cc7519?q=80&w=1200&auto=format"
+          ];
+          bannerTitles = ["FUTURE SNEAKERS", "ORBIT PRO", "NEO ZENITH"];
+          bannerSubs = ["LIMITED RELEASE", "RUNNING SERIES", "STREETWEAR EDITION"];
+        }
+        startBannerRotation();
+      });
+    }
+
+    function updateHeroContent() {
+      if (!bannerImages.length) return;
+      const heroBg = document.getElementById("hero-bg");
+      if (heroBg) heroBg.style.backgroundImage = `url('${bannerImages[currentBannerIndex]}')`;
+      document.getElementById("banner-title").innerText = bannerTitles[currentBannerIndex] || ".SOLEVIA";
+      document.getElementById("banner-subtitle").innerText = bannerSubs[currentBannerIndex] || "NEW DROP";
+      document.getElementById("banner-desc").innerHTML = "Premium sneakers engineered with futuristic aesthetics and ultimate comfort.";
+    }
+
+    function startBannerRotation() {
+      if (bannerInterval) clearInterval(bannerInterval);
+      if (bannerImages.length > 1) {
+        bannerInterval = setInterval(() => {
+          currentBannerIndex = (currentBannerIndex + 1) % bannerImages.length;
+          updateHeroContent();
+        }, 5000);
+      }
+      updateHeroContent();
+    }
+    
+    // ========== END BANNER FIX ==========
 
     function selectPaymentMethod(method) {
       selectedPaymentMethod = method;
@@ -845,19 +828,11 @@
       const count = cart.length;
       document.getElementById("cart-count").innerText = count;
       document.getElementById("cart-count-mob").innerText = count;
-
       const itemsDiv = document.getElementById("cart-items");
       if (!cart.length) { itemsDiv.innerHTML = '<div style="text-align: center; padding: 40px; color: #a1a1aa;">Your cart is empty</div>'; activePromo = null; }
       else {
-        itemsDiv.innerHTML = cart.map((item, i) => `
-          <div style="background: rgba(255,255,255,0.05); border-radius: 12px; padding: 12px; display: flex; gap: 12px; margin-bottom: 10px;">
-            <img src="${item.image}" style="width: 70px; height: 70px; border-radius: 10px; object-fit: cover;">
-            <div style="flex: 1;"><h3 style="font-size: 14px; font-weight: bold;">${item.name}</h3><p style="color: #a1a1aa; font-size: 13px;">₹${item.price.toLocaleString()}</p></div>
-            <button onclick="removeCartItem(${i})" style="background: none; border: none; color: #a1a1aa; font-size: 20px;">&times;</button>
-          </div>
-        `).join("");
+        itemsDiv.innerHTML = cart.map((item, i) => `<div style="background: rgba(255,255,255,0.05); border-radius: 12px; padding: 12px; display: flex; gap: 12px; margin-bottom: 10px;"><img src="${item.image}" style="width: 70px; height: 70px; border-radius: 10px; object-fit: cover;"><div style="flex:1;"><h3 style="font-size: 14px; font-weight: bold;">${item.name}</h3><p style="color:#a1a1aa;">₹${item.price.toLocaleString()}</p></div><button onclick="removeCartItem(${i})" style="background: none; border: none; color:#a1a1aa;">&times;</button></div>`).join("");
       }
-
       const subtotal = cart.reduce((s, i) => s + i.price, 0);
       document.getElementById("summary-subtotal").innerText = `₹${subtotal.toLocaleString()}`;
       let total = subtotal;
@@ -902,20 +877,7 @@
       if (!products.length) { container.innerHTML = '<div style="grid-column: span 4; text-align: center; padding: 60px; color: #a1a1aa;">No products found</div>'; return; }
       container.innerHTML = products.map(p => {
         const isWishlisted = currentUser && wishlist.includes(p.id);
-        return `
-          <div class="product-card">
-            <button class="wishlist-btn" onclick="event.stopPropagation(); window.toggleWishlist('${p.id}')">${isWishlisted ? "♥" : "♡"}</button>
-            <div onclick="openModal('${p.id}')">
-              <img src="${p.image}" class="product-img" onerror="this.src='https://placehold.co/400x400/333/white?text=No+Image'">
-              <div class="product-info">
-                <p class="product-category">${p.category || 'Uncategorized'}</p>
-                <h3 class="product-name">${p.name}</h3>
-                <p class="product-price">₹${p.price.toLocaleString()}</p>
-                <button class="add-cart-btn" onclick="event.stopPropagation(); addToCart(${JSON.stringify(p)})">ADD TO CART</button>
-              </div>
-            </div>
-          </div>
-        `;
+        return `<div class="product-card"><button class="wishlist-btn" onclick="event.stopPropagation(); window.toggleWishlist('${p.id}')">${isWishlisted ? "♥" : "♡"}</button><div onclick="openModal('${p.id}')"><img src="${p.image}" class="product-img" onerror="this.src='https://placehold.co/400x400/333/white?text=No+Image'"><div class="product-info"><p class="product-category">${p.category || 'Uncategorized'}</p><h3 class="product-name">${p.name}</h3><p class="product-price">₹${p.price.toLocaleString()}</p><button class="add-cart-btn" onclick="event.stopPropagation(); addToCart(${JSON.stringify(p)})">ADD TO CART</button></div></div></div>`;
       }).join("");
     }
 
@@ -961,10 +923,8 @@
       const pincode = document.getElementById("pincode").value.trim();
       if (!fullName || !phone || !address || !city || !pincode) { toast("Please complete all address fields", true); return; }
       if (selectedPaymentMethod === "online") { toast("UPI / Online Payment Coming Soon! Please select Cash on Delivery", true); return; }
-      
       let total = cart.reduce((s, i) => s + i.price, 0);
       if (activePromo) total = activePromo.type === "percentage" ? Math.floor(total * (1 - activePromo.value / 100)) : Math.max(0, total - activePromo.value);
-      
       await push(ordersRef, {
         items: cart.map(i => ({ name: i.name, price: i.price })),
         total: total, address: { fullName, phone, address, city, pincode }, paymentMethod: "Cash on Delivery",
@@ -986,14 +946,7 @@
         myOrders.sort((a,b) => b.createdAt - a.createdAt);
         if (!myOrders.length) ordersDiv.innerHTML = '<div style="text-align: center; padding: 40px;">No orders yet</div>';
         else {
-          ordersDiv.innerHTML = myOrders.map(o => `
-            <div style="background: rgba(255,255,255,0.05); padding: 15px; border-radius: 16px; margin-bottom: 12px;">
-              <div style="display: flex; justify-content: space-between;"><span style="font-size: 12px; color: #a1a1aa;">${o.orderId}</span><span class="status-${o.status || 'pending'}">${(o.status || 'pending').toUpperCase()}</span></div>
-              <p style="font-size: 10px; color: #a1a1aa; margin: 8px 0;">${new Date(o.createdAt).toLocaleString()}</p>
-              ${o.items.map(i => `<div style="display: flex; justify-content: space-between; font-size: 13px; padding: 5px 0;"><span>${i.name}</span><span>₹${i.price.toLocaleString()}</span></div>`).join('')}
-              <div style="border-top: 1px solid rgba(255,255,255,0.1); margin-top: 10px; padding-top: 10px; display: flex; justify-content: space-between; font-weight: bold;"><span>Total</span><span>₹${o.total.toLocaleString()}</span></div>
-            </div>
-          `).join('');
+          ordersDiv.innerHTML = myOrders.map(o => `<div style="background: rgba(255,255,255,0.05); padding: 15px; border-radius: 16px; margin-bottom: 12px;"><div style="display: flex; justify-content: space-between;"><span style="font-size: 12px;">${o.orderId}</span><span class="status-${o.status || 'pending'}">${(o.status || 'pending').toUpperCase()}</span></div><p style="font-size: 10px; color: #a1a1aa; margin: 8px 0;">${new Date(o.createdAt).toLocaleString()}</p>${o.items.map(i => `<div style="display: flex; justify-content: space-between; font-size: 13px; padding: 5px 0;"><span>${i.name}</span><span>₹${i.price.toLocaleString()}</span></div>`).join('')}<div style="border-top: 1px solid rgba(255,255,255,0.1); margin-top: 10px; padding-top: 10px; display: flex; justify-content: space-between; font-weight: bold;"><span>Total</span><span>₹${o.total.toLocaleString()}</span></div></div>`).join('');
         }
       } else ordersDiv.innerHTML = '<div style="text-align: center; padding: 40px;">No orders found</div>';
       document.getElementById("orders-modal").style.display = "flex";
@@ -1006,7 +959,11 @@
       if (user) { await loadWishlist(); loadCart(); filterAndRenderProducts(); } 
       else { wishlist = []; cart = []; updateWishlistCounters(); renderCart(); filterAndRenderProducts(); }
     });
+    
+    // Initialize banner system
+    loadBannersFromFirebase();
     filterAndRenderProducts();
   </script>
 </body>
+
 </html>
