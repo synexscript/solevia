@@ -3,9 +3,7 @@
 
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=no, initial-scale=1.0, maximum-scale=1.0" />
-  <meta name="apple-mobile-web-app-capable" content="yes" />
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=yes" />
   <title>.SOLEVIA | Premium Footwear</title>
 
   <style>
@@ -17,105 +15,305 @@
     }
 
     body {
-      background: #000000;
+      background: #0a0a0a;
       color: #ffffff;
-      min-height: 100vh;
-      width: 100%;
-      position: relative;
       font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Inter', sans-serif;
+      overflow-x: hidden;
     }
 
-    /* Main container - FULL SCREEN FIX */
-    .app-container {
-      width: 100%;
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
+    /* Desktop Layout */
+    .desktop-container {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 0 24px;
     }
 
-    /* Content wrapper */
-    .content-wrapper {
-      flex: 1;
-      width: 100%;
-      padding: 0 16px;
-    }
-
-    /* Glass morphism */
-    .glass {
-      background: rgba(255, 255, 255, 0.05);
-      backdrop-filter: blur(12px);
-      border: 1px solid rgba(255, 255, 255, 0.08);
-    }
-
-    .glass-card {
-      background: rgba(15, 15, 25, 0.6);
-      backdrop-filter: blur(14px);
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      transition: all 0.3s ease;
-    }
-
-    /* Products grid - FULL WIDTH */
-    .products-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 12px;
-      width: 100%;
-    }
-
-    /* Product card */
-    .product-card {
-      width: 100%;
-      overflow: hidden;
-      border-radius: 16px;
-    }
-    
-    .product-card img {
-      width: 100%;
-      height: 180px;
-      object-fit: cover;
-    }
-    
-    /* Hero banner - FULL WIDTH */
-    .hero-banner {
-      width: 100%;
-      height: 200px;
-      border-radius: 20px;
-      overflow: hidden;
-      position: relative;
-      margin-bottom: 16px;
-    }
-    
-    /* Navigation */
-    .navbar {
+    /* Header */
+    .header {
       position: fixed;
       top: 0;
       left: 0;
       right: 0;
-      background: rgba(0, 0, 0, 0.95);
+      background: rgba(10, 10, 10, 0.95);
       backdrop-filter: blur(20px);
-      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
       z-index: 100;
-      padding: 12px 16px;
     }
-    
-    /* Bottom Navigation */
-    .bottom-nav {
+
+    .header-content {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 16px 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo {
+      font-size: 28px;
+      font-weight: 900;
+      letter-spacing: -1px;
+      background: linear-gradient(135deg, #fff, #a1a1aa);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      cursor: pointer;
+    }
+
+    /* Desktop Navigation */
+    .desktop-nav {
+      display: flex;
+      gap: 20px;
+      align-items: center;
+    }
+
+    .nav-btn {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      padding: 10px 20px;
+      border-radius: 40px;
+      color: white;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .nav-btn:hover {
+      background: rgba(255, 255, 255, 0.12);
+      transform: translateY(-2px);
+    }
+
+    /* Hero Banner */
+    .hero {
+      margin-top: 80px;
+      margin-bottom: 40px;
+      border-radius: 28px;
+      overflow: hidden;
+      position: relative;
+      height: 450px;
+    }
+
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+      background-size: cover;
+      background-position: center;
+      transition: all 0.5s ease;
+    }
+
+    .hero-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(90deg, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.3) 100%);
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 48px;
+    }
+
+    .hero-subtitle {
+      font-size: 12px;
+      letter-spacing: 3px;
+      color: #d4d4d8;
+      margin-bottom: 12px;
+    }
+
+    .hero-title {
+      font-size: 56px;
+      font-weight: 900;
+      line-height: 1.1;
+      margin-bottom: 16px;
+    }
+
+    .hero-desc {
+      font-size: 16px;
+      color: #d4d4d8;
+      margin-bottom: 24px;
+      max-width: 500px;
+    }
+
+    .shop-btn {
+      background: white;
+      color: black;
+      border: none;
+      padding: 14px 32px;
+      border-radius: 40px;
+      font-weight: 700;
+      font-size: 14px;
+      cursor: pointer;
+      width: fit-content;
+      transition: all 0.2s;
+    }
+
+    .shop-btn:hover {
+      transform: scale(1.02);
+      box-shadow: 0 4px 15px rgba(255,255,255,0.2);
+    }
+
+    /* Filters */
+    .filters {
+      display: flex;
+      gap: 16px;
+      margin-bottom: 32px;
+    }
+
+    .search-input {
+      flex: 1;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 50px;
+      padding: 14px 20px;
+      color: white;
+      font-size: 14px;
+      outline: none;
+    }
+
+    .search-input:focus {
+      border-color: rgba(255, 255, 255, 0.2);
+    }
+
+    .category-select {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 50px;
+      padding: 14px 24px;
+      color: white;
+      font-size: 14px;
+      cursor: pointer;
+      outline: none;
+    }
+
+    /* Products Header */
+    .products-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 24px;
+    }
+
+    .products-title {
+      font-size: 28px;
+      font-weight: 800;
+    }
+
+    .product-count {
+      background: rgba(255, 255, 255, 0.08);
+      padding: 6px 16px;
+      border-radius: 30px;
+      font-size: 13px;
+      font-weight: 600;
+    }
+
+    /* Products Grid - DESKTOP */
+    .products-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 24px;
+    }
+
+    .product-card {
+      background: rgba(20, 20, 25, 0.8);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 20px;
+      overflow: hidden;
+      transition: all 0.3s ease;
+      cursor: pointer;
+      position: relative;
+    }
+
+    .product-card:hover {
+      transform: translateY(-6px);
+      border-color: rgba(255, 255, 255, 0.2);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+    }
+
+    .product-img {
+      width: 100%;
+      height: 260px;
+      object-fit: cover;
+    }
+
+    .product-info {
+      padding: 16px;
+    }
+
+    .product-category {
+      font-size: 11px;
+      color: #a1a1aa;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .product-name {
+      font-size: 16px;
+      font-weight: 700;
+      margin: 8px 0;
+    }
+
+    .product-price {
+      font-size: 20px;
+      font-weight: 800;
+      color: #ffffff;
+      margin-bottom: 12px;
+    }
+
+    .add-cart-btn {
+      width: 100%;
+      background: white;
+      color: black;
+      border: none;
+      padding: 10px;
+      border-radius: 40px;
+      font-weight: 700;
+      font-size: 13px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .add-cart-btn:hover {
+      background: #e4e4e7;
+      transform: scale(0.98);
+    }
+
+    .wishlist-btn {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      background: rgba(0, 0, 0, 0.6);
+      backdrop-filter: blur(8px);
+      border: none;
+      padding: 8px 12px;
+      border-radius: 30px;
+      color: white;
+      font-size: 14px;
+      cursor: pointer;
+      z-index: 10;
+    }
+
+    /* Mobile Bottom Nav - HIDDEN ON DESKTOP */
+    .mobile-bottom-nav {
+      display: none;
       position: fixed;
       bottom: 0;
       left: 0;
       right: 0;
-      background: rgba(0, 0, 0, 0.95);
+      background: rgba(10, 10, 10, 0.98);
       backdrop-filter: blur(20px);
-      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
       z-index: 100;
-      display: flex;
+      padding: 10px 20px 25px;
       justify-content: space-around;
-      padding: 8px 16px 20px;
-      padding-bottom: max(20px, env(safe-area-inset-bottom));
     }
-    
-    .bottom-nav button {
-      flex: 1;
+
+    .mobile-nav-btn {
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -125,39 +323,81 @@
       color: #a1a1aa;
       font-size: 10px;
       font-weight: 600;
-      transition: all 0.2s;
+      cursor: pointer;
     }
-    
-    .bottom-nav button:active {
-      color: white;
-      transform: scale(0.95);
+
+    /* Cart Sidebar */
+    .cart-sidebar {
+      position: fixed;
+      top: 0;
+      right: 0;
+      width: 420px;
+      height: 100%;
+      background: rgba(10, 10, 10, 0.98);
+      backdrop-filter: blur(20px);
+      border-left: 1px solid rgba(255, 255, 255, 0.1);
+      z-index: 200;
+      transform: translateX(100%);
+      transition: transform 0.3s ease;
+      display: flex;
+      flex-direction: column;
+      padding: 24px;
     }
-    
-    /* Main content padding for fixed navbar */
-    .main-content {
-      padding-top: 70px;
-      padding-bottom: 80px;
+
+    .cart-sidebar.open {
+      transform: translateX(0);
+    }
+
+    .cart-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 24px;
+    }
+
+    /* Modal */
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.96);
+      backdrop-filter: blur(20px);
+      z-index: 300;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .modal-container {
+      background: #18181b;
+      border-radius: 28px;
+      max-width: 500px;
       width: 100%;
+      max-height: 85vh;
+      overflow-y: auto;
+      padding: 24px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
     }
-    
+
     /* Toast */
     .toast {
       position: fixed;
-      bottom: 100px;
+      bottom: 30px;
       left: 50%;
       transform: translateX(-50%);
       background: white;
       color: black;
-      padding: 10px 20px;
-      border-radius: 30px;
+      padding: 12px 24px;
+      border-radius: 50px;
       font-weight: 600;
-      z-index: 9999;
+      z-index: 1000;
       animation: fadeUp 0.3s ease;
-      font-size: 13px;
-      white-space: nowrap;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+      font-size: 14px;
     }
-    
+
     @keyframes fadeUp {
       from {
         opacity: 0;
@@ -168,65 +408,116 @@
         transform: translateX(-50%) translateY(0);
       }
     }
-    
-    /* Modal */
-    .modal {
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background: rgba(0, 0, 0, 0.96);
-      backdrop-filter: blur(20px);
-      z-index: 200;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+
+    /* Status Badges */
+    .status-pending { background: #f59e0b; color: black; padding: 4px 12px; border-radius: 20px; font-size: 11px; font-weight: bold; display: inline-block; }
+    .status-confirmed { background: #3b82f6; color: white; padding: 4px 12px; border-radius: 20px; font-size: 11px; font-weight: bold; display: inline-block; }
+    .status-shipped { background: #8b5cf6; color: white; padding: 4px 12px; border-radius: 20px; font-size: 11px; font-weight: bold; display: inline-block; }
+    .status-delivered { background: #10b981; color: white; padding: 4px 12px; border-radius: 20px; font-size: 11px; font-weight: bold; display: inline-block; }
+
+    /* Payment Option */
+    .payment-option {
       padding: 16px;
-      animation: fadeIn 0.2s ease;
+      border-radius: 16px;
+      cursor: pointer;
+      transition: all 0.2s;
     }
-    
-    @keyframes fadeIn {
-      from { opacity: 0; }
-      to { opacity: 1; }
+    .payment-option.selected {
+      border-color: #10b981;
+      background: rgba(16, 185, 129, 0.1);
     }
-    
-    .modal-content {
-      background: #18181b;
-      border-radius: 24px;
-      max-width: 500px;
-      width: 100%;
-      max-height: 85vh;
-      overflow-y: auto;
-      padding: 20px;
+
+    input, select {
+      background: rgba(255, 255, 255, 0.08);
       border: 1px solid rgba(255, 255, 255, 0.1);
-    }
-    
-    /* Cart Sidebar */
-    .cart-sidebar {
-      position: fixed;
-      top: 0;
-      right: 0;
-      bottom: 0;
+      border-radius: 12px;
+      padding: 12px 16px;
+      color: white;
+      font-size: 14px;
+      outline: none;
       width: 100%;
-      max-width: 400px;
-      background: rgba(0, 0, 0, 0.98);
-      backdrop-filter: blur(20px);
-      z-index: 150;
-      transform: translateX(100%);
-      transition: transform 0.3s ease;
-      display: flex;
-      flex-direction: column;
-      padding: 20px;
     }
-    
-    .cart-sidebar.open {
-      transform: translateX(0);
+
+    button {
+      cursor: pointer;
     }
-    
+
+    /* RESPONSIVE - MOBILE */
+    @media (max-width: 1024px) {
+      .products-grid {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 16px;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .desktop-container {
+        padding: 0 16px;
+      }
+      
+      .desktop-nav {
+        display: none;
+      }
+      
+      .mobile-bottom-nav {
+        display: flex;
+      }
+      
+      .hero {
+        height: 320px;
+        margin-top: 70px;
+        border-radius: 20px;
+      }
+      
+      .hero-content {
+        padding: 24px;
+      }
+      
+      .hero-title {
+        font-size: 28px;
+      }
+      
+      .hero-desc {
+        font-size: 12px;
+      }
+      
+      .products-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 12px;
+      }
+      
+      .product-img {
+        height: 180px;
+      }
+      
+      .product-name {
+        font-size: 13px;
+      }
+      
+      .product-price {
+        font-size: 16px;
+      }
+      
+      .products-title {
+        font-size: 22px;
+      }
+      
+      .filters {
+        flex-direction: column;
+      }
+      
+      .cart-sidebar {
+        width: 100%;
+      }
+      
+      .logo {
+        font-size: 22px;
+      }
+    }
+
     /* Scrollbar */
     ::-webkit-scrollbar {
-      width: 3px;
+      width: 5px;
     }
     ::-webkit-scrollbar-track {
       background: #1a1a1a;
@@ -235,293 +526,177 @@
       background: #444;
       border-radius: 5px;
     }
-    
-    /* Status badges */
-    .status-pending { background: #f59e0b; color: black; padding: 4px 10px; border-radius: 20px; font-size: 10px; font-weight: bold; display: inline-block; }
-    .status-confirmed { background: #3b82f6; color: white; padding: 4px 10px; border-radius: 20px; font-size: 10px; font-weight: bold; display: inline-block; }
-    .status-shipped { background: #8b5cf6; color: white; padding: 4px 10px; border-radius: 20px; font-size: 10px; font-weight: bold; display: inline-block; }
-    .status-delivered { background: #10b981; color: white; padding: 4px 10px; border-radius: 20px; font-size: 10px; font-weight: bold; display: inline-block; }
-    
-    /* Payment option */
-    .payment-option {
-      transition: all 0.2s ease;
-      cursor: pointer;
-      border: 2px solid transparent;
-    }
-    .payment-option.selected {
-      border-color: #10b981;
-      background: rgba(16, 185, 129, 0.1);
-    }
-    
-    /* Input styles */
-    input, select, textarea {
-      background: rgba(255, 255, 255, 0.08);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      border-radius: 12px;
-      padding: 12px 16px;
-      color: white;
-      font-size: 16px;
-      width: 100%;
-      outline: none;
-    }
-    
-    input:focus, select:focus {
-      border-color: rgba(255, 255, 255, 0.3);
-      background: rgba(255, 255, 255, 0.12);
-    }
-    
-    button {
-      cursor: pointer;
-      transition: all 0.2s;
-    }
-    
-    button:active {
-      transform: scale(0.97);
-    }
-    
-    /* Hide scrollbar for cleaner look */
-    .no-scrollbar::-webkit-scrollbar {
-      display: none;
-    }
-    
-    /* Responsive */
-    @media (max-width: 640px) {
-      .products-grid {
-        gap: 10px;
-      }
-      .product-card img {
-        height: 140px;
-      }
-      .hero-banner {
-        height: 160px;
-      }
-      .toast {
-        bottom: 90px;
-        font-size: 12px;
-        white-space: normal;
-        text-align: center;
-        max-width: 85%;
-      }
-    }
-    
-    /* Remove autofill background */
-    input:-webkit-autofill,
-    input:-webkit-autofill:hover,
-    input:-webkit-autofill:focus {
-      -webkit-box-shadow: 0 0 0 30px #1a1a1a inset !important;
-      -webkit-text-fill-color: white !important;
-    }
   </style>
 </head>
 
 <body>
-  <div class="app-container">
-    
-    <!-- NAVBAR -->
-    <div class="navbar">
-      <div style="display: flex; justify-content: space-between; align-items: center;">
-        <h1 style="font-size: 22px; font-weight: 900; letter-spacing: -0.5px; cursor: pointer;" onclick="window.scrollTo({top:0,behavior:'smooth'})">.SOLEVIA</h1>
-        <div style="display: flex; gap: 12px;">
-          <div id="auth-desktop"></div>
-          <button onclick="toggleCart()" class="glass" style="padding: 8px 16px; border-radius: 30px; font-size: 13px; font-weight: 600;">CART <span id="cart-count" style="background: rgba(255,255,255,0.2); padding: 2px 6px; border-radius: 20px; margin-left: 4px;">0</span></button>
-        </div>
-      </div>
-    </div>
 
-    <!-- MAIN CONTENT -->
-    <div class="main-content">
-      
-      <!-- HERO BANNER -->
-      <div class="content-wrapper">
-        <div class="hero-banner" id="hero-banner" style="background-image: url('https://images.unsplash.com/photo-1542291026-7eec264c27ff?q=80&w=800&auto=format'); background-size: cover; background-position: center;">
-          <div style="position: absolute; inset: 0; background: rgba(0,0,0,0.4); border-radius: 20px;"></div>
-          <div style="position: relative; z-index: 2; padding: 20px; height: 100%; display: flex; flex-direction: column; justify-content: center;">
-            <p style="font-size: 10px; letter-spacing: 2px; color: #d4d4d8;" id="banner-subtitle">LIMITED RELEASE</p>
-            <h1 style="font-size: 24px; font-weight: 900; margin-top: 4px;" id="banner-title">FUTURE SNEAKERS</h1>
-            <p style="font-size: 12px; color: #d4d4d8; margin-top: 4px;" id="banner-desc">Premium sneakers with futuristic design</p>
-            <button onclick="document.getElementById('products-container').scrollIntoView({behavior:'smooth'})" style="background: white; color: black; border: none; padding: 8px 20px; border-radius: 30px; font-weight: 800; font-size: 12px; margin-top: 12px; width: fit-content;">SHOP NOW</button>
-          </div>
-        </div>
-      </div>
-
-      <!-- FILTERS -->
-      <div class="content-wrapper" style="margin-top: 16px;">
-        <div style="display: flex; flex-direction: column; gap: 10px;">
-          <input type="search" id="search" placeholder="Search products..." autocomplete="off" style="background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.08); border-radius: 30px; padding: 12px 16px; color: white;">
-          <select id="filter" style="background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.08); border-radius: 30px; padding: 12px 16px; color: white;">
-            <option value="all">All Categories</option>
-            <option value="Running">Running</option>
-            <option value="Streetwear">Streetwear</option>
-            <option value="Basketball">Basketball</option>
-          </select>
-        </div>
-      </div>
-
-      <!-- PRODUCTS SECTION -->
-      <div id="products-container" class="content-wrapper" style="margin-top: 20px;">
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
-          <h2 id="grid-title" style="font-size: 22px; font-weight: 900;">Latest Drops</h2>
-          <div id="product-count" class="glass" style="padding: 4px 12px; border-radius: 30px; font-size: 11px; font-weight: bold;">LOADING</div>
-        </div>
-        <div id="products" class="products-grid">
-          <div class="glass" style="border-radius: 16px; height: 220px; animation: pulse 1.5s infinite;"></div>
-          <div class="glass" style="border-radius: 16px; height: 220px; animation: pulse 1.5s infinite;"></div>
-        </div>
-      </div>
-    </div>
-
-    <!-- BOTTOM NAVIGATION -->
-    <div class="bottom-nav">
-      <button onclick="window.scrollTo({top:0,behavior:'smooth'}); showMainProducts();">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2h-5v-7H9v7H4a2 2 0 0 1-2-2z"/></svg>
-        <span>HOME</span>
-      </button>
-      <button onclick="toggleWishlistView()" style="position: relative;">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
-        <span>WISHLIST</span>
-        <span id="wishlist-count-mob" style="position: absolute; top: -5px; right: 0; background: white; color: black; font-size: 9px; font-weight: bold; border-radius: 50%; padding: 2px 5px; min-width: 16px; text-align: center;">0</span>
-      </button>
-      <button onclick="toggleCart()" style="position: relative;">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
-        <span>CART</span>
-        <span id="cart-count-mob" style="position: absolute; top: -5px; right: 0; background: #ff3b30; color: white; font-size: 9px; font-weight: bold; border-radius: 50%; padding: 2px 5px; min-width: 16px; text-align: center;">0</span>
-      </button>
-      <button onclick="openOrderTracking()">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
-        <span>ORDERS</span>
-      </button>
-    </div>
-
-    <!-- LOGIN MODAL -->
-    <div id="login-modal" class="modal" style="display: none;">
-      <div class="modal-content">
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
-          <h2 style="font-size: 22px; font-weight: bold;">Login</h2>
-          <button onclick="closeLoginModal()" style="background: none; border: none; color: white; font-size: 24px;">&times;</button>
-        </div>
-        <div id="login-form">
-          <div style="display: flex; flex-direction: column; gap: 12px;">
-            <input type="email" id="login-email" placeholder="Email address" autocomplete="off">
-            <input type="password" id="login-password" placeholder="Password" autocomplete="new-password">
-            <button onclick="handleLogin()" style="background: white; color: black; padding: 14px; border-radius: 30px; font-weight: bold; border: none;">Login</button>
-            <p style="text-align: center; color: #a1a1aa; font-size: 13px;">No account? <button onclick="switchToSignup()" style="background: none; border: none; color: white; text-decoration: underline;">Create account</button></p>
-          </div>
-        </div>
-        <div id="signup-form" style="display: none;">
-          <div style="display: flex; flex-direction: column; gap: 12px;">
-            <input type="text" id="signup-name" placeholder="Full name" autocomplete="off">
-            <input type="email" id="signup-email" placeholder="Email address" autocomplete="off">
-            <input type="password" id="signup-password" placeholder="Password (min 6 characters)" autocomplete="new-password">
-            <button onclick="handleSignup()" style="background: white; color: black; padding: 14px; border-radius: 30px; font-weight: bold; border: none;">Create account</button>
-            <p style="text-align: center; color: #a1a1aa; font-size: 13px;">Have an account? <button onclick="switchToLogin()" style="background: none; border: none; color: white; text-decoration: underline;">Login</button></p>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- ADDRESS MODAL -->
-    <div id="address-modal" class="modal" style="display: none;">
-      <div class="modal-content">
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
-          <h2 style="font-size: 20px; font-weight: bold;">Delivery & Payment</h2>
-          <button onclick="closeAddressModal()" style="background: none; border: none; color: white; font-size: 24px;">&times;</button>
-        </div>
-        
-        <h3 style="font-size: 13px; font-weight: bold; margin-bottom: 8px; color: #a1a1aa;">Shipping Address</h3>
-        <div style="display: flex; flex-direction: column; gap: 10px; margin-bottom: 20px;">
-          <input id="full-name" type="text" placeholder="Full name" autocomplete="off">
-          <input id="phone" type="tel" placeholder="Phone number" autocomplete="off">
-          <input id="address-line" type="text" placeholder="Street address" autocomplete="off">
-          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
-            <input id="city" type="text" placeholder="City" autocomplete="off">
-            <input id="pincode" type="text" placeholder="Pincode" autocomplete="off">
-          </div>
-        </div>
-        
-        <h3 style="font-size: 13px; font-weight: bold; margin-bottom: 8px; color: #a1a1aa;">Payment Method</h3>
-        <div style="display: flex; flex-direction: column; gap: 10px; margin-bottom: 20px;">
-          <div id="payment-cod" class="payment-option glass" style="padding: 12px; border-radius: 12px; display: flex; justify-content: space-between; align-items: center; cursor: pointer;">
-            <div><span style="font-weight: bold;">Cash on Delivery</span><p style="font-size: 10px; color: #a1a1aa;">Pay when you receive</p></div>
-            <div style="width: 20px; height: 20px; border-radius: 50%; border: 2px solid rgba(255,255,255,0.3); display: flex; align-items: center; justify-content: center;"><div id="cod-check" style="width: 10px; height: 10px; border-radius: 50%; background: #10b981; display: none;"></div></div>
-          </div>
-          <div id="payment-online" class="payment-option glass" style="padding: 12px; border-radius: 12px; display: flex; justify-content: space-between; align-items: center; cursor: pointer;">
-            <div><span style="font-weight: bold;">Online Payment</span><p style="font-size: 10px; color: #a1a1aa;">UPI, Card, NetBanking</p></div>
-            <div style="width: 20px; height: 20px; border-radius: 50%; border: 2px solid rgba(255,255,255,0.3); display: flex; align-items: center; justify-content: center;"><div id="online-check" style="width: 10px; height: 10px; border-radius: 50%; background: #10b981; display: none;"></div></div>
-          </div>
-        </div>
-        
-        <div style="border-top: 1px solid rgba(255,255,255,0.1); padding-top: 16px; margin-bottom: 20px;">
-          <div style="display: flex; justify-content: space-between; font-size: 14px;"><span>Subtotal</span><span id="modal-subtotal">₹0</span></div>
-          <div id="modal-discount-row" style="display: none; justify-content: space-between; font-size: 14px; color: #10b981;"><span>Discount</span><span id="modal-discount">-₹0</span></div>
-          <div style="display: flex; justify-content: space-between; font-size: 18px; font-weight: bold; margin-top: 12px; padding-top: 12px; border-top: 1px solid rgba(255,255,255,0.1);"><span>Total</span><span id="modal-total">₹0</span></div>
-        </div>
-        
-        <button onclick="placeOrderWithPayment()" style="background: white; color: black; padding: 14px; border-radius: 30px; font-weight: bold; width: 100%; border: none;">PLACE ORDER</button>
-      </div>
-    </div>
-
-    <!-- ORDERS MODAL -->
-    <div id="tracking-modal" class="modal" style="display: none;">
-      <div class="modal-content">
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
-          <h2 style="font-size: 20px; font-weight: bold;">My Orders</h2>
-          <button onclick="closeTrackingModal()" style="background: none; border: none; color: white; font-size: 24px;">&times;</button>
-        </div>
-        <div id="orders-list" style="display: flex; flex-direction: column; gap: 12px;"></div>
-      </div>
-    </div>
-
-    <!-- PRODUCT DETAIL MODAL -->
-    <div id="product-modal" class="modal" style="display: none;">
-      <div class="modal-content" style="padding: 0; overflow: hidden;">
-        <div style="position: relative; height: 250px;">
-          <img id="modal-image" style="width: 100%; height: 100%; object-fit: cover;">
-          <button id="modal-wishlist-btn" style="position: absolute; top: 12px; right: 12px; background: rgba(0,0,0,0.6); border: none; padding: 8px 12px; border-radius: 30px; color: white;">♡</button>
-          <button onclick="closeProductModal()" style="position: absolute; top: 12px; left: 12px; background: rgba(0,0,0,0.6); border: none; padding: 8px 12px; border-radius: 30px; color: white;">&times;</button>
-        </div>
-        <div style="padding: 20px;">
-          <p id="modal-category" style="color: #a1a1aa; font-size: 11px; text-transform: uppercase;"></p>
-          <h2 id="modal-name" style="font-size: 22px; font-weight: bold; margin-top: 4px;"></h2>
-          <p id="modal-price" style="font-size: 24px; font-weight: bold; margin-top: 8px;"></p>
-          <p id="modal-desc" style="color: #d4d4d8; margin-top: 12px; line-height: 1.5;"></p>
-          <button onclick="addToCart(selectedProduct)" style="background: white; color: black; padding: 14px; border-radius: 30px; font-weight: bold; width: 100%; margin-top: 20px; border: none;">ADD TO CART</button>
-        </div>
-      </div>
-    </div>
-
-    <!-- CART SIDEBAR -->
-    <div id="cart-sidebar" class="cart-sidebar">
-      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
-        <h2 style="font-size: 20px; font-weight: bold;">Your Cart</h2>
-        <button onclick="toggleCart()" style="background: none; border: none; color: white; font-size: 24px;">&times;</button>
-      </div>
-      <div id="cart-items" style="flex: 1; overflow-y: auto;"></div>
-      
-      <div style="margin-top: 20px; padding-top: 16px; border-top: 1px solid rgba(255,255,255,0.1);">
-        <p style="font-size: 11px; font-weight: bold; margin-bottom: 8px;">Promo code</p>
-        <div style="display: flex; gap: 8px;">
-          <input id="promo-input" type="text" placeholder="ENTER CODE" autocomplete="off" style="flex: 1; padding: 10px; border-radius: 30px; background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.1); color: white;">
-          <button onclick="applyPromoCode()" style="background: #e4e4e7; color: black; padding: 10px 16px; border-radius: 30px; font-weight: bold; border: none;">APPLY</button>
-        </div>
-        <div id="promo-status" style="font-size: 11px; margin-top: 8px; display: none;"></div>
-      </div>
-
-      <div style="margin-top: 20px;">
-        <div style="display: flex; justify-content: space-between; margin-bottom: 8px;"><span>Subtotal</span><span id="summary-subtotal">₹0</span></div>
-        <div id="summary-promo-row" style="display: none; justify-content: space-between; color: #10b981;"><span>Discount</span><span id="summary-promo-discount">-₹0</span></div>
-        <div style="display: flex; justify-content: space-between; font-size: 18px; font-weight: bold; margin-top: 12px; padding-top: 12px; border-top: 1px solid rgba(255,255,255,0.1);"><span>TOTAL</span><span id="cart-total">₹0</span></div>
-        <button onclick="initiateCheckout()" style="background: white; color: black; padding: 14px; border-radius: 30px; font-weight: bold; width: 100%; margin-top: 16px; border: none;">CHECKOUT</button>
+  <!-- HEADER -->
+  <div class="header">
+    <div class="header-content">
+      <div class="logo" onclick="window.scrollTo({top:0,behavior:'smooth'})">.SOLEVIA</div>
+      <div class="desktop-nav">
+        <div id="auth-desktop"></div>
+        <button class="nav-btn" onclick="openOrderTracking()">ORDERS</button>
+        <button class="nav-btn" onclick="toggleWishlistView()">WISHLIST (<span id="wishlist-count-nav">0</span>)</button>
+        <button class="nav-btn" onclick="toggleCart()">CART (<span id="cart-count">0</span>)</button>
       </div>
     </div>
   </div>
 
-  <style>
-    @keyframes pulse {
-      0%, 100% { opacity: 0.3; }
-      50% { opacity: 0.6; }
-    }
-    .hidden { display: none !important; }
-  </style>
+  <!-- MOBILE BOTTOM NAV -->
+  <div class="mobile-bottom-nav">
+    <button class="mobile-nav-btn" onclick="window.scrollTo({top:0,behavior:'smooth'}); showMainProducts();">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2h-5v-7H9v7H4a2 2 0 0 1-2-2z"/></svg>
+      <span>HOME</span>
+    </button>
+    <button class="mobile-nav-btn" onclick="toggleWishlistView()" style="position: relative;">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+      <span>WISHLIST</span>
+      <span id="wishlist-count-mob" style="position: absolute; top: -5px; right: -10px; background: white; color: black; font-size: 9px; font-weight: bold; border-radius: 50%; padding: 2px 5px;">0</span>
+    </button>
+    <button class="mobile-nav-btn" onclick="toggleCart()" style="position: relative;">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+      <span>CART</span>
+      <span id="cart-count-mob" style="position: absolute; top: -5px; right: -10px; background: #ff3b30; color: white; font-size: 9px; font-weight: bold; border-radius: 50%; padding: 2px 5px;">0</span>
+    </button>
+    <button class="mobile-nav-btn" onclick="openOrderTracking()">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+      <span>ORDERS</span>
+    </button>
+  </div>
+
+  <!-- MAIN CONTENT -->
+  <div class="desktop-container" style="padding-top: 90px; padding-bottom: 60px;">
+    
+    <!-- HERO -->
+    <div class="hero">
+      <div id="hero-bg" class="hero-bg" style="background-image: url('https://images.unsplash.com/photo-1542291026-7eec264c27ff?q=80&w=1200&auto=format');"></div>
+      <div class="hero-overlay"></div>
+      <div class="hero-content">
+        <p class="hero-subtitle" id="banner-subtitle">LIMITED RELEASE</p>
+        <h1 class="hero-title" id="banner-title">FUTURE SNEAKERS</h1>
+        <p class="hero-desc" id="banner-desc">Premium sneakers engineered with futuristic aesthetics and ultimate comfort.</p>
+        <button class="shop-btn" onclick="document.getElementById('products-section').scrollIntoView({behavior:'smooth'})">EXPLORE COLLECTION →</button>
+      </div>
+    </div>
+
+    <!-- FILTERS -->
+    <div class="filters">
+      <input type="search" id="search" class="search-input" placeholder="Search sneakers..." autocomplete="off">
+      <select id="filter" class="category-select">
+        <option value="all">All Categories</option>
+        <option value="Running">Running</option>
+        <option value="Streetwear">Streetwear</option>
+        <option value="Basketball">Basketball</option>
+      </select>
+    </div>
+
+    <!-- PRODUCTS SECTION -->
+    <div id="products-section">
+      <div class="products-header">
+        <h2 id="grid-title" class="products-title">Latest Drops</h2>
+        <div id="product-count" class="product-count">0 items</div>
+      </div>
+      <div id="products" class="products-grid">
+        <!-- Products loaded here -->
+      </div>
+    </div>
+  </div>
+
+  <!-- CART SIDEBAR -->
+  <div id="cart-sidebar" class="cart-sidebar">
+    <div class="cart-header">
+      <h2 style="font-size: 22px;">Your Cart</h2>
+      <button onclick="toggleCart()" style="background: none; border: none; color: white; font-size: 28px;">&times;</button>
+    </div>
+    <div id="cart-items" style="flex: 1; overflow-y: auto;"></div>
+    <div style="margin-top: 20px; padding-top: 16px; border-top: 1px solid rgba(255,255,255,0.1);">
+      <p style="font-size: 12px; font-weight: 600; margin-bottom: 8px;">PROMO CODE</p>
+      <div style="display: flex; gap: 10px;">
+        <input id="promo-input" type="text" placeholder="ENTER CODE" autocomplete="off">
+        <button onclick="applyPromoCode()" style="background: white; color: black; padding: 12px 20px; border-radius: 40px; font-weight: bold; border: none;">APPLY</button>
+      </div>
+      <div id="promo-status" style="font-size: 11px; margin-top: 8px; display: none;"></div>
+    </div>
+    <div style="margin-top: 20px;">
+      <div style="display: flex; justify-content: space-between; margin-bottom: 10px;"><span>Subtotal</span><span id="summary-subtotal">₹0</span></div>
+      <div id="summary-promo-row" style="display: none; justify-content: space-between; color: #10b981;"><span>Discount</span><span id="summary-promo-discount">-₹0</span></div>
+      <div style="display: flex; justify-content: space-between; font-size: 20px; font-weight: bold; margin-top: 15px; padding-top: 15px; border-top: 1px solid rgba(255,255,255,0.1);"><span>TOTAL</span><span id="cart-total">₹0</span></div>
+      <button onclick="initiateCheckout()" style="background: white; color: black; padding: 16px; border-radius: 40px; font-weight: bold; width: 100%; margin-top: 20px; border: none;">CHECKOUT →</button>
+    </div>
+  </div>
+
+  <!-- MODALS -->
+  <div id="login-modal" class="modal-overlay">
+    <div class="modal-container">
+      <div style="display: flex; justify-content: space-between; margin-bottom: 20px;"><h2 style="font-size: 24px;">Login</h2><button onclick="closeLoginModal()" style="background: none; border: none; color: white; font-size: 24px;">&times;</button></div>
+      <div id="login-form">
+        <input type="email" id="login-email" placeholder="Email" autocomplete="off" style="margin-bottom: 12px;">
+        <input type="password" id="login-password" placeholder="Password" autocomplete="new-password" style="margin-bottom: 20px;">
+        <button onclick="handleLogin()" style="background: white; color: black; padding: 14px; border-radius: 40px; font-weight: bold; width: 100%; border: none;">Login</button>
+        <p style="text-align: center; margin-top: 16px; color: #a1a1aa;">New user? <button onclick="switchToSignup()" style="background: none; border: none; color: white; text-decoration: underline;">Create account</button></p>
+      </div>
+      <div id="signup-form" style="display: none;">
+        <input type="text" id="signup-name" placeholder="Full name" autocomplete="off" style="margin-bottom: 12px;">
+        <input type="email" id="signup-email" placeholder="Email" autocomplete="off" style="margin-bottom: 12px;">
+        <input type="password" id="signup-password" placeholder="Password (min 6)" autocomplete="new-password" style="margin-bottom: 20px;">
+        <button onclick="handleSignup()" style="background: white; color: black; padding: 14px; border-radius: 40px; font-weight: bold; width: 100%; border: none;">Create Account</button>
+        <p style="text-align: center; margin-top: 16px; color: #a1a1aa;">Have an account? <button onclick="switchToLogin()" style="background: none; border: none; color: white; text-decoration: underline;">Login</button></p>
+      </div>
+    </div>
+  </div>
+
+  <div id="address-modal" class="modal-overlay">
+    <div class="modal-container">
+      <div style="display: flex; justify-content: space-between; margin-bottom: 20px;"><h2>Delivery & Payment</h2><button onclick="closeAddressModal()" style="background: none; border: none; color: white; font-size: 24px;">&times;</button></div>
+      <input id="full-name" placeholder="Full name" style="margin-bottom: 12px;">
+      <input id="phone" placeholder="Phone number" style="margin-bottom: 12px;">
+      <input id="address-line" placeholder="Street address" style="margin-bottom: 12px;">
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 20px;">
+        <input id="city" placeholder="City">
+        <input id="pincode" placeholder="Pincode">
+      </div>
+      <div id="payment-cod" class="payment-option glass" style="padding: 14px; border-radius: 16px; margin-bottom: 10px; border: 2px solid transparent; background: rgba(255,255,255,0.05); cursor: pointer;" onclick="selectPaymentMethod('cod')">
+        <div style="display: flex; justify-content: space-between;"><span style="font-weight: bold;">Cash on Delivery</span><span id="cod-check" style="display: none;">✓</span></div>
+        <p style="font-size: 11px; color: #a1a1aa;">Pay when you receive the order</p>
+      </div>
+      <div id="payment-online" class="payment-option glass" style="padding: 14px; border-radius: 16px; margin-bottom: 20px; border: 2px solid transparent; background: rgba(255,255,255,0.05); cursor: pointer;" onclick="selectPaymentMethod('online')">
+        <div style="display: flex; justify-content: space-between;"><span style="font-weight: bold;">Online Payment</span><span id="online-check" style="display: none;">✓</span></div>
+        <p style="font-size: 11px; color: #a1a1aa;">UPI, Card, NetBanking</p>
+      </div>
+      <div style="border-top: 1px solid rgba(255,255,255,0.1); padding-top: 15px; margin-bottom: 20px;">
+        <div style="display: flex; justify-content: space-between;"><span>Subtotal</span><span id="modal-subtotal">₹0</span></div>
+        <div id="modal-discount-row" style="display: none; justify-content: space-between; color: #10b981;"><span>Discount</span><span id="modal-discount">-₹0</span></div>
+        <div style="display: flex; justify-content: space-between; font-size: 18px; font-weight: bold; margin-top: 10px;"><span>Total</span><span id="modal-total">₹0</span></div>
+      </div>
+      <button onclick="placeOrderWithPayment()" style="background: white; color: black; padding: 14px; border-radius: 40px; font-weight: bold; width: 100%; border: none;">PLACE ORDER</button>
+    </div>
+  </div>
+
+  <div id="orders-modal" class="modal-overlay">
+    <div class="modal-container">
+      <div style="display: flex; justify-content: space-between; margin-bottom: 20px;"><h2>My Orders</h2><button onclick="closeOrdersModal()" style="background: none; border: none; color: white; font-size: 24px;">&times;</button></div>
+      <div id="orders-list"></div>
+    </div>
+  </div>
+
+  <div id="product-modal" class="modal-overlay">
+    <div class="modal-container" style="padding: 0; overflow: hidden;">
+      <div style="position: relative; height: 300px;">
+        <img id="modal-img" style="width: 100%; height: 100%; object-fit: cover;">
+        <button onclick="closeProductModal()" style="position: absolute; top: 12px; left: 12px; background: rgba(0,0,0,0.6); border: none; padding: 8px 12px; border-radius: 30px; color: white;">&times;</button>
+        <button id="modal-wishlist-btn" style="position: absolute; top: 12px; right: 12px; background: rgba(0,0,0,0.6); border: none; padding: 8px 12px; border-radius: 30px; color: white;">♡</button>
+      </div>
+      <div style="padding: 20px;">
+        <p id="modal-category" style="color: #a1a1aa; font-size: 11px; text-transform: uppercase;"></p>
+        <h2 id="modal-name" style="font-size: 22px; margin: 8px 0;"></h2>
+        <p id="modal-price" style="font-size: 24px; font-weight: bold;"></p>
+        <p id="modal-desc" style="color: #d4d4d8; margin-top: 12px; line-height: 1.5;"></p>
+        <button onclick="addToCart(selectedProduct)" style="background: white; color: black; padding: 14px; border-radius: 40px; font-weight: bold; width: 100%; margin-top: 20px; border: none;">ADD TO CART</button>
+      </div>
+    </div>
+  </div>
 
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
@@ -547,26 +722,21 @@
     const productsRef = ref(db, "products");
     const ordersRef = ref(db, "orders");
 
-    let allProducts = [];
-    let cart = [];
-    let wishlist = [];
-    let currentUser = null;
-    let activePromo = null;
-    let selectedPaymentMethod = "cod";
-    let viewingWishlist = false;
-    let bannerInterval = null;
-    let currentBannerIndex = 0;
-    let bannerImages = ["https://images.unsplash.com/photo-1542291026-7eec264c27ff?q=80&w=800&auto=format"];
-    let bannerTitles = ["FUTURE SNEAKERS"];
-
+    let allProducts = [], cart = [], wishlist = [], currentUser = null, activePromo = null, selectedPaymentMethod = "cod", viewingWishlist = false;
     window.selectedProduct = null;
+
+    const DEMO_PRODUCTS = [
+      { id: "demo1", name: "NEO ZENITH", category: "Streetwear", price: 18999, image: "https://images.unsplash.com/photo-1600185365483-26d7a4cc7519?q=80&w=500&auto=format", description: "Futuristic silhouette with breathable mesh upper." },
+      { id: "demo2", name: "ORBIT PRO", category: "Running", price: 15999, image: "https://images.unsplash.com/photo-1608231387042-66d1773070a5?q=80&w=500&auto=format", description: "Carbon-fiber propulsion plate for speed." },
+      { id: "demo3", name: "SHADOW MESH", category: "Basketball", price: 20999, image: "https://images.unsplash.com/photo-1606107557195-0e29a4b5b4aa?q=80&w=500&auto=format", description: "High-top support with impact absorption." }
+    ];
 
     function toast(msg, isError = false) {
       const existing = document.querySelector('.toast');
-      if(existing) existing.remove();
+      if (existing) existing.remove();
       const el = document.createElement('div');
       el.className = 'toast';
-      el.style.background = isError ? 'rgba(220,38,38,0.95)' : 'white';
+      el.style.background = isError ? '#dc2626' : 'white';
       el.style.color = isError ? 'white' : 'black';
       el.innerText = msg;
       document.body.appendChild(el);
@@ -575,46 +745,35 @@
 
     function selectPaymentMethod(method) {
       selectedPaymentMethod = method;
-      document.getElementById("cod-check").style.display = "none";
-      document.getElementById("online-check").style.display = "none";
-      if (method === "cod") {
-        document.getElementById("cod-check").style.display = "block";
-        document.getElementById("payment-cod").style.borderColor = "#10b981";
-        document.getElementById("payment-online").style.borderColor = "transparent";
-      } else {
-        document.getElementById("online-check").style.display = "block";
-        document.getElementById("payment-online").style.borderColor = "#10b981";
-        document.getElementById("payment-cod").style.borderColor = "transparent";
-      }
+      document.getElementById("cod-check").style.display = method === "cod" ? "inline" : "none";
+      document.getElementById("online-check").style.display = method === "online" ? "inline" : "none";
+      document.getElementById("payment-cod").style.borderColor = method === "cod" ? "#10b981" : "transparent";
+      document.getElementById("payment-online").style.borderColor = method === "online" ? "#10b981" : "transparent";
     }
 
     function updateAuthUI() {
-      const authDesktop = document.getElementById("auth-desktop");
+      const authDiv = document.getElementById("auth-desktop");
       if (currentUser) {
-        authDesktop.innerHTML = `<span style="font-size: 12px;">${currentUser.email.split('@')[0]}</span><button onclick="handleLogout()" style="background: rgba(255,255,255,0.1); padding: 6px 12px; border-radius: 30px; border: none; color: white; font-size: 12px;">LOGOUT</button>`;
+        authDiv.innerHTML = `<span style="font-size: 13px;">${currentUser.email.split('@')[0]}</span><button onclick="handleLogout()" class="nav-btn" style="margin-left: 10px;">LOGOUT</button>`;
       } else {
-        authDesktop.innerHTML = `<button onclick="openLoginModal()" style="background: white; color: black; padding: 6px 16px; border-radius: 30px; border: none; font-size: 12px; font-weight: bold;">LOGIN</button>`;
+        authDiv.innerHTML = `<button onclick="openLoginModal()" class="nav-btn">LOGIN</button>`;
       }
     }
 
-    window.openLoginModal = () => {
-      document.getElementById("login-modal").style.display = "flex";
-      document.getElementById("login-form").style.display = "block";
-      document.getElementById("signup-form").style.display = "none";
-    };
+    window.openLoginModal = () => { document.getElementById("login-modal").style.display = "flex"; document.getElementById("login-form").style.display = "block"; document.getElementById("signup-form").style.display = "none"; };
     window.closeLoginModal = () => { document.getElementById("login-modal").style.display = "none"; };
     window.switchToSignup = () => { document.getElementById("login-form").style.display = "none"; document.getElementById("signup-form").style.display = "block"; };
     window.switchToLogin = () => { document.getElementById("login-form").style.display = "block"; document.getElementById("signup-form").style.display = "none"; };
+    window.closeAddressModal = () => { document.getElementById("address-modal").style.display = "none"; };
+    window.closeOrdersModal = () => { document.getElementById("orders-modal").style.display = "none"; };
+    window.closeProductModal = () => { document.getElementById("product-modal").style.display = "none"; };
 
     window.handleLogin = async () => {
       const email = document.getElementById("login-email").value.trim();
       const password = document.getElementById("login-password").value;
       if (!email || !password) { toast("Please enter email and password", true); return; }
-      try {
-        await signInWithEmailAndPassword(auth, email, password);
-        toast("Login successful");
-        closeLoginModal();
-      } catch (error) { toast("Login failed: " + error.message, true); }
+      try { await signInWithEmailAndPassword(auth, email, password); toast("Login successful"); closeLoginModal(); } 
+      catch (error) { toast("Login failed: " + error.message, true); }
     };
 
     window.handleSignup = async () => {
@@ -626,8 +785,7 @@
       try {
         const userCredential = await createUserWithEmailAndPassword(auth, email, password);
         await setDoc(doc(firestore, "users", userCredential.user.uid), { name, email, createdAt: new Date() });
-        toast("Account created! Please login.");
-        switchToLogin();
+        toast("Account created! Please login."); switchToLogin();
       } catch (error) { toast("Signup failed: " + error.message, true); }
     };
 
@@ -653,41 +811,28 @@
       const idx = wishlist.indexOf(productId);
       if (idx > -1) { wishlist.splice(idx, 1); toast("Removed from wishlist"); } 
       else { wishlist.push(productId); toast("Added to wishlist"); }
-      await saveWishlist();
-      updateWishlistCounters();
-      if (viewingWishlist) filterAndRenderProducts();
+      await saveWishlist(); updateWishlistCounters(); if (viewingWishlist) filterAndRenderProducts();
     };
 
     function updateWishlistCounters() {
       const count = wishlist.length;
-      const mob = document.getElementById("wishlist-count-mob");
-      if (mob) mob.innerText = count;
+      document.getElementById("wishlist-count-nav").innerText = count;
+      document.getElementById("wishlist-count-mob").innerText = count;
     }
 
     window.toggleWishlistView = () => {
       if (!currentUser) { toast("Please login to view wishlist", true); openLoginModal(); return; }
       viewingWishlist = !viewingWishlist;
       document.getElementById("grid-title").innerText = viewingWishlist ? "My Wishlist" : "Latest Drops";
-      const hero = document.querySelector(".hero-banner")?.parentElement;
-      if (hero) hero.style.display = viewingWishlist ? "none" : "block";
       filterAndRenderProducts();
     };
 
-    window.showMainProducts = () => { 
-      viewingWishlist = false; 
-      document.getElementById("grid-title").innerText = "Latest Drops"; 
-      const hero = document.querySelector(".hero-banner")?.parentElement;
-      if (hero) hero.style.display = "block";
-      filterAndRenderProducts(); 
-    };
+    window.showMainProducts = () => { viewingWishlist = false; document.getElementById("grid-title").innerText = "Latest Drops"; filterAndRenderProducts(); };
 
     function addToCart(product) {
       if (!currentUser) { toast("Please login first", true); openLoginModal(); return; }
-      if (!product) return;
       cart.push({ ...product, price: product.displayPrice || product.price });
-      saveCart();
-      renderCart();
-      toast(`${product.name} added to cart`);
+      saveCart(); renderCart(); toast(`${product.name} added to cart`);
     }
 
     function saveCart() { if (currentUser) localStorage.setItem(`cart_${currentUser.uid}`, JSON.stringify(cart)); }
@@ -698,114 +843,75 @@
 
     function renderCart() {
       const count = cart.length;
-      const cartCount = document.getElementById("cart-count");
-      const cartCountMob = document.getElementById("cart-count-mob");
-      if (cartCount) cartCount.innerText = count;
-      if (cartCountMob) cartCountMob.innerText = count;
+      document.getElementById("cart-count").innerText = count;
+      document.getElementById("cart-count-mob").innerText = count;
 
-      const itemsContainer = document.getElementById("cart-items");
-      if (!cart.length) {
-        itemsContainer.innerHTML = `<div style="text-align: center; color: #a1a1aa; padding: 40px;">Your cart is empty</div>`;
-        activePromo = null;
-      } else {
-        itemsContainer.innerHTML = cart.map((item, i) => `
-          <div style="background: rgba(255,255,255,0.05); border-radius: 12px; padding: 10px; display: flex; gap: 10px; margin-bottom: 10px;">
-            <img src="${item.image}" style="width: 60px; height: 60px; border-radius: 8px; object-fit: cover;">
-            <div style="flex: 1;"><h3 style="font-size: 13px; font-weight: bold;">${item.name}</h3><p style="color: #a1a1aa; font-size: 12px;">₹${item.price.toLocaleString()}</p></div>
-            <button onclick="removeCartItem(${i})" style="background: none; border: none; color: #a1a1aa; font-size: 18px;">&times;</button>
+      const itemsDiv = document.getElementById("cart-items");
+      if (!cart.length) { itemsDiv.innerHTML = '<div style="text-align: center; padding: 40px; color: #a1a1aa;">Your cart is empty</div>'; activePromo = null; }
+      else {
+        itemsDiv.innerHTML = cart.map((item, i) => `
+          <div style="background: rgba(255,255,255,0.05); border-radius: 12px; padding: 12px; display: flex; gap: 12px; margin-bottom: 10px;">
+            <img src="${item.image}" style="width: 70px; height: 70px; border-radius: 10px; object-fit: cover;">
+            <div style="flex: 1;"><h3 style="font-size: 14px; font-weight: bold;">${item.name}</h3><p style="color: #a1a1aa; font-size: 13px;">₹${item.price.toLocaleString()}</p></div>
+            <button onclick="removeCartItem(${i})" style="background: none; border: none; color: #a1a1aa; font-size: 20px;">&times;</button>
           </div>
         `).join("");
       }
 
-      const subtotal = cart.reduce((sum, item) => sum + item.price, 0);
+      const subtotal = cart.reduce((s, i) => s + i.price, 0);
       document.getElementById("summary-subtotal").innerText = `₹${subtotal.toLocaleString()}`;
       let total = subtotal;
       if (activePromo) {
-        let discountVal = activePromo.type === "percentage" ? Math.floor(subtotal * (activePromo.value / 100)) : activePromo.value;
-        total = Math.max(0, subtotal - discountVal);
-        document.getElementById("summary-promo-discount").innerText = `-₹${discountVal.toLocaleString()}`;
+        let discount = activePromo.type === "percentage" ? Math.floor(subtotal * activePromo.value / 100) : activePromo.value;
+        total = Math.max(0, subtotal - discount);
+        document.getElementById("summary-promo-discount").innerText = `-₹${discount.toLocaleString()}`;
         document.getElementById("summary-promo-row").style.display = "flex";
-      } else {
-        document.getElementById("summary-promo-row").style.display = "none";
-      }
+      } else { document.getElementById("summary-promo-row").style.display = "none"; }
       document.getElementById("cart-total").innerText = `₹${total.toLocaleString()}`;
     }
 
     window.applyPromoCode = () => {
-      const input = document.getElementById("promo-input").value.trim().toUpperCase();
+      const code = document.getElementById("promo-input").value.trim().toUpperCase();
       const statusEl = document.getElementById("promo-status");
-      if (!input) { toast("Enter a code", true); return; }
-      if (cart.length === 0) { toast("Cart is empty", true); return; }
-      if (input === "SOLEVA10") {
-        activePromo = { code: "SOLEVA10", type: "percentage", value: 10 };
-        statusEl.style.display = "block";
-        statusEl.style.color = "#10b981";
-        statusEl.innerText = "10% discount applied!";
-      } else if (input === "FUTURE20") {
-        activePromo = { code: "FUTURE20", type: "percentage", value: 20 };
-        statusEl.style.display = "block";
-        statusEl.style.color = "#10b981";
-        statusEl.innerText = "20% discount applied!";
-      } else {
-        statusEl.style.display = "block";
-        statusEl.style.color = "#ef4444";
-        statusEl.innerText = "Invalid code";
-        activePromo = null;
-      }
+      if (!code) { toast("Enter a code", true); return; }
+      if (cart.length === 0) { toast("Cart empty", true); return; }
+      if (code === "SOLEVA10") { activePromo = { type: "percentage", value: 10 }; statusEl.style.display = "block"; statusEl.style.color = "#10b981"; statusEl.innerText = "10% discount applied!"; }
+      else if (code === "FUTURE20") { activePromo = { type: "percentage", value: 20 }; statusEl.style.display = "block"; statusEl.style.color = "#10b981"; statusEl.innerText = "20% discount applied!"; }
+      else { statusEl.style.display = "block"; statusEl.style.color = "#ef4444"; statusEl.innerText = "Invalid code"; activePromo = null; }
       renderCart();
     };
 
-    const DEMO_PRODUCTS = [
-      { id: "demo1", name: "NEO ZENITH", category: "Streetwear", price: 18999, image: "https://images.unsplash.com/photo-1600185365483-26d7a4cc7519?q=80&w=400&auto=format", description: "Futuristic silhouette with breathable mesh upper." },
-      { id: "demo2", name: "ORBIT PRO", category: "Running", price: 15999, image: "https://images.unsplash.com/photo-1608231387042-66d1773070a5?q=80&w=400&auto=format", description: "Carbon-fiber propulsion plate for speed." },
-      { id: "demo3", name: "SHADOW MESH", category: "Basketball", price: 20999, image: "https://images.unsplash.com/photo-1606107557195-0e29a4b5b4aa?q=80&w=400&auto=format", description: "High-top support with impact absorption." }
-    ];
-
     onValue(productsRef, (snapshot) => {
       const data = snapshot.val();
-      allProducts = data && Object.keys(data).length > 0 ? Object.keys(data).map(id => ({ id, ...data[id] })) : DEMO_PRODUCTS;
+      allProducts = data && Object.keys(data).length ? Object.keys(data).map(id => ({ id, ...data[id] })) : DEMO_PRODUCTS;
       filterAndRenderProducts();
     });
 
     function filterAndRenderProducts() {
-      const searchQuery = document.getElementById("search")?.value.toLowerCase() || "";
-      const categoryFilter = document.getElementById("filter")?.value || "all";
+      const search = document.getElementById("search").value.toLowerCase();
+      const category = document.getElementById("filter").value;
       let filtered = allProducts;
-      
-      if (viewingWishlist && currentUser) {
-        filtered = allProducts.filter(product => wishlist.includes(product.id));
-      } else {
-        filtered = allProducts.filter(product => {
-          const matchesSearch = product.name.toLowerCase().includes(searchQuery);
-          const matchesCategory = categoryFilter === "all" || product.category === categoryFilter;
-          return matchesSearch && matchesCategory;
-        });
-      }
+      if (viewingWishlist && currentUser) filtered = allProducts.filter(p => wishlist.includes(p.id));
+      else filtered = allProducts.filter(p => p.name.toLowerCase().includes(search) && (category === "all" || p.category === category));
       renderProducts(filtered);
     }
 
     function renderProducts(products) {
-      const countEl = document.getElementById("product-count");
-      if (countEl) countEl.innerText = `${products.length}`;
-      
-      const productsContainer = document.getElementById("products");
-      if (!products.length) { 
-        productsContainer.innerHTML = `<div style="grid-column: span 2; text-align: center; padding: 40px; color: #a1a1aa;">No items found</div>`; 
-        return; 
-      }
-      
-      productsContainer.innerHTML = products.map(product => {
-        const isWishlisted = currentUser && wishlist.includes(product.id);
+      document.getElementById("product-count").innerText = `${products.length} items`;
+      const container = document.getElementById("products");
+      if (!products.length) { container.innerHTML = '<div style="grid-column: span 4; text-align: center; padding: 60px; color: #a1a1aa;">No products found</div>'; return; }
+      container.innerHTML = products.map(p => {
+        const isWishlisted = currentUser && wishlist.includes(p.id);
         return `
-          <div class="glass-card product-card" style="border-radius: 16px; overflow: hidden;">
-            <button onclick="event.stopPropagation(); window.toggleWishlist('${product.id}')" style="position: absolute; top: 8px; right: 8px; z-index: 10; background: rgba(0,0,0,0.5); border: none; padding: 6px 10px; border-radius: 30px; color: white;">${isWishlisted ? "♥" : "♡"}</button>
-            <div onclick="openModal('${product.id}')">
-              <img src="${product.image}" style="width: 100%; height: 150px; object-fit: cover;">
-              <div style="padding: 10px;">
-                <p style="color: #a1a1aa; font-size: 9px; text-transform: uppercase;">${product.category || 'Uncategorized'}</p>
-                <h3 style="font-size: 13px; font-weight: bold; margin-top: 4px;">${product.name}</h3>
-                <p style="font-size: 14px; font-weight: bold; margin-top: 4px;">₹${product.price.toLocaleString()}</p>
-                <button onclick="event.stopPropagation(); addToCart(${JSON.stringify(product)})" style="background: white; color: black; border: none; padding: 6px 12px; border-radius: 30px; font-weight: bold; font-size: 10px; width: 100%; margin-top: 8px;">ADD TO CART</button>
+          <div class="product-card">
+            <button class="wishlist-btn" onclick="event.stopPropagation(); window.toggleWishlist('${p.id}')">${isWishlisted ? "♥" : "♡"}</button>
+            <div onclick="openModal('${p.id}')">
+              <img src="${p.image}" class="product-img" onerror="this.src='https://placehold.co/400x400/333/white?text=No+Image'">
+              <div class="product-info">
+                <p class="product-category">${p.category || 'Uncategorized'}</p>
+                <h3 class="product-name">${p.name}</h3>
+                <p class="product-price">₹${p.price.toLocaleString()}</p>
+                <button class="add-cart-btn" onclick="event.stopPropagation(); addToCart(${JSON.stringify(p)})">ADD TO CART</button>
               </div>
             </div>
           </div>
@@ -814,130 +920,93 @@
     }
 
     window.openModal = (id) => {
-      const product = allProducts.find(p => p.id == id);
-      if (!product) return;
-      window.selectedProduct = { ...product };
+      const p = allProducts.find(p => p.id == id);
+      if (!p) return;
+      window.selectedProduct = { ...p };
       document.getElementById("product-modal").style.display = "flex";
-      document.getElementById("modal-image").src = product.image;
-      document.getElementById("modal-category").innerText = product.category || '';
-      document.getElementById("modal-name").innerText = product.name;
-      document.getElementById("modal-price").innerHTML = `₹${product.price.toLocaleString()}`;
-      document.getElementById("modal-desc").innerText = product.description || "Premium production model.";
+      document.getElementById("modal-img").src = p.image;
+      document.getElementById("modal-category").innerText = p.category || '';
+      document.getElementById("modal-name").innerText = p.name;
+      document.getElementById("modal-price").innerHTML = `₹${p.price.toLocaleString()}`;
+      document.getElementById("modal-desc").innerText = p.description || "Premium production model.";
+      const isWishlisted = currentUser && wishlist.includes(p.id);
+      document.getElementById("modal-wishlist-btn").innerHTML = isWishlisted ? "♥" : "♡";
+      document.getElementById("modal-wishlist-btn").onclick = () => window.toggleWishlist(p.id);
     };
 
-    window.closeProductModal = () => { document.getElementById("product-modal").style.display = "none"; };
     window.addToCart = addToCart;
 
     window.initiateCheckout = () => {
       if (!currentUser) { toast("Please login to checkout", true); openLoginModal(); return; }
       if (cart.length === 0) { toast("Cart empty", true); return; }
-      
-      const subtotal = cart.reduce((sum, item) => sum + item.price, 0);
+      const subtotal = cart.reduce((s, i) => s + i.price, 0);
       let total = subtotal;
       if (activePromo) {
-        let discountVal = activePromo.type === "percentage" ? Math.floor(subtotal * (activePromo.value / 100)) : activePromo.value;
-        total = Math.max(0, subtotal - discountVal);
+        let discount = activePromo.type === "percentage" ? Math.floor(subtotal * activePromo.value / 100) : activePromo.value;
+        total = Math.max(0, subtotal - discount);
         document.getElementById("modal-discount-row").style.display = "flex";
-        document.getElementById("modal-discount").innerText = `-₹${discountVal.toLocaleString()}`;
-      } else {
-        document.getElementById("modal-discount-row").style.display = "none";
-      }
+        document.getElementById("modal-discount").innerText = `-₹${discount.toLocaleString()}`;
+      } else { document.getElementById("modal-discount-row").style.display = "none"; }
       document.getElementById("modal-subtotal").innerText = `₹${subtotal.toLocaleString()}`;
       document.getElementById("modal-total").innerText = `₹${total.toLocaleString()}`;
       document.getElementById("address-modal").style.display = "flex";
       selectPaymentMethod("cod");
     };
 
-    window.closeAddressModal = () => { document.getElementById("address-modal").style.display = "none"; };
-
     window.placeOrderWithPayment = async () => {
-      const fullName = document.getElementById("full-name")?.value.trim();
-      const phone = document.getElementById("phone")?.value.trim();
-      const address = document.getElementById("address-line")?.value.trim();
-      const city = document.getElementById("city")?.value.trim();
-      const pincode = document.getElementById("pincode")?.value.trim();
-      
+      const fullName = document.getElementById("full-name").value.trim();
+      const phone = document.getElementById("phone").value.trim();
+      const address = document.getElementById("address-line").value.trim();
+      const city = document.getElementById("city").value.trim();
+      const pincode = document.getElementById("pincode").value.trim();
       if (!fullName || !phone || !address || !city || !pincode) { toast("Please complete all address fields", true); return; }
+      if (selectedPaymentMethod === "online") { toast("UPI / Online Payment Coming Soon! Please select Cash on Delivery", true); return; }
       
-      if (selectedPaymentMethod === "online") {
-        toast("UPI / Online Payment Coming Soon! Please select Cash on Delivery", true);
-        return;
-      }
+      let total = cart.reduce((s, i) => s + i.price, 0);
+      if (activePromo) total = activePromo.type === "percentage" ? Math.floor(total * (1 - activePromo.value / 100)) : Math.max(0, total - activePromo.value);
       
-      const addressData = { fullName, phone, address, city, pincode };
-      let totalAmount = cart.reduce((sum, item) => sum + item.price, 0);
-      if (activePromo) {
-        if (activePromo.type === "percentage") totalAmount = Math.floor(totalAmount * (1 - activePromo.value / 100));
-        else totalAmount = Math.max(0, totalAmount - activePromo.value);
-      }
-      
-      const orderData = {
-        items: cart.map(i => ({ name: i.name, price: i.price, id: i.id })),
-        total: totalAmount,
-        address: addressData,
-        paymentMethod: "Cash on Delivery",
-        customerId: currentUser.uid,
-        customerEmail: currentUser.email,
-        createdAt: Date.now(),
-        status: "pending",
-        orderId: "ORD" + Date.now().toString().slice(-8)
-      };
-      await push(ordersRef, orderData);
+      await push(ordersRef, {
+        items: cart.map(i => ({ name: i.name, price: i.price })),
+        total: total, address: { fullName, phone, address, city, pincode }, paymentMethod: "Cash on Delivery",
+        customerId: currentUser.uid, createdAt: Date.now(), status: "pending", orderId: "ORD" + Date.now().toString().slice(-8)
+      });
       toast("Order placed! Payment: Cash on Delivery");
-      cart = []; activePromo = null;
-      saveCart();
-      document.getElementById("promo-input").value = "";
-      renderCart(); 
-      closeAddressModal();
+      cart = []; activePromo = null; saveCart(); renderCart();
+      document.getElementById("address-modal").style.display = "none";
       document.getElementById("cart-sidebar").classList.remove("open");
     };
 
-    async function renderOrdersList() {
-      if (!currentUser) return;
-      const snapshot = await get(ordersRef);
-      const ordersList = document.getElementById("orders-list");
-      if (snapshot.exists()) {
-        const myOrders = [];
-        snapshot.forEach(child => { const o = child.val(); if (o.customerId === currentUser.uid) myOrders.push({ id: child.key, ...o }); });
-        myOrders.sort((a,b) => b.createdAt - a.createdAt);
-        if (!myOrders.length) { ordersList.innerHTML = `<div style="text-align: center; padding: 40px; color: #a1a1aa;">No orders yet</div>`; }
-        else {
-          ordersList.innerHTML = myOrders.map(o => {
-            let statusClass = "status-pending";
-            if (o.status === "confirmed") statusClass = "status-confirmed";
-            else if (o.status === "shipped") statusClass = "status-shipped";
-            else if (o.status === "delivered") statusClass = "status-delivered";
-            return `<div class="glass" style="padding: 12px; border-radius: 12px;">
-              <div style="display: flex; justify-content: space-between; margin-bottom: 8px;"><span style="font-size: 10px; color: #a1a1aa;">${o.orderId}</span><span class="${statusClass}">${(o.status || 'pending').toUpperCase()}</span></div>
-              <p style="font-size: 9px; color: #a1a1aa; margin-bottom: 8px;">${new Date(o.createdAt).toLocaleString()}</p>
-              <div style="border-top: 1px solid rgba(255,255,255,0.05); padding-top: 8px;">${o.items ? o.items.map(i => `<div style="display: flex; justify-content: space-between; font-size: 11px;"><span>${i.name}</span><span>₹${i.price.toLocaleString()}</span></div>`).join("") : ""}</div>
-              <div style="border-top: 1px solid rgba(255,255,255,0.05); margin-top: 8px; padding-top: 8px; display: flex; justify-content: space-between; font-weight: bold;"><span>Total</span><span>₹${o.total?.toLocaleString() || 0}</span></div>
-            </div>`;
-          }).join("");
-        }
-      } else { ordersList.innerHTML = `<div style="text-align: center; padding: 40px; color: #a1a1aa;">No orders found</div>`; }
-    }
-
     window.openOrderTracking = async () => {
       if (!currentUser) { toast("Please login to view orders", true); openLoginModal(); return; }
-      document.getElementById("tracking-modal").style.display = "flex";
-      await renderOrdersList();
+      const snapshot = await get(ordersRef);
+      const ordersDiv = document.getElementById("orders-list");
+      if (snapshot.exists()) {
+        const myOrders = [];
+        snapshot.forEach(child => { const o = child.val(); if (o.customerId === currentUser.uid) myOrders.push(o); });
+        myOrders.sort((a,b) => b.createdAt - a.createdAt);
+        if (!myOrders.length) ordersDiv.innerHTML = '<div style="text-align: center; padding: 40px;">No orders yet</div>';
+        else {
+          ordersDiv.innerHTML = myOrders.map(o => `
+            <div style="background: rgba(255,255,255,0.05); padding: 15px; border-radius: 16px; margin-bottom: 12px;">
+              <div style="display: flex; justify-content: space-between;"><span style="font-size: 12px; color: #a1a1aa;">${o.orderId}</span><span class="status-${o.status || 'pending'}">${(o.status || 'pending').toUpperCase()}</span></div>
+              <p style="font-size: 10px; color: #a1a1aa; margin: 8px 0;">${new Date(o.createdAt).toLocaleString()}</p>
+              ${o.items.map(i => `<div style="display: flex; justify-content: space-between; font-size: 13px; padding: 5px 0;"><span>${i.name}</span><span>₹${i.price.toLocaleString()}</span></div>`).join('')}
+              <div style="border-top: 1px solid rgba(255,255,255,0.1); margin-top: 10px; padding-top: 10px; display: flex; justify-content: space-between; font-weight: bold;"><span>Total</span><span>₹${o.total.toLocaleString()}</span></div>
+            </div>
+          `).join('');
+        }
+      } else ordersDiv.innerHTML = '<div style="text-align: center; padding: 40px;">No orders found</div>';
+      document.getElementById("orders-modal").style.display = "flex";
     };
 
-    window.closeTrackingModal = () => { document.getElementById("tracking-modal").style.display = "none"; };
-
-    document.getElementById("search")?.addEventListener("input", filterAndRenderProducts);
-    document.getElementById("filter")?.addEventListener("change", filterAndRenderProducts);
-
+    document.getElementById("search").addEventListener("input", filterAndRenderProducts);
+    document.getElementById("filter").addEventListener("change", filterAndRenderProducts);
     onAuthStateChanged(auth, async (user) => {
-      currentUser = user;
-      updateAuthUI();
-      if (user) { await loadWishlist(); loadCart(); filterAndRenderProducts(); await renderOrdersList(); } 
+      currentUser = user; updateAuthUI();
+      if (user) { await loadWishlist(); loadCart(); filterAndRenderProducts(); } 
       else { wishlist = []; cart = []; updateWishlistCounters(); renderCart(); filterAndRenderProducts(); }
     });
-
     filterAndRenderProducts();
-    window.selectPaymentMethod = selectPaymentMethod;
   </script>
 </body>
 </html>
