@@ -166,7 +166,18 @@
       font-weight: bold;
     }
 
+    /* FIXED: Banner responsive */
+    .hero-banner-container {
+      aspect-ratio: 16 / 9;
+      max-height: 450px;
+    }
+    
     @media (max-width: 768px) {
+      .hero-banner-container {
+        aspect-ratio: 16 / 10;
+        max-height: 280px;
+      }
+      
       .glass-card {
         border-radius: 16px;
       }
@@ -175,11 +186,20 @@
         bottom: 70px;
         font-size: 12px;
         padding: 8px 16px;
-        white-space: nowrap;
+        white-space: normal;
+        text-align: center;
+        max-width: 90%;
       }
       
       input, select, button {
         font-size: 16px !important;
+      }
+      
+      /* FIXED: Order modal full screen on mobile */
+      .orders-modal-content {
+        min-height: 100vh;
+        border-radius: 0 !important;
+        margin: 0 !important;
       }
     }
 
@@ -189,6 +209,15 @@
     input:-webkit-autofill:active {
       -webkit-box-shadow: 0 0 0 30px #1a1a1a inset !important;
       -webkit-text-fill-color: white !important;
+    }
+    
+    /* Payment option styles */
+    .payment-option {
+      transition: all 0.2s ease;
+    }
+    .payment-option.selected {
+      border-color: #10b981;
+      background: rgba(16, 185, 129, 0.1);
     }
   </style>
 </head>
@@ -244,21 +273,25 @@
     CART <span id="floating-cart-count">0</span>
   </div>
 
-  <!-- HERO SECTION -->
-  <section id="hero-section" class="pt-20 md:pt-28 pb-8 px-4 relative">
-    <div id="hero-banner" class="max-w-7xl mx-auto rounded-2xl md:rounded-3xl overflow-hidden relative bg-cover bg-center min-h-[300px] md:min-h-[450px] flex items-center transition-all duration-500"
-      style="background-image: url('https://images.unsplash.com/photo-1542291026-7eec264c27ff?q=80&w=1200&auto=format&fit=crop');">
-      <div class="absolute inset-0 bg-black/40"></div>
-      <div class="relative z-10 max-w-2xl p-5 md:p-10">
-        <p id="banner-subtitle" class="uppercase tracking-wider text-zinc-300 text-[10px] md:text-xs mb-1 md:mb-2">Limited Release</p>
-        <h1 id="banner-title" class="text-3xl md:text-6xl lg:text-7xl font-black leading-tight">FUTURE SNEAKERS</h1>
-        <p id="banner-desc" class="text-zinc-200 text-sm md:text-base mt-2 max-w-lg">Premium sneakers engineered with futuristic aesthetics.</p>
-        <button onclick="document.getElementById('products-container').scrollIntoView({behavior:'smooth'})"
-          class="mt-4 md:mt-6 bg-white text-black px-5 py-2 md:px-6 md:py-3 rounded-full font-black text-sm md:text-base w-auto transition active:scale-95">
-          EXPLORE NOW
-        </button>
+  <!-- HERO SECTION - FIXED BANNER SIZE -->
+  <section id="hero-section" class="pt-20 md:pt-28 pb-6 px-4 relative">
+    <div class="hero-banner-container max-w-7xl mx-auto rounded-2xl md:rounded-3xl overflow-hidden relative w-full">
+      <div id="hero-banner" class="absolute inset-0 bg-cover bg-center transition-all duration-500"
+        style="background-image: url('https://images.unsplash.com/photo-1542291026-7eec264c27ff?q=80&w=1200&auto=format&fit=crop');">
       </div>
-      <div id="banner-dots" class="banner-dots absolute bottom-3 left-1/2 transform -translate-x-1/2 flex gap-2 z-20"></div>
+      <div class="absolute inset-0 bg-black/40"></div>
+      <div class="relative z-10 flex items-center justify-start h-full p-5 md:p-10">
+        <div class="max-w-2xl">
+          <p id="banner-subtitle" class="uppercase tracking-wider text-zinc-300 text-[10px] md:text-xs mb-1 md:mb-2">Limited Release</p>
+          <h1 id="banner-title" class="text-2xl md:text-5xl lg:text-6xl font-black leading-tight">FUTURE SNEAKERS</h1>
+          <p id="banner-desc" class="text-zinc-200 text-sm md:text-base mt-2 max-w-lg">Premium sneakers engineered with futuristic aesthetics.</p>
+          <button onclick="document.getElementById('products-container').scrollIntoView({behavior:'smooth'})"
+            class="mt-3 md:mt-5 bg-white text-black px-4 py-1.5 md:px-6 md:py-2.5 rounded-full font-black text-sm md:text-base transition active:scale-95">
+            SHOP NOW
+          </button>
+        </div>
+      </div>
+      <div id="banner-dots" class="absolute bottom-3 left-1/2 transform -translate-x-1/2 flex gap-2 z-20"></div>
     </div>
   </section>
 
@@ -315,14 +348,17 @@
     </div>
   </div>
 
-  <!-- ADDRESS MODAL -->
+  <!-- ADDRESS & PAYMENT MODAL -->
   <div id="address-modal" class="hidden fixed inset-0 z-[70] modal flex items-end md:items-center justify-center p-0 md:p-5">
-    <div class="max-w-2xl w-full bg-zinc-950 rounded-t-2xl md:rounded-2xl p-5 md:p-8 max-h-[85vh] overflow-y-auto border-t border-white/10 md:border">
-      <div class="flex justify-between items-center mb-5">
-        <h2 class="text-xl md:text-2xl font-bold">Delivery Address</h2>
+    <div class="max-w-2xl w-full bg-zinc-950 rounded-t-2xl md:rounded-2xl p-5 md:p-8 max-h-[90vh] overflow-y-auto border-t border-white/10 md:border">
+      <div class="flex justify-between items-center mb-5 sticky top-0 bg-zinc-950 py-2">
+        <h2 class="text-xl md:text-2xl font-bold">Delivery & Payment</h2>
         <button onclick="closeAddressModal()" class="text-gray-400 text-2xl">&times;</button>
       </div>
-      <div class="space-y-3">
+      
+      <!-- Address Section -->
+      <h3 class="text-base font-bold mb-3 text-zinc-400">Shipping Address</h3>
+      <div class="space-y-3 mb-6">
         <input id="full-name" type="text" placeholder="Full name" autocomplete="off" class="w-full p-3 rounded-xl bg-white/10 border border-white/10 outline-none text-base">
         <input id="phone" type="tel" placeholder="Phone number" autocomplete="off" class="w-full p-3 rounded-xl bg-white/10 border border-white/10 outline-none text-base">
         <input id="address-line" type="text" placeholder="Street address" autocomplete="off" class="w-full p-3 rounded-xl bg-white/10 border border-white/10 outline-none text-base">
@@ -330,19 +366,61 @@
           <input id="city" type="text" placeholder="City" autocomplete="off" class="w-full p-3 rounded-xl bg-white/10 border border-white/10 outline-none text-base">
           <input id="pincode" type="text" placeholder="Pincode" autocomplete="off" class="w-full p-3 rounded-xl bg-white/10 border border-white/10 outline-none text-base">
         </div>
-        <button onclick="placeOrderWithAddress()" class="w-full bg-white text-black py-3 rounded-xl font-bold mt-4 transition active:scale-95 text-base">PLACE ORDER</button>
       </div>
+      
+      <!-- Payment Options Section - NEW -->
+      <h3 class="text-base font-bold mb-3 text-zinc-400">Payment Method</h3>
+      <div class="space-y-3 mb-6">
+        <div id="payment-cod" class="payment-option glass p-4 rounded-xl cursor-pointer border-2 border-transparent flex items-center justify-between" onclick="selectPaymentMethod('cod')">
+          <div>
+            <span class="font-bold">Cash on Delivery</span>
+            <p class="text-xs text-zinc-400 mt-1">Pay when you receive the order</p>
+          </div>
+          <div class="w-5 h-5 rounded-full border-2 border-white/30 flex items-center justify-center">
+            <div id="cod-check" class="w-3 h-3 rounded-full bg-green-500 hidden"></div>
+          </div>
+        </div>
+        <div id="payment-online" class="payment-option glass p-4 rounded-xl cursor-pointer border-2 border-transparent flex items-center justify-between" onclick="selectPaymentMethod('online')">
+          <div>
+            <span class="font-bold">Online Payment</span>
+            <p class="text-xs text-zinc-400 mt-1">UPI, Card, NetBanking</p>
+          </div>
+          <div class="w-5 h-5 rounded-full border-2 border-white/30 flex items-center justify-center">
+            <div id="online-check" class="w-3 h-3 rounded-full bg-green-500 hidden"></div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Order Summary -->
+      <div class="border-t border-white/10 pt-4 mb-4">
+        <div class="flex justify-between text-sm mb-2">
+          <span>Subtotal</span>
+          <span id="modal-subtotal">₹0</span>
+        </div>
+        <div id="modal-discount-row" class="flex justify-between text-sm text-green-400 hidden">
+          <span>Discount</span>
+          <span id="modal-discount">-₹0</span>
+        </div>
+        <div class="flex justify-between text-lg font-bold mt-2 pt-2 border-t border-white/10">
+          <span>Total to Pay</span>
+          <span id="modal-total">₹0</span>
+        </div>
+      </div>
+      
+      <button onclick="placeOrderWithPayment()" class="w-full bg-white text-black py-3 rounded-xl font-bold mt-2 transition active:scale-95 text-base">
+        PLACE ORDER
+      </button>
     </div>
   </div>
 
-  <!-- ORDERS MODAL - FIXED STATUS DISPLAY -->
-  <div id="tracking-modal" class="hidden fixed inset-0 z-[70] modal flex items-end md:items-center justify-center p-0 md:p-5">
-    <div class="max-w-4xl w-full bg-zinc-950 rounded-t-2xl md:rounded-2xl p-5 md:p-8 max-h-[80vh] overflow-y-auto border-t border-white/10 md:border">
+  <!-- ORDERS MODAL - FIXED FULL SCREEN ON MOBILE -->
+  <div id="tracking-modal" class="hidden fixed inset-0 z-[70] modal flex items-center justify-center p-0 md:p-5">
+    <div class="orders-modal-content max-w-4xl w-full bg-zinc-950 rounded-t-2xl md:rounded-2xl p-5 md:p-8 max-h-[90vh] overflow-y-auto border-t border-white/10 md:border" style="min-height: auto;">
       <div class="flex justify-between items-center mb-5 sticky top-0 bg-zinc-950 py-2">
         <h2 class="text-xl md:text-2xl font-bold">My Orders</h2>
         <button onclick="closeTrackingModal()" class="text-gray-400 text-2xl">&times;</button>
       </div>
-      <div id="orders-list" class="space-y-3"></div>
+      <div id="orders-list" class="space-y-3 pb-4"></div>
     </div>
   </div>
 
@@ -407,12 +485,7 @@
       getFirestore, 
       doc, 
       setDoc, 
-      getDoc,
-      collection,
-      addDoc,
-      query,
-      where,
-      getDocs
+      getDoc
     } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
     import { getDatabase, ref, onValue, push, set, get, update, onChildChanged } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
 
@@ -439,9 +512,9 @@
     let wishlist = [];
     let currentUser = null;
     let activePromo = null;
-    let allOrders = [];
+    let selectedPaymentMethod = "cod";
     
-    let bannerImages = []; let bannerTitles = []; let bannerSubtitles = []; let bannerDescs = [];
+    let bannerImages = []; let bannerTitles = [];
     let currentBannerIndex = 0; let bannerInterval = null;
     let viewingWishlist = false;
 
@@ -455,6 +528,22 @@
       el.innerText = msg;
       document.body.appendChild(el);
       setTimeout(() => el.remove(), 2500);
+    }
+
+    function selectPaymentMethod(method) {
+      selectedPaymentMethod = method;
+      document.getElementById("cod-check").classList.add("hidden");
+      document.getElementById("online-check").classList.add("hidden");
+      document.getElementById("payment-cod").classList.remove("border-green-500", "bg-green-500/10");
+      document.getElementById("payment-online").classList.remove("border-green-500", "bg-green-500/10");
+      
+      if (method === "cod") {
+        document.getElementById("cod-check").classList.remove("hidden");
+        document.getElementById("payment-cod").classList.add("border-green-500", "bg-green-500/10");
+      } else {
+        document.getElementById("online-check").classList.remove("hidden");
+        document.getElementById("payment-online").classList.add("border-green-500", "bg-green-500/10");
+      }
     }
 
     function updateAuthUI() {
@@ -688,23 +777,6 @@
       filterAndRenderProducts();
     });
 
-    // Listen for order status updates from admin
-    function listenForOrderUpdates() {
-      onChildChanged(ordersRef, (snapshot) => {
-        const updatedOrder = { id: snapshot.key, ...snapshot.val() };
-        if (updatedOrder.customerId === currentUser?.uid) {
-          const orderIndex = allOrders.findIndex(o => o.id === updatedOrder.id);
-          if (orderIndex !== -1) {
-            allOrders[orderIndex] = updatedOrder;
-          } else {
-            allOrders.push(updatedOrder);
-          }
-          renderOrdersList();
-          toast(`Order ${updatedOrder.orderId} status updated to ${updatedOrder.status}`);
-        }
-      });
-    }
-
     function filterAndRenderProducts() {
       const searchQuery = document.getElementById("search").value.toLowerCase();
       const categoryFilter = document.getElementById("filter").value;
@@ -748,18 +820,33 @@
     window.initiateCheckout = () => {
       if (!currentUser) { toast("Please login to checkout", true); openLoginModal(); return; }
       if (cart.length === 0) { toast("Cart empty", true); return; }
+      
+      const subtotal = cart.reduce((sum, item) => sum + item.price, 0);
+      let total = subtotal;
+      if (activePromo) {
+        let discountVal = activePromo.type === "percentage" ? Math.floor(subtotal * (activePromo.value / 100)) : activePromo.value;
+        total = Math.max(0, subtotal - discountVal);
+        document.getElementById("modal-discount-row").classList.remove("hidden");
+        document.getElementById("modal-discount").innerText = `-₹${discountVal.toLocaleString()}`;
+      } else {
+        document.getElementById("modal-discount-row").classList.add("hidden");
+      }
+      
+      document.getElementById("modal-subtotal").innerText = `₹${subtotal.toLocaleString()}`;
+      document.getElementById("modal-total").innerText = `₹${total.toLocaleString()}`;
+      
       document.getElementById("address-modal").classList.remove("hidden");
       document.getElementById("full-name").value = "";
       document.getElementById("phone").value = "";
       document.getElementById("address-line").value = "";
       document.getElementById("city").value = "";
       document.getElementById("pincode").value = "";
+      selectPaymentMethod("cod");
     };
 
     window.closeAddressModal = () => { document.getElementById("address-modal").classList.add("hidden"); };
 
-    // FIXED: Order placement with correct status "pending" not "Confirmed"
-    window.placeOrderWithAddress = async () => {
+    window.placeOrderWithPayment = async () => {
       const fullName = document.getElementById("full-name").value.trim();
       const phone = document.getElementById("phone").value.trim();
       const address = document.getElementById("address-line").value.trim();
@@ -780,15 +867,16 @@
         items: cart.map(i => ({ name: i.name, price: i.price, id: i.id })),
         total: totalAmount,
         address: addressData,
+        paymentMethod: selectedPaymentMethod === "cod" ? "Cash on Delivery" : "Online Payment",
         customerId: currentUser.uid,
         customerEmail: currentUser.email,
         createdAt: Date.now(),
-        status: "pending",  // FIXED: Status is "pending" not "Confirmed"
+        status: "pending",
         orderId: "ORD" + Date.now().toString().slice(-8)
       };
 
       await push(ordersRef, orderData);
-      toast("Order placed successfully! Status: Pending");
+      toast(`Order placed! Payment: ${orderData.paymentMethod}`);
       cart = []; 
       activePromo = null;
       saveCart();
@@ -799,7 +887,6 @@
       document.getElementById("cart").classList.add("hidden");
     };
 
-    // FIXED: Orders list with proper status display
     async function renderOrdersList() {
       if (!currentUser) return;
       
@@ -824,7 +911,7 @@
             else if (o.status === "delivered") statusClass = "status-delivered";
             
             return `<div class="glass p-3 rounded-xl">
-              <div class="flex justify-between items-center mb-2">
+              <div class="flex justify-between items-center mb-2 flex-wrap gap-2">
                 <span class="font-mono text-xs text-zinc-400">${o.orderId}</span>
                 <span class="${statusClass}">${(o.status || 'pending').toUpperCase()}</span>
               </div>
@@ -837,6 +924,7 @@
                 <span>₹${o.total?.toLocaleString() || 0}</span>
               </div>
               <div class="text-[10px] text-zinc-500 mt-2">
+                Payment: ${o.paymentMethod || "Cash on Delivery"}<br>
                 Delivery to: ${o.address?.fullName}, ${o.address?.city}
               </div>
             </div>`;
@@ -877,7 +965,6 @@
 
     loadBanners(); 
     updateWishlistCounters();
-    listenForOrderUpdates();
   </script>
 </body>
 </html>
