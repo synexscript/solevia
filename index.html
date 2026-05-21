@@ -20,17 +20,27 @@
   <style>
     * {
       font-family: 'Inter', sans-serif;
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
     }
 
     body {
-      background: black;
-      color: white;
+      background: #000000;
+      color: #ffffff;
       overflow-x: hidden;
       min-height: 100vh;
+      width: 100%;
     }
 
-    /* Main container - FULL WIDTH */
-    .main-container {
+    /* Main container - FULL WIDTH FIX */
+    .main-wrapper {
+      width: 100%;
+      max-width: 100%;
+      overflow-x: hidden;
+    }
+
+    .container-custom {
       width: 100%;
       max-width: 1400px;
       margin: 0 auto;
@@ -179,33 +189,69 @@
       display: inline-block;
     }
 
-    /* Products grid - FULL WIDTH */
+    /* Products grid - FULL WIDTH FIX */
     .products-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-      gap: 20px;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 16px;
       width: 100%;
+    }
+    
+    @media (min-width: 640px) {
+      .products-grid {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 20px;
+      }
+    }
+    
+    @media (min-width: 1024px) {
+      .products-grid {
+        grid-template-columns: repeat(4, 1fr);
+        gap: 24px;
+      }
+    }
+
+    /* Product card - FULL WIDTH */
+    .product-card {
+      width: 100%;
+      overflow: hidden;
+    }
+    
+    .product-card img {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+    }
+    
+    @media (min-width: 768px) {
+      .product-card img {
+        height: 250px;
+      }
     }
 
     /* Hero banner - PROPER SIZE */
     .hero-banner-container {
       width: 100%;
-      aspect-ratio: 16 / 6;
+      aspect-ratio: 16 / 7;
       max-height: 400px;
-      border-radius: 24px;
+      border-radius: 20px;
       overflow: hidden;
+      position: relative;
     }
     
     @media (max-width: 768px) {
       .hero-banner-container {
-        aspect-ratio: 16 / 9;
-        max-height: 220px;
+        aspect-ratio: 16 / 10;
+        max-height: 250px;
         border-radius: 16px;
       }
       
       .products-grid {
-        grid-template-columns: repeat(2, 1fr);
         gap: 12px;
+      }
+      
+      .product-card img {
+        height: 150px;
       }
       
       .toast {
@@ -226,20 +272,6 @@
       }
     }
 
-    @media (min-width: 768px) and (max-width: 1024px) {
-      .products-grid {
-        grid-template-columns: repeat(3, 1fr);
-        gap: 16px;
-      }
-    }
-
-    @media (min-width: 1024px) {
-      .products-grid {
-        grid-template-columns: repeat(4, 1fr);
-        gap: 24px;
-      }
-    }
-
     input:-webkit-autofill,
     input:-webkit-autofill:hover,
     input:-webkit-autofill:focus,
@@ -251,6 +283,7 @@
     /* Payment option styles */
     .payment-option {
       transition: all 0.2s ease;
+      cursor: pointer;
     }
     .payment-option.selected {
       border-color: #10b981;
@@ -263,264 +296,271 @@
       overflow-y: auto;
     }
     
-    /* Modal full content */
-    .modal-content-full {
-      max-height: 85vh;
-      overflow-y: auto;
+    /* Remove body margin/padding issues */
+    body {
+      margin: 0;
+      padding: 0;
+    }
+    
+    /* Full width sections */
+    section {
+      width: 100%;
     }
   </style>
 </head>
 
-<body class="pb-20 md:pb-0">
+<body>
 
-  <!-- NAVBAR -->
-  <div class="fixed top-0 left-0 w-full z-50 bg-black/80 backdrop-blur-xl border-b border-white/10">
-    <div class="max-w-7xl mx-auto px-4 py-3 flex justify-between items-center">
-      <h1 class="text-xl md:text-2xl font-black tracking-tight cursor-pointer" 
-        onclick="window.scrollTo({top:0,behavior:'smooth'})">
-        .SOLEVIA
-      </h1>
+  <div class="main-wrapper">
+    <!-- NAVBAR -->
+    <div class="fixed top-0 left-0 w-full z-50 bg-black/80 backdrop-blur-xl border-b border-white/10">
+      <div class="container-custom py-3 flex justify-between items-center">
+        <h1 class="text-xl md:text-2xl font-black tracking-tight cursor-pointer" 
+          onclick="window.scrollTo({top:0,behavior:'smooth'})">
+          .SOLEVIA
+        </h1>
 
-      <div class="hidden md:flex gap-2 items-center">
-        <div id="auth-desktop" class="flex gap-2 items-center"></div>
-        <button onclick="openOrderTracking()" class="glass px-4 py-2 rounded-lg text-sm font-semibold hover:bg-white/10 transition">
-          ORDERS
-        </button>
-        <button onclick="toggleWishlistView()" class="glass px-4 py-2 rounded-lg text-sm font-semibold hover:bg-white/10 transition">
-          WISHLIST (<span id="wishlist-count-nav">0</span>)
-        </button>
-        <button onclick="toggleCart()" class="glass px-4 py-2 rounded-lg text-sm font-semibold flex items-center gap-2 hover:bg-white/10 transition">
-          CART <span id="cart-count" class="bg-white/20 px-2 py-0.5 rounded-full text-xs min-w-[22px]">0</span>
-        </button>
-      </div>
-    </div>
-  </div>
-
-  <!-- MOBILE BOTTOM NAVIGATION -->
-  <div class="md:hidden fixed bottom-0 left-0 w-full bg-black/90 backdrop-blur-2xl border-t border-white/10 z-[65] grid grid-cols-4">
-    <button onclick="window.scrollTo({top:0,behavior:'smooth'}); showMainProducts();" class="flex flex-col items-center justify-center py-3 text-zinc-400 active:text-white transition">
-      <span class="text-base">SHOP</span>
-      <span class="text-[9px] font-bold mt-0.5">HOME</span>
-    </button>
-    <button onclick="toggleWishlistView()" class="flex flex-col items-center justify-center py-3 text-zinc-400 active:text-white relative transition">
-      <span class="text-base">WISH</span>
-      <span class="text-[9px] font-bold mt-0.5">LIST</span>
-      <span id="wishlist-count-mob" class="absolute top-0 right-6 bg-white text-black text-[8px] font-black rounded-full px-1.5 py-0.5 min-w-[16px] text-center">0</span>
-    </button>
-    <button onclick="toggleCart()" class="flex flex-col items-center justify-center py-3 text-zinc-400 active:text-white relative transition">
-      <span class="text-base">CART</span>
-      <span id="cart-count-mob" class="absolute top-0 right-6 bg-red-600 text-white text-[8px] font-black rounded-full px-1.5 py-0.5 min-w-[16px] text-center">0</span>
-    </button>
-    <button onclick="openOrderTracking()" class="flex flex-col items-center justify-center py-3 text-zinc-400 active:text-white transition">
-      <span class="text-base">ORDER</span>
-      <span class="text-[9px] font-bold mt-0.5">TRACK</span>
-    </button>
-  </div>
-
-  <!-- FLOATING CART BUTTON -->
-  <div class="hidden md:flex floating-cart" onclick="toggleCart()">
-    CART <span id="floating-cart-count">0</span>
-  </div>
-
-  <!-- HERO SECTION - FIXED BANNER -->
-  <section id="hero-section" class="pt-20 md:pt-28 pb-6 px-4">
-    <div class="hero-banner-container max-w-7xl mx-auto relative">
-      <div id="hero-banner" class="absolute inset-0 bg-cover bg-center transition-all duration-500 rounded-inherit"
-        style="background-image: url('https://images.unsplash.com/photo-1542291026-7eec264c27ff?q=80&w=1200&auto=format&fit=crop');">
-      </div>
-      <div class="absolute inset-0 bg-black/40 rounded-inherit"></div>
-      <div class="relative z-10 flex items-center justify-start h-full p-5 md:p-10">
-        <div class="max-w-2xl">
-          <p id="banner-subtitle" class="uppercase tracking-wider text-zinc-300 text-[10px] md:text-xs mb-1">Limited Release</p>
-          <h1 id="banner-title" class="text-xl md:text-4xl lg:text-5xl font-black leading-tight">FUTURE SNEAKERS</h1>
-          <p id="banner-desc" class="text-zinc-200 text-xs md:text-sm mt-1 max-w-lg">Premium sneakers engineered with futuristic aesthetics.</p>
-          <button onclick="document.getElementById('products-container').scrollIntoView({behavior:'smooth'})"
-            class="mt-2 md:mt-4 bg-white text-black px-4 py-1.5 md:px-5 md:py-2 rounded-full font-black text-xs md:text-sm transition active:scale-95">
-            SHOP NOW
+        <div class="hidden md:flex gap-2 items-center">
+          <div id="auth-desktop" class="flex gap-2 items-center"></div>
+          <button onclick="openOrderTracking()" class="glass px-4 py-2 rounded-lg text-sm font-semibold hover:bg-white/10 transition">
+            ORDERS
+          </button>
+          <button onclick="toggleWishlistView()" class="glass px-4 py-2 rounded-lg text-sm font-semibold hover:bg-white/10 transition">
+            WISHLIST (<span id="wishlist-count-nav">0</span>)
+          </button>
+          <button onclick="toggleCart()" class="glass px-4 py-2 rounded-lg text-sm font-semibold flex items-center gap-2 hover:bg-white/10 transition">
+            CART <span id="cart-count" class="bg-white/20 px-2 py-0.5 rounded-full text-xs min-w-[22px]">0</span>
           </button>
         </div>
       </div>
-      <div id="banner-dots" class="absolute bottom-2 left-1/2 transform -translate-x-1/2 flex gap-1.5 z-20"></div>
     </div>
-  </section>
 
-  <!-- FILTER -->
-  <section class="px-4 pb-4">
-    <div class="max-w-7xl mx-auto flex flex-col md:flex-row gap-3">
-      <input type="search" id="search" placeholder="Search products..." autocomplete="off" class="glass px-4 py-3 rounded-xl bg-transparent outline-none text-sm w-full">
-      <select id="filter" class="glass px-4 py-3 rounded-xl bg-black outline-none text-sm cursor-pointer w-full md:w-48">
-        <option value="all">All Categories</option>
-        <option value="Running">Running</option>
-        <option value="Streetwear">Streetwear</option>
-        <option value="Basketball">Basketball</option>
-      </select>
-    </div>
-  </section>
-
-  <!-- PRODUCTS GRID - FULL WIDTH -->
-  <section id="products-container" class="px-4 pb-24">
-    <div class="max-w-7xl mx-auto">
-      <div class="flex justify-between items-center mb-4 md:mb-6">
-        <h2 id="grid-title" class="text-xl md:text-3xl font-black tracking-tighter">Latest Drops</h2>
-        <div id="product-count" class="glass px-3 py-1.5 rounded-full text-xs font-bold">LOADING</div>
-      </div>
-      <div id="products" class="products-grid">
-        <div class="glass rounded-xl h-[280px] md:h-[320px] animate-pulse"></div>
-        <div class="glass rounded-xl h-[280px] md:h-[320px] animate-pulse"></div>
-        <div class="glass rounded-xl h-[280px] md:h-[320px] animate-pulse"></div>
-        <div class="glass rounded-xl h-[280px] md:h-[320px] animate-pulse"></div>
-      </div>
-    </div>
-  </section>
-
-  <!-- LOGIN MODAL -->
-  <div id="login-modal" class="hidden fixed inset-0 z-[100] modal flex items-center justify-center p-4">
-    <div class="max-w-md w-full bg-zinc-900 rounded-2xl p-6 border border-white/10">
-      <div class="flex justify-between items-center mb-5">
-        <h2 class="text-xl md:text-2xl font-bold">Login</h2>
-        <button onclick="closeLoginModal()" class="text-gray-400 hover:text-white text-2xl">&times;</button>
-      </div>
-      <div id="login-form">
-        <div class="space-y-3">
-          <input type="email" id="login-email" placeholder="Email address" autocomplete="off" class="w-full p-3 rounded-lg bg-white/10 border border-white/10 outline-none text-white text-base">
-          <input type="password" id="login-password" placeholder="Password" autocomplete="new-password" class="w-full p-3 rounded-lg bg-white/10 border border-white/10 outline-none text-white text-base">
-          <button onclick="handleLogin()" class="w-full bg-white text-black py-3 rounded-lg font-semibold hover:bg-gray-200 transition text-base">Login</button>
-          <p class="text-center text-gray-400 text-sm">No account? <button onclick="switchToSignup()" class="text-white underline">Create account</button></p>
-        </div>
-      </div>
-      <div id="signup-form" class="hidden">
-        <div class="space-y-3">
-          <input type="text" id="signup-name" placeholder="Full name" autocomplete="off" class="w-full p-3 rounded-lg bg-white/10 border border-white/10 outline-none text-white text-base">
-          <input type="email" id="signup-email" placeholder="Email address" autocomplete="off" class="w-full p-3 rounded-lg bg-white/10 border border-white/10 outline-none text-white text-base">
-          <input type="password" id="signup-password" placeholder="Password (min 6 characters)" autocomplete="new-password" class="w-full p-3 rounded-lg bg-white/10 border border-white/10 outline-none text-white text-base">
-          <button onclick="handleSignup()" class="w-full bg-white text-black py-3 rounded-lg font-semibold hover:bg-gray-200 transition text-base">Create account</button>
-          <p class="text-center text-gray-400 text-sm">Have an account? <button onclick="switchToLogin()" class="text-white underline">Login</button></p>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- ADDRESS & PAYMENT MODAL -->
-  <div id="address-modal" class="hidden fixed inset-0 z-[70] modal flex items-end md:items-center justify-center p-0 md:p-5">
-    <div class="max-w-2xl w-full bg-zinc-950 rounded-t-2xl md:rounded-2xl p-5 md:p-8 max-h-[90vh] overflow-y-auto border-t border-white/10 md:border">
-      <div class="flex justify-between items-center mb-5 sticky top-0 bg-zinc-950 py-2 z-10">
-        <h2 class="text-xl md:text-2xl font-bold">Delivery & Payment</h2>
-        <button onclick="closeAddressModal()" class="text-gray-400 text-2xl">&times;</button>
-      </div>
-      
-      <!-- Address Section -->
-      <h3 class="text-sm font-bold mb-3 text-zinc-400">Shipping Address</h3>
-      <div class="space-y-3 mb-6">
-        <input id="full-name" type="text" placeholder="Full name" autocomplete="off" class="w-full p-3 rounded-xl bg-white/10 border border-white/10 outline-none text-base">
-        <input id="phone" type="tel" placeholder="Phone number" autocomplete="off" class="w-full p-3 rounded-xl bg-white/10 border border-white/10 outline-none text-base">
-        <input id="address-line" type="text" placeholder="Street address" autocomplete="off" class="w-full p-3 rounded-xl bg-white/10 border border-white/10 outline-none text-base">
-        <div class="grid grid-cols-2 gap-3">
-          <input id="city" type="text" placeholder="City" autocomplete="off" class="w-full p-3 rounded-xl bg-white/10 border border-white/10 outline-none text-base">
-          <input id="pincode" type="text" placeholder="Pincode" autocomplete="off" class="w-full p-3 rounded-xl bg-white/10 border border-white/10 outline-none text-base">
-        </div>
-      </div>
-      
-      <!-- Payment Options Section -->
-      <h3 class="text-sm font-bold mb-3 text-zinc-400">Payment Method</h3>
-      <div class="space-y-3 mb-6">
-        <div id="payment-cod" class="payment-option glass p-4 rounded-xl cursor-pointer border-2 border-transparent flex items-center justify-between" onclick="selectPaymentMethod('cod')">
-          <div>
-            <span class="font-bold">Cash on Delivery</span>
-            <p class="text-xs text-zinc-400 mt-0.5">Pay when you receive the order</p>
-          </div>
-          <div class="w-5 h-5 rounded-full border-2 border-white/30 flex items-center justify-center">
-            <div id="cod-check" class="w-3 h-3 rounded-full bg-green-500 hidden"></div>
-          </div>
-        </div>
-        <div id="payment-online" class="payment-option glass p-4 rounded-xl cursor-pointer border-2 border-transparent flex items-center justify-between" onclick="selectPaymentMethod('online')">
-          <div>
-            <span class="font-bold">Online Payment</span>
-            <p class="text-xs text-zinc-400 mt-0.5">UPI, Card, NetBanking</p>
-          </div>
-          <div class="w-5 h-5 rounded-full border-2 border-white/30 flex items-center justify-center">
-            <div id="online-check" class="w-3 h-3 rounded-full bg-green-500 hidden"></div>
-          </div>
-        </div>
-      </div>
-      
-      <!-- Order Summary -->
-      <div class="border-t border-white/10 pt-4 mb-4">
-        <div class="flex justify-between text-sm mb-2">
-          <span>Subtotal</span>
-          <span id="modal-subtotal">₹0</span>
-        </div>
-        <div id="modal-discount-row" class="flex justify-between text-sm text-green-400 hidden">
-          <span>Discount</span>
-          <span id="modal-discount">-₹0</span>
-        </div>
-        <div class="flex justify-between text-lg font-bold mt-2 pt-2 border-t border-white/10">
-          <span>Total to Pay</span>
-          <span id="modal-total">₹0</span>
-        </div>
-      </div>
-      
-      <button onclick="placeOrderWithPayment()" class="w-full bg-white text-black py-3 rounded-xl font-bold mt-2 transition active:scale-95 text-base">
-        PLACE ORDER
+    <!-- MOBILE BOTTOM NAVIGATION -->
+    <div class="md:hidden fixed bottom-0 left-0 w-full bg-black/90 backdrop-blur-2xl border-t border-white/10 z-[65] grid grid-cols-4">
+      <button onclick="window.scrollTo({top:0,behavior:'smooth'}); showMainProducts();" class="flex flex-col items-center justify-center py-3 text-zinc-400 active:text-white transition">
+        <span class="text-base">SHOP</span>
+        <span class="text-[9px] font-bold mt-0.5">HOME</span>
+      </button>
+      <button onclick="toggleWishlistView()" class="flex flex-col items-center justify-center py-3 text-zinc-400 active:text-white relative transition">
+        <span class="text-base">WISH</span>
+        <span class="text-[9px] font-bold mt-0.5">LIST</span>
+        <span id="wishlist-count-mob" class="absolute -top-1 right-5 bg-white text-black text-[8px] font-black rounded-full px-1.5 py-0.5 min-w-[16px] text-center">0</span>
+      </button>
+      <button onclick="toggleCart()" class="flex flex-col items-center justify-center py-3 text-zinc-400 active:text-white relative transition">
+        <span class="text-base">CART</span>
+        <span id="cart-count-mob" class="absolute -top-1 right-5 bg-red-600 text-white text-[8px] font-black rounded-full px-1.5 py-0.5 min-w-[16px] text-center">0</span>
+      </button>
+      <button onclick="openOrderTracking()" class="flex flex-col items-center justify-center py-3 text-zinc-400 active:text-white transition">
+        <span class="text-base">ORDER</span>
+        <span class="text-[9px] font-bold mt-0.5">TRACK</span>
       </button>
     </div>
-  </div>
 
-  <!-- ORDERS MODAL - FIXED -->
-  <div id="tracking-modal" class="hidden fixed inset-0 z-[70] modal flex items-center justify-center p-4 md:p-5">
-    <div class="max-w-4xl w-full bg-zinc-950 rounded-2xl p-5 md:p-8 max-h-[85vh] overflow-y-auto border border-white/10">
-      <div class="flex justify-between items-center mb-5 sticky top-0 bg-zinc-950 py-2 z-10">
-        <h2 class="text-xl md:text-2xl font-bold">My Orders</h2>
-        <button onclick="closeTrackingModal()" class="text-gray-400 text-2xl">&times;</button>
-      </div>
-      <div id="orders-list" class="space-y-3"></div>
+    <!-- FLOATING CART BUTTON -->
+    <div class="hidden md:flex floating-cart" onclick="toggleCart()">
+      CART <span id="floating-cart-count">0</span>
     </div>
-  </div>
 
-  <!-- PRODUCT DETAIL MODAL -->
-  <div id="modal" class="hidden fixed inset-0 z-50 modal flex items-end md:items-center justify-center p-0 md:p-5">
-    <div class="max-w-4xl w-full bg-zinc-950 rounded-t-2xl md:rounded-2xl overflow-hidden max-h-[90vh] overflow-y-auto">
-      <div class="relative h-[250px] md:h-[400px]">
-        <img id="modal-image" class="w-full h-full object-cover">
-        <button id="modal-wishlist-btn" class="absolute top-3 right-3 bg-black/60 backdrop-blur-md p-2 rounded-full text-lg border border-white/10">♡</button>
-        <button onclick="closeModal()" class="absolute top-3 left-3 bg-black/60 backdrop-blur-md p-2 rounded-full text-lg border border-white/10">&times;</button>
-      </div>
-      <div class="p-5 pb-8">
-        <p id="modal-category" class="uppercase text-zinc-500 text-xs tracking-wider"></p>
-        <h2 id="modal-name" class="text-2xl md:text-3xl font-bold mt-1"></h2>
-        <div class="mt-3 flex gap-2 items-center">
-          <span id="modal-price" class="text-2xl font-bold"></span>
-          <span id="modal-old" class="text-zinc-500 line-through text-sm"></span>
+    <!-- HERO SECTION -->
+    <section id="hero-section" class="pt-20 md:pt-28 pb-6 px-4">
+      <div class="hero-banner-container container-custom">
+        <div id="hero-banner" class="absolute inset-0 bg-cover bg-center transition-all duration-500"
+          style="background-image: url('https://images.unsplash.com/photo-1542291026-7eec264c27ff?q=80&w=1200&auto=format&fit=crop');">
         </div>
-        <p id="modal-desc" class="text-zinc-300 mt-3 leading-relaxed text-sm"></p>
-        <button onclick="addToCart(selectedProduct)" class="w-full bg-white text-black py-3 rounded-xl font-bold mt-5 transition active:scale-95 text-base">ADD TO CART</button>
+        <div class="absolute inset-0 bg-black/40"></div>
+        <div class="relative z-10 flex items-center justify-start h-full p-5 md:p-10">
+          <div class="max-w-2xl">
+            <p id="banner-subtitle" class="uppercase tracking-wider text-zinc-300 text-[10px] md:text-xs mb-1">Limited Release</p>
+            <h1 id="banner-title" class="text-xl md:text-4xl lg:text-5xl font-black leading-tight">FUTURE SNEAKERS</h1>
+            <p id="banner-desc" class="text-zinc-200 text-xs md:text-sm mt-1 max-w-lg">Premium sneakers engineered with futuristic aesthetics.</p>
+            <button onclick="document.getElementById('products-container').scrollIntoView({behavior:'smooth'})"
+              class="mt-2 md:mt-4 bg-white text-black px-4 py-1.5 md:px-5 md:py-2 rounded-full font-black text-xs md:text-sm transition active:scale-95">
+              SHOP NOW
+            </button>
+          </div>
+        </div>
+        <div id="banner-dots" class="absolute bottom-2 left-1/2 transform -translate-x-1/2 flex gap-1.5 z-20"></div>
       </div>
-    </div>
-  </div>
+    </section>
 
-  <!-- CART SIDEBAR -->
-  <div id="cart" class="cart-sidebar hidden fixed top-0 right-0 h-full w-full md:w-[400px] bg-black/95 backdrop-blur-2xl z-[60] border-l border-white/10 p-4 overflow-y-auto">
-    <div class="flex justify-between items-center mb-4 sticky top-0 bg-black py-2 z-10">
-      <h2 class="text-xl font-bold">Your Cart</h2>
-      <button onclick="toggleCart()" class="text-gray-400 text-2xl">&times;</button>
-    </div>
-    <div id="cart-items" class="space-y-3"></div>
-    
-    <div class="mt-4 pt-3 border-t border-white/10">
-      <p class="text-xs font-bold text-zinc-400 mb-2 uppercase">Promo code</p>
-      <div class="flex gap-2">
-        <input id="promo-input" type="text" placeholder="ENTER CODE" autocomplete="off" class="flex-1 bg-white/10 border border-white/10 px-3 py-2 rounded-lg outline-none text-xs uppercase">
-        <button onclick="applyPromoCode()" class="bg-zinc-200 text-black px-3 py-2 rounded-lg font-bold text-xs">APPLY</button>
+    <!-- FILTER -->
+    <section class="px-4 pb-4">
+      <div class="container-custom flex flex-col md:flex-row gap-3">
+        <input type="search" id="search" placeholder="Search products..." autocomplete="off" class="glass px-4 py-3 rounded-xl bg-transparent outline-none text-sm w-full">
+        <select id="filter" class="glass px-4 py-3 rounded-xl bg-black outline-none text-sm cursor-pointer w-full md:w-48">
+          <option value="all">All Categories</option>
+          <option value="Running">Running</option>
+          <option value="Streetwear">Streetwear</option>
+          <option value="Basketball">Basketball</option>
+        </select>
       </div>
-      <div id="promo-status" class="text-xs mt-2 hidden"></div>
+    </section>
+
+    <!-- PRODUCTS GRID - FULL WIDTH -->
+    <section id="products-container" class="px-4 pb-24">
+      <div class="container-custom">
+        <div class="flex justify-between items-center mb-4 md:mb-6">
+          <h2 id="grid-title" class="text-xl md:text-3xl font-black tracking-tighter">Latest Drops</h2>
+          <div id="product-count" class="glass px-3 py-1.5 rounded-full text-xs font-bold">LOADING</div>
+        </div>
+        <div id="products" class="products-grid">
+          <div class="glass rounded-xl h-[280px] md:h-[320px] animate-pulse"></div>
+          <div class="glass rounded-xl h-[280px] md:h-[320px] animate-pulse"></div>
+          <div class="glass rounded-xl h-[280px] md:h-[320px] animate-pulse"></div>
+          <div class="glass rounded-xl h-[280px] md:h-[320px] animate-pulse"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- LOGIN MODAL -->
+    <div id="login-modal" class="hidden fixed inset-0 z-[100] modal flex items-center justify-center p-4">
+      <div class="max-w-md w-full bg-zinc-900 rounded-2xl p-6 border border-white/10">
+        <div class="flex justify-between items-center mb-5">
+          <h2 class="text-xl md:text-2xl font-bold">Login</h2>
+          <button onclick="closeLoginModal()" class="text-gray-400 hover:text-white text-2xl">&times;</button>
+        </div>
+        <div id="login-form">
+          <div class="space-y-3">
+            <input type="email" id="login-email" placeholder="Email address" autocomplete="off" class="w-full p-3 rounded-lg bg-white/10 border border-white/10 outline-none text-white text-base">
+            <input type="password" id="login-password" placeholder="Password" autocomplete="new-password" class="w-full p-3 rounded-lg bg-white/10 border border-white/10 outline-none text-white text-base">
+            <button onclick="handleLogin()" class="w-full bg-white text-black py-3 rounded-lg font-semibold hover:bg-gray-200 transition text-base">Login</button>
+            <p class="text-center text-gray-400 text-sm">No account? <button onclick="switchToSignup()" class="text-white underline">Create account</button></p>
+          </div>
+        </div>
+        <div id="signup-form" class="hidden">
+          <div class="space-y-3">
+            <input type="text" id="signup-name" placeholder="Full name" autocomplete="off" class="w-full p-3 rounded-lg bg-white/10 border border-white/10 outline-none text-white text-base">
+            <input type="email" id="signup-email" placeholder="Email address" autocomplete="off" class="w-full p-3 rounded-lg bg-white/10 border border-white/10 outline-none text-white text-base">
+            <input type="password" id="signup-password" placeholder="Password (min 6 characters)" autocomplete="new-password" class="w-full p-3 rounded-lg bg-white/10 border border-white/10 outline-none text-white text-base">
+            <button onclick="handleSignup()" class="w-full bg-white text-black py-3 rounded-lg font-semibold hover:bg-gray-200 transition text-base">Create account</button>
+            <p class="text-center text-gray-400 text-sm">Have an account? <button onclick="switchToLogin()" class="text-white underline">Login</button></p>
+          </div>
+        </div>
+      </div>
     </div>
 
-    <div class="mt-4 pt-3 space-y-2 text-sm">
-      <div class="flex justify-between"><span>Subtotal</span><span id="summary-subtotal">₹0</span></div>
-      <div id="summary-promo-row" class="flex justify-between text-green-400 hidden"><span>Discount</span><span id="summary-promo-discount">-₹0</span></div>
-      <div class="flex justify-between text-lg font-bold pt-2 border-t border-white/10">
-        <span>TOTAL</span><span id="cart-total">₹0</span>
+    <!-- ADDRESS & PAYMENT MODAL -->
+    <div id="address-modal" class="hidden fixed inset-0 z-[70] modal flex items-end md:items-center justify-center p-0 md:p-5">
+      <div class="max-w-2xl w-full bg-zinc-950 rounded-t-2xl md:rounded-2xl p-5 md:p-8 max-h-[90vh] overflow-y-auto border-t border-white/10 md:border">
+        <div class="flex justify-between items-center mb-5 sticky top-0 bg-zinc-950 py-2 z-10">
+          <h2 class="text-xl md:text-2xl font-bold">Delivery & Payment</h2>
+          <button onclick="closeAddressModal()" class="text-gray-400 text-2xl">&times;</button>
+        </div>
+        
+        <!-- Address Section -->
+        <h3 class="text-sm font-bold mb-3 text-zinc-400">Shipping Address</h3>
+        <div class="space-y-3 mb-6">
+          <input id="full-name" type="text" placeholder="Full name" autocomplete="off" class="w-full p-3 rounded-xl bg-white/10 border border-white/10 outline-none text-base">
+          <input id="phone" type="tel" placeholder="Phone number" autocomplete="off" class="w-full p-3 rounded-xl bg-white/10 border border-white/10 outline-none text-base">
+          <input id="address-line" type="text" placeholder="Street address" autocomplete="off" class="w-full p-3 rounded-xl bg-white/10 border border-white/10 outline-none text-base">
+          <div class="grid grid-cols-2 gap-3">
+            <input id="city" type="text" placeholder="City" autocomplete="off" class="w-full p-3 rounded-xl bg-white/10 border border-white/10 outline-none text-base">
+            <input id="pincode" type="text" placeholder="Pincode" autocomplete="off" class="w-full p-3 rounded-xl bg-white/10 border border-white/10 outline-none text-base">
+          </div>
+        </div>
+        
+        <!-- Payment Options Section -->
+        <h3 class="text-sm font-bold mb-3 text-zinc-400">Payment Method</h3>
+        <div class="space-y-3 mb-6">
+          <div id="payment-cod" class="payment-option glass p-4 rounded-xl cursor-pointer border-2 border-transparent flex items-center justify-between" onclick="selectPaymentMethod('cod')">
+            <div>
+              <span class="font-bold">Cash on Delivery</span>
+              <p class="text-xs text-zinc-400 mt-0.5">Pay when you receive the order</p>
+            </div>
+            <div class="w-5 h-5 rounded-full border-2 border-white/30 flex items-center justify-center">
+              <div id="cod-check" class="w-3 h-3 rounded-full bg-green-500 hidden"></div>
+            </div>
+          </div>
+          <div id="payment-online" class="payment-option glass p-4 rounded-xl cursor-pointer border-2 border-transparent flex items-center justify-between" onclick="selectPaymentMethod('online')">
+            <div>
+              <span class="font-bold">Online Payment</span>
+              <p class="text-xs text-zinc-400 mt-0.5">UPI, Card, NetBanking</p>
+            </div>
+            <div class="w-5 h-5 rounded-full border-2 border-white/30 flex items-center justify-center">
+              <div id="online-check" class="w-3 h-3 rounded-full bg-green-500 hidden"></div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Order Summary -->
+        <div class="border-t border-white/10 pt-4 mb-4">
+          <div class="flex justify-between text-sm mb-2">
+            <span>Subtotal</span>
+            <span id="modal-subtotal">₹0</span>
+          </div>
+          <div id="modal-discount-row" class="flex justify-between text-sm text-green-400 hidden">
+            <span>Discount</span>
+            <span id="modal-discount">-₹0</span>
+          </div>
+          <div class="flex justify-between text-lg font-bold mt-2 pt-2 border-t border-white/10">
+            <span>Total to Pay</span>
+            <span id="modal-total">₹0</span>
+          </div>
+        </div>
+        
+        <button onclick="placeOrderWithPayment()" class="w-full bg-white text-black py-3 rounded-xl font-bold mt-2 transition active:scale-95 text-base">
+          PLACE ORDER
+        </button>
       </div>
-      <button onclick="initiateCheckout()" class="w-full bg-white text-black py-3 rounded-xl font-bold text-sm mt-3 transition active:scale-95">CHECKOUT</button>
+    </div>
+
+    <!-- ORDERS MODAL -->
+    <div id="tracking-modal" class="hidden fixed inset-0 z-[70] modal flex items-center justify-center p-4 md:p-5">
+      <div class="max-w-4xl w-full bg-zinc-950 rounded-2xl p-5 md:p-8 max-h-[85vh] overflow-y-auto border border-white/10">
+        <div class="flex justify-between items-center mb-5 sticky top-0 bg-zinc-950 py-2 z-10">
+          <h2 class="text-xl md:text-2xl font-bold">My Orders</h2>
+          <button onclick="closeTrackingModal()" class="text-gray-400 text-2xl">&times;</button>
+        </div>
+        <div id="orders-list" class="space-y-3"></div>
+      </div>
+    </div>
+
+    <!-- PRODUCT DETAIL MODAL -->
+    <div id="modal" class="hidden fixed inset-0 z-50 modal flex items-end md:items-center justify-center p-0 md:p-5">
+      <div class="max-w-4xl w-full bg-zinc-950 rounded-t-2xl md:rounded-2xl overflow-hidden max-h-[90vh] overflow-y-auto">
+        <div class="relative h-[250px] md:h-[400px]">
+          <img id="modal-image" class="w-full h-full object-cover">
+          <button id="modal-wishlist-btn" class="absolute top-3 right-3 bg-black/60 backdrop-blur-md p-2 rounded-full text-lg border border-white/10">♡</button>
+          <button onclick="closeModal()" class="absolute top-3 left-3 bg-black/60 backdrop-blur-md p-2 rounded-full text-lg border border-white/10">&times;</button>
+        </div>
+        <div class="p-5 pb-8">
+          <p id="modal-category" class="uppercase text-zinc-500 text-xs tracking-wider"></p>
+          <h2 id="modal-name" class="text-2xl md:text-3xl font-bold mt-1"></h2>
+          <div class="mt-3 flex gap-2 items-center">
+            <span id="modal-price" class="text-2xl font-bold"></span>
+            <span id="modal-old" class="text-zinc-500 line-through text-sm"></span>
+          </div>
+          <p id="modal-desc" class="text-zinc-300 mt-3 leading-relaxed text-sm"></p>
+          <button onclick="addToCart(selectedProduct)" class="w-full bg-white text-black py-3 rounded-xl font-bold mt-5 transition active:scale-95 text-base">ADD TO CART</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- CART SIDEBAR -->
+    <div id="cart" class="cart-sidebar hidden fixed top-0 right-0 h-full w-full md:w-[400px] bg-black/95 backdrop-blur-2xl z-[60] border-l border-white/10 p-4 overflow-y-auto">
+      <div class="flex justify-between items-center mb-4 sticky top-0 bg-black py-2 z-10">
+        <h2 class="text-xl font-bold">Your Cart</h2>
+        <button onclick="toggleCart()" class="text-gray-400 text-2xl">&times;</button>
+      </div>
+      <div id="cart-items" class="space-y-3"></div>
+      
+      <div class="mt-4 pt-3 border-t border-white/10">
+        <p class="text-xs font-bold text-zinc-400 mb-2 uppercase">Promo code</p>
+        <div class="flex gap-2">
+          <input id="promo-input" type="text" placeholder="ENTER CODE" autocomplete="off" class="flex-1 bg-white/10 border border-white/10 px-3 py-2 rounded-lg outline-none text-xs uppercase">
+          <button onclick="applyPromoCode()" class="bg-zinc-200 text-black px-3 py-2 rounded-lg font-bold text-xs">APPLY</button>
+        </div>
+        <div id="promo-status" class="text-xs mt-2 hidden"></div>
+      </div>
+
+      <div class="mt-4 pt-3 space-y-2 text-sm">
+        <div class="flex justify-between"><span>Subtotal</span><span id="summary-subtotal">₹0</span></div>
+        <div id="summary-promo-row" class="flex justify-between text-green-400 hidden"><span>Discount</span><span id="summary-promo-discount">-₹0</span></div>
+        <div class="flex justify-between text-lg font-bold pt-2 border-t border-white/10">
+          <span>TOTAL</span><span id="cart-total">₹0</span>
+        </div>
+        <button onclick="initiateCheckout()" class="w-full bg-white text-black py-3 rounded-xl font-bold text-sm mt-3 transition active:scale-95">CHECKOUT</button>
+      </div>
     </div>
   </div>
 
@@ -871,12 +911,12 @@
       productsContainer.innerHTML = products.map(product => {
         const isWishlisted = currentUser && wishlist.includes(product.id);
         return `
-          <div class="card glass-card rounded-xl overflow-hidden relative">
+          <div class="product-card card glass-card rounded-xl overflow-hidden relative">
             <button onclick="event.stopPropagation(); window.toggleWishlist('${product.id}')" class="absolute top-2 right-2 z-20 bg-black/50 p-1.5 rounded-full backdrop-blur-md text-sm">
               ${isWishlisted ? "♥" : "♡"}
             </button>
             <div onclick="openModal('${product.id}')">
-              <img src="${product.image}" class="w-full h-40 md:h-52 object-cover">
+              <img src="${product.image}" class="w-full h-40 md:h-52 object-cover" onerror="this.src='https://placehold.co/400x400/333/white?text=No+Image'">
               <div class="p-3">
                 <p class="text-zinc-500 text-[10px] uppercase tracking-wide">${product.category || 'Uncategorized'}</p>
                 <h3 class="text-sm font-bold mt-0.5">${product.name}</h3>
@@ -949,6 +989,12 @@
       
       if (!fullName || !phone || !address || !city || !pincode) { toast("Please complete all address fields", true); return; }
       
+      // Show "Coming Soon" for Online Payment
+      if (selectedPaymentMethod === "online") {
+        toast("UPI / Online Payment Coming Soon! Please select Cash on Delivery", true);
+        return;
+      }
+      
       const addressData = { fullName, phone, address, city, pincode };
       let totalAmount = cart.reduce((sum, item) => sum + item.price, 0);
       
@@ -961,7 +1007,7 @@
         items: cart.map(i => ({ name: i.name, price: i.price, id: i.id })),
         total: totalAmount,
         address: addressData,
-        paymentMethod: selectedPaymentMethod === "cod" ? "Cash on Delivery" : "Online Payment",
+        paymentMethod: "Cash on Delivery",
         customerId: currentUser.uid,
         customerEmail: currentUser.email,
         createdAt: Date.now(),
@@ -970,7 +1016,7 @@
       };
 
       await push(ordersRef, orderData);
-      toast(`Order placed! Payment: ${orderData.paymentMethod}`);
+      toast("Order placed successfully! Payment: Cash on Delivery");
       cart = []; 
       activePromo = null;
       saveCart();
