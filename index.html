@@ -1,11 +1,11 @@
+Here is the complete, fixed customer website for "SOLEVIA" with all the requested corrections including anti-autofill inputs, proper wishlist counter, clean auth handling, and mobile fixes.
+```html
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=yes" />
-  <title>.SOLEVIA | Premium Footwear</title>
-
+  <title>SOLEVIA · Premium Sneakers</title>
   <style>
     * {
       margin: 0;
@@ -21,14 +21,12 @@
       overflow-x: hidden;
     }
 
-    /* Desktop Layout */
-    .desktop-container {
+    .container {
       max-width: 1400px;
       margin: 0 auto;
       padding: 0 24px;
     }
 
-    /* Header */
     .header {
       position: fixed;
       top: 0;
@@ -60,7 +58,6 @@
       cursor: pointer;
     }
 
-    /* Desktop Navigation */
     .desktop-nav {
       display: flex;
       gap: 20px;
@@ -84,7 +81,6 @@
       transform: translateY(-2px);
     }
 
-    /* Hero Banner */
     .hero {
       margin-top: 80px;
       margin-bottom: 40px;
@@ -108,6 +104,31 @@
       background: linear-gradient(90deg, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.3) 100%);
     }
 
+    .hero-discount-badge {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      z-index: 20;
+      background: linear-gradient(135deg, #ff3b30, #dc2626);
+      color: white;
+      padding: 12px 24px;
+      border-radius: 50px;
+      font-weight: 800;
+      font-size: 28px;
+      box-shadow: 0 8px 25px rgba(220,38,38,0.5);
+      backdrop-filter: blur(4px);
+      border: 2px solid rgba(255,255,255,0.3);
+      text-align: center;
+      line-height: 1.2;
+      display: none;
+    }
+
+    .hero-discount-badge small {
+      font-size: 12px;
+      font-weight: 500;
+      display: block;
+    }
+
     .hero-content {
       position: relative;
       z-index: 2;
@@ -121,8 +142,10 @@
     .hero-subtitle {
       font-size: 12px;
       letter-spacing: 3px;
-      color: #d4d4d8;
+      color: #fbbf24;
       margin-bottom: 12px;
+      font-weight: 600;
+      text-transform: uppercase;
     }
 
     .hero-title {
@@ -152,20 +175,16 @@
       transition: all 0.2s;
     }
 
-    .shop-btn:hover {
-      transform: scale(1.02);
-      box-shadow: 0 4px 15px rgba(255,255,255,0.2);
-    }
-
-    /* Filters */
     .filters {
       display: flex;
       gap: 16px;
       margin-bottom: 32px;
+      flex-wrap: wrap;
     }
 
     .search-input {
       flex: 1;
+      min-width: 200px;
       background: rgba(255, 255, 255, 0.05);
       border: 1px solid rgba(255, 255, 255, 0.08);
       border-radius: 50px;
@@ -175,8 +194,8 @@
       outline: none;
     }
 
-    .search-input:focus {
-      border-color: rgba(255, 255, 255, 0.2);
+    .search-input::placeholder {
+      color: #6b7280;
     }
 
     .category-select {
@@ -190,12 +209,13 @@
       outline: none;
     }
 
-    /* Products Header */
     .products-header {
       display: flex;
       justify-content: space-between;
       align-items: center;
       margin-bottom: 24px;
+      flex-wrap: wrap;
+      gap: 12px;
     }
 
     .products-title {
@@ -211,7 +231,6 @@
       font-weight: 600;
     }
 
-    /* Products Grid - DESKTOP */
     .products-grid {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
@@ -239,6 +258,11 @@
       width: 100%;
       height: 260px;
       object-fit: cover;
+      transition: transform 0.3s;
+    }
+
+    .product-card:hover .product-img {
+      transform: scale(1.03);
     }
 
     .product-info {
@@ -261,8 +285,59 @@
     .product-price {
       font-size: 20px;
       font-weight: 800;
-      color: #ffffff;
       margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .current-price {
+      color: #ffffff;
+    }
+
+    .original-price {
+      font-size: 14px;
+      color: #a1a1aa;
+      text-decoration: line-through;
+      font-weight: 400;
+    }
+
+    .discount-tag {
+      font-size: 11px;
+      background: #dc2626;
+      padding: 2px 8px;
+      border-radius: 20px;
+      color: white;
+      font-weight: 600;
+    }
+
+    .size-selector {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin: 12px 0;
+    }
+
+    .size-option {
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: 30px;
+      padding: 6px 12px;
+      font-size: 12px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .size-option:hover {
+      background: rgba(255, 255, 255, 0.2);
+    }
+
+    .size-option.selected {
+      background: white;
+      color: black;
+      border-color: white;
     }
 
     .add-cart-btn {
@@ -293,12 +368,37 @@
       padding: 8px 12px;
       border-radius: 30px;
       color: white;
-      font-size: 14px;
+      font-size: 16px;
       cursor: pointer;
       z-index: 10;
+      transition: 0.2s;
     }
 
-    /* Mobile Bottom Nav - HIDDEN ON DESKTOP */
+    .wishlist-btn:hover {
+      transform: scale(1.05);
+      background: rgba(0, 0, 0, 0.8);
+    }
+
+    .image-gallery {
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      padding: 12px;
+      background: rgba(0,0,0,0.3);
+    }
+    .gallery-thumb {
+      width: 70px;
+      height: 70px;
+      object-fit: cover;
+      border-radius: 12px;
+      cursor: pointer;
+      border: 2px solid transparent;
+      transition: 0.2s;
+    }
+    .gallery-thumb.active {
+      border-color: white;
+    }
+
     .mobile-bottom-nav {
       display: none;
       position: fixed;
@@ -309,7 +409,7 @@
       backdrop-filter: blur(20px);
       border-top: 1px solid rgba(255, 255, 255, 0.08);
       z-index: 100;
-      padding: 10px 20px 25px;
+      padding: 10px 20px 30px;
       justify-content: space-around;
     }
 
@@ -326,7 +426,6 @@
       cursor: pointer;
     }
 
-    /* Cart Sidebar */
     .cart-sidebar {
       position: fixed;
       top: 0;
@@ -355,7 +454,6 @@
       margin-bottom: 24px;
     }
 
-    /* Modal */
     .modal-overlay {
       position: fixed;
       top: 0;
@@ -374,15 +472,27 @@
     .modal-container {
       background: #18181b;
       border-radius: 28px;
-      max-width: 500px;
+      max-width: 550px;
       width: 100%;
-      max-height: 85vh;
+      max-height: 90vh;
       overflow-y: auto;
-      padding: 24px;
+      padding: 0;
       border: 1px solid rgba(255, 255, 255, 0.1);
     }
 
-    /* Toast */
+    .qr-container {
+      text-align: center;
+      padding: 20px;
+      background: white;
+      border-radius: 20px;
+      margin: 15px 0;
+    }
+    .qr-container img {
+      width: 200px;
+      height: 200px;
+      margin: 0 auto;
+    }
+
     .toast {
       position: fixed;
       bottom: 30px;
@@ -409,19 +519,16 @@
       }
     }
 
-    /* Status Badges */
-    .status-pending { background: #f59e0b; color: black; padding: 4px 12px; border-radius: 20px; font-size: 11px; font-weight: bold; display: inline-block; }
-    .status-confirmed { background: #3b82f6; color: white; padding: 4px 12px; border-radius: 20px; font-size: 11px; font-weight: bold; display: inline-block; }
-    .status-shipped { background: #8b5cf6; color: white; padding: 4px 12px; border-radius: 20px; font-size: 11px; font-weight: bold; display: inline-block; }
-    .status-delivered { background: #10b981; color: white; padding: 4px 12px; border-radius: 20px; font-size: 11px; font-weight: bold; display: inline-block; }
-
-    /* Payment Option */
     .payment-option {
       padding: 16px;
       border-radius: 16px;
       cursor: pointer;
       transition: all 0.2s;
+      border: 2px solid transparent;
+      background: rgba(255, 255, 255, 0.05);
+      margin-bottom: 10px;
     }
+
     .payment-option.selected {
       border-color: #10b981;
       background: rgba(16, 185, 129, 0.1);
@@ -438,11 +545,26 @@
       width: 100%;
     }
 
+    input::placeholder {
+      color: #6b7280;
+    }
+
     button {
       cursor: pointer;
     }
 
-    /* RESPONSIVE - MOBILE */
+    /* Anti-autofill fix */
+    input:-webkit-autofill,
+    input:-webkit-autofill:hover,
+    input:-webkit-autofill:focus,
+    textarea:-webkit-autofill,
+    select:-webkit-autofill {
+      -webkit-box-shadow: 0 0 0px 1000px #18181b inset !important;
+      -webkit-text-fill-color: #fff !important;
+      transition: background-color 9999s ease-in-out 0s;
+      caret-color: white;
+    }
+
     @media (max-width: 1024px) {
       .products-grid {
         grid-template-columns: repeat(3, 1fr);
@@ -451,71 +573,48 @@
     }
 
     @media (max-width: 768px) {
-      .desktop-container {
+      .container {
         padding: 0 16px;
       }
-      
       .desktop-nav {
         display: none;
       }
-      
       .mobile-bottom-nav {
         display: flex;
       }
-      
       .hero {
         height: 320px;
         margin-top: 70px;
         border-radius: 20px;
       }
-      
       .hero-content {
         padding: 24px;
       }
-      
       .hero-title {
         font-size: 28px;
       }
-      
       .hero-desc {
         font-size: 12px;
       }
-      
       .products-grid {
         grid-template-columns: repeat(2, 1fr);
         gap: 12px;
+        padding-bottom: 70px;
       }
-      
       .product-img {
         height: 180px;
       }
-      
-      .product-name {
-        font-size: 13px;
-      }
-      
-      .product-price {
-        font-size: 16px;
-      }
-      
-      .products-title {
-        font-size: 22px;
-      }
-      
-      .filters {
-        flex-direction: column;
-      }
-      
       .cart-sidebar {
         width: 100%;
       }
-      
       .logo {
         font-size: 22px;
       }
+      .filters {
+        flex-direction: column;
+      }
     }
 
-    /* Scrollbar */
     ::-webkit-scrollbar {
       width: 5px;
     }
@@ -531,439 +630,585 @@
 
 <body>
 
-  <!-- HEADER -->
-  <div class="header">
-    <div class="header-content">
-      <div class="logo" onclick="window.scrollTo({top:0,behavior:'smooth'})">.SOLEVIA</div>
-      <div class="desktop-nav">
-        <div id="auth-desktop"></div>
-        <button class="nav-btn" onclick="openOrderTracking()">ORDERS</button>
-        <button class="nav-btn" onclick="toggleWishlistView()">WISHLIST (<span id="wishlist-count-nav">0</span>)</button>
-        <button class="nav-btn" onclick="toggleCart()">CART (<span id="cart-count">0</span>)</button>
-      </div>
+<div class="header">
+  <div class="header-content">
+    <div class="logo" onclick="window.scrollTo({top:0,behavior:'smooth'})">SOLEVIA</div>
+    <div class="desktop-nav">
+      <div id="auth-desktop"></div>
+      <button class="nav-btn" onclick="openOrderTracking()">ORDERS</button>
+      <button class="nav-btn" onclick="toggleWishlistView()">WISHLIST (<span id="wishlist-count-nav">0</span>)</button>
+      <button class="nav-btn" onclick="toggleCart()">CART (<span id="cart-count">0</span>)</button>
+    </div>
+  </div>
+</div>
+
+<div class="mobile-bottom-nav">
+  <button class="mobile-nav-btn" onclick="window.scrollTo({top:0,behavior:'smooth'}); showMainProducts();">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2h-5v-7H9v7H4a2 2 0 0 1-2-2z" /></svg>
+    <span>HOME</span>
+  </button>
+  <button class="mobile-nav-btn" onclick="toggleWishlistView()" style="position: relative;">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" /></svg>
+    <span>WISHLIST</span>
+    <span id="wishlist-count-mob" style="position: absolute; top: -5px; right: -10px; background: white; color: black; font-size: 9px; border-radius: 50%; padding: 2px 5px;">0</span>
+  </button>
+  <button class="mobile-nav-btn" onclick="toggleCart()" style="position: relative;">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="9" cy="21" r="1" /><circle cx="20" cy="21" r="1" /><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6" /></svg>
+    <span>CART</span>
+    <span id="cart-count-mob" style="position: absolute; top: -5px; right: -10px; background: #ff3b30; color: white; font-size: 9px; border-radius: 50%; padding: 2px 5px;">0</span>
+  </button>
+  <button class="mobile-nav-btn" onclick="openOrderTracking()">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z" /><line x1="3" y1="6" x2="21" y2="6" /><path d="M16 10a4 4 0 0 1-8 0" /></svg>
+    <span>ORDERS</span>
+  </button>
+</div>
+
+<div class="container" style="padding-top: 90px; padding-bottom: 60px;">
+  <div class="hero">
+    <div id="hero-bg" class="hero-bg" style="background-image: url('https://images.unsplash.com/photo-1542291026-7eec264c27ff?q=80&w=1200&auto=format');"></div>
+    <div class="hero-overlay"></div>
+    <div class="hero-discount-badge" id="heroDiscountBadge"></div>
+    <div class="hero-content">
+      <p class="hero-subtitle" id="banner-subtitle">LIMITED RELEASE</p>
+      <h1 class="hero-title" id="banner-title">FUTURE SNEAKERS</h1>
+      <p class="hero-desc" id="banner-desc">Premium sneakers engineered with futuristic aesthetics.</p>
+      <button class="shop-btn" onclick="document.getElementById('products-section').scrollIntoView({behavior:'smooth'})">EXPLORE COLLECTION</button>
     </div>
   </div>
 
-  <!-- MOBILE BOTTOM NAV -->
-  <div class="mobile-bottom-nav">
-    <button class="mobile-nav-btn" onclick="window.scrollTo({top:0,behavior:'smooth'}); showMainProducts();">
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2h-5v-7H9v7H4a2 2 0 0 1-2-2z"/></svg>
-      <span>HOME</span>
-    </button>
-    <button class="mobile-nav-btn" onclick="toggleWishlistView()" style="position: relative;">
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
-      <span>WISHLIST</span>
-      <span id="wishlist-count-mob" style="position: absolute; top: -5px; right: -10px; background: white; color: black; font-size: 9px; font-weight: bold; border-radius: 50%; padding: 2px 5px;">0</span>
-    </button>
-    <button class="mobile-nav-btn" onclick="toggleCart()" style="position: relative;">
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
-      <span>CART</span>
-      <span id="cart-count-mob" style="position: absolute; top: -5px; right: -10px; background: #ff3b30; color: white; font-size: 9px; font-weight: bold; border-radius: 50%; padding: 2px 5px;">0</span>
-    </button>
-    <button class="mobile-nav-btn" onclick="openOrderTracking()">
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
-      <span>ORDERS</span>
-    </button>
+  <div class="filters">
+    <input type="search" id="search" class="search-input" placeholder="Search sneakers" autocomplete="off" autocorrect="off" spellcheck="false">
+    <select id="filter" class="category-select">
+      <option value="all">All Categories</option>
+      <option value="Running">Running</option>
+      <option value="Streetwear">Streetwear</option>
+      <option value="Basketball">Basketball</option>
+    </select>
   </div>
 
-  <!-- MAIN CONTENT -->
-  <div class="desktop-container" style="padding-top: 90px; padding-bottom: 60px;">
-    
-    <!-- HERO SECTION WITH LIVE BANNER ROTATION -->
-    <div class="hero">
-      <div id="hero-bg" class="hero-bg" style="background-image: url('https://images.unsplash.com/photo-1542291026-7eec264c27ff?q=80&w=1200&auto=format');"></div>
-      <div class="hero-overlay"></div>
-      <div class="hero-content">
-        <p class="hero-subtitle" id="banner-subtitle">LIMITED RELEASE</p>
-        <h1 class="hero-title" id="banner-title">FUTURE SNEAKERS</h1>
-        <p class="hero-desc" id="banner-desc">Premium sneakers engineered with futuristic aesthetics and ultimate comfort.</p>
-        <button class="shop-btn" onclick="document.getElementById('products-section').scrollIntoView({behavior:'smooth'})">EXPLORE COLLECTION →</button>
-      </div>
+  <div id="products-section">
+    <div class="products-header">
+      <h2 id="grid-title" class="products-title">Latest Drops</h2>
+      <div id="product-count" class="product-count">0 items</div>
     </div>
+    <div id="products" class="products-grid"></div>
+  </div>
+</div>
 
-    <!-- FILTERS -->
-    <div class="filters">
-      <input type="search" id="search" class="search-input" placeholder="Search sneakers..." autocomplete="off">
-      <select id="filter" class="category-select">
-        <option value="all">All Categories</option>
-        <option value="Running">Running</option>
-        <option value="Streetwear">Streetwear</option>
-        <option value="Basketball">Basketball</option>
-      </select>
+<div id="cart-sidebar" class="cart-sidebar">
+  <div class="cart-header">
+    <h2>Your Cart</h2>
+    <button onclick="toggleCart()" style="background:none;border:none;color:white;font-size:28px;cursor:pointer;">×</button>
+  </div>
+  <div id="cart-items" style="flex:1;overflow-y:auto;"></div>
+  <div style="margin-top:20px;padding-top:16px;border-top:1px solid rgba(255,255,255,0.1);">
+    <p style="font-size:12px;font-weight:600;margin-bottom:8px;">PROMO CODE</p>
+    <div style="display:flex;gap:10px;">
+      <input id="promo-input" name="solevia_promo_code" placeholder="SOLEVIA10 or FUTURE20" autocomplete="off" autocorrect="off" autocapitalize="characters" spellcheck="false">
+      <button onclick="applyPromoCode()" style="background:white;color:black;padding:12px 20px;border-radius:40px;font-weight:bold;border:none;">APPLY</button>
     </div>
+    <div id="promo-status" style="font-size:11px;margin-top:8px;display:none;"></div>
+  </div>
+  <div style="margin-top:20px;">
+    <div style="display:flex;justify-content:space-between;margin-bottom:10px;"><span>Subtotal</span><span id="summary-subtotal">₹0</span></div>
+    <div id="summary-promo-row" style="display:none;justify-content:space-between;color:#10b981;"><span>Discount</span><span id="summary-promo-discount">-₹0</span></div>
+    <div style="display:flex;justify-content:space-between;font-size:20px;font-weight:bold;margin-top:15px;padding-top:15px;border-top:1px solid rgba(255,255,255,0.1);"><span>TOTAL</span><span id="cart-total">₹0</span></div>
+    <button onclick="initiateCheckout()" style="background:white;color:black;padding:16px;border-radius:40px;font-weight:bold;width:100%;margin-top:20px;border:none;">CHECKOUT</button>
+  </div>
+</div>
 
-    <!-- PRODUCTS SECTION -->
-    <div id="products-section">
-      <div class="products-header">
-        <h2 id="grid-title" class="products-title">Latest Drops</h2>
-        <div id="product-count" class="product-count">0 items</div>
-      </div>
-      <div id="products" class="products-grid">
-        <!-- Products loaded here -->
-      </div>
+<!-- Login Modal with Anti-Autofill -->
+<div id="login-modal" class="modal-overlay">
+  <div class="modal-container" style="padding:24px;">
+    <div style="display:flex;justify-content:space-between;margin-bottom:20px;">
+      <h2>Welcome Back</h2>
+      <button onclick="closeLoginModal()" style="background:none;border:none;color:white;font-size:24px;cursor:pointer;">×</button>
+    </div>
+    <!-- Hidden anti-autofill fields -->
+    <input type="text" style="display:none">
+    <input type="password" style="display:none">
+    <div id="login-form">
+      <input type="email" id="login-email" name="solevia_login_email" placeholder="Email" autocomplete="new-password" autocorrect="off" autocapitalize="off" spellcheck="false">
+      <input type="password" id="login-password" name="solevia_login_password" placeholder="Password" autocomplete="new-password" autocorrect="off" autocapitalize="off" spellcheck="false" style="margin-top:12px;margin-bottom:20px;">
+      <button onclick="handleLogin()" style="background:white;color:black;padding:14px;border-radius:40px;font-weight:bold;width:100%;border:none;">Login</button>
+      <p style="text-align:center;margin-top:16px;">New user? <button onclick="switchToSignup()" style="background:none;border:none;color:white;text-decoration:underline;cursor:pointer;">Create account</button></p>
+    </div>
+    <div id="signup-form" style="display:none;">
+      <input type="text" id="signup-name" name="solevia_signup_name" placeholder="Full name" autocomplete="off" autocorrect="off" spellcheck="false">
+      <input type="email" id="signup-email" name="solevia_signup_email" placeholder="Email" autocomplete="new-password" style="margin-top:12px;" autocorrect="off" spellcheck="false">
+      <input type="password" id="signup-password" name="solevia_signup_password" placeholder="Password (min 6)" autocomplete="new-password" style="margin-top:12px;margin-bottom:20px;" autocorrect="off" spellcheck="false">
+      <button onclick="handleSignup()" style="background:white;color:black;padding:14px;border-radius:40px;font-weight:bold;width:100%;border:none;">Create Account</button>
+      <p style="text-align:center;margin-top:16px;">Have an account? <button onclick="switchToLogin()" style="background:none;border:none;color:white;text-decoration:underline;cursor:pointer;">Login</button></p>
     </div>
   </div>
+</div>
 
-  <!-- CART SIDEBAR -->
-  <div id="cart-sidebar" class="cart-sidebar">
-    <div class="cart-header">
-      <h2 style="font-size: 22px;">Your Cart</h2>
-      <button onclick="toggleCart()" style="background: none; border: none; color: white; font-size: 28px;">&times;</button>
+<!-- Address & Payment Modal -->
+<div id="address-modal" class="modal-overlay">
+  <div class="modal-container" style="padding:24px;">
+    <div style="display:flex;justify-content:space-between;margin-bottom:20px;">
+      <h2>Delivery & Payment</h2>
+      <button onclick="closeAddressModal()" style="background:none;border:none;color:white;font-size:24px;cursor:pointer;">×</button>
     </div>
-    <div id="cart-items" style="flex: 1; overflow-y: auto;"></div>
-    <div style="margin-top: 20px; padding-top: 16px; border-top: 1px solid rgba(255,255,255,0.1);">
-      <p style="font-size: 12px; font-weight: 600; margin-bottom: 8px;">PROMO CODE</p>
-      <div style="display: flex; gap: 10px;">
-        <input id="promo-input" type="text" placeholder="ENTER CODE" autocomplete="off">
-        <button onclick="applyPromoCode()" style="background: white; color: black; padding: 12px 20px; border-radius: 40px; font-weight: bold; border: none;">APPLY</button>
+    <input id="full-name" name="solevia_fullname" placeholder="Full name" autocomplete="off">
+    <input id="phone" name="solevia_phone" placeholder="Phone number" autocomplete="off" style="margin-top:12px;">
+    <input id="address-line" name="solevia_address" placeholder="Street address" autocomplete="off" style="margin-top:12px;">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px;">
+      <input id="city" name="solevia_city" placeholder="City" autocomplete="off">
+      <input id="pincode" name="solevia_pincode" placeholder="Pincode" autocomplete="off">
+    </div>
+    <div id="payment-cod" class="payment-option" onclick="selectPaymentMethod('cod')">
+      <div style="display:flex;justify-content:space-between;"><span style="font-weight:bold;">Cash on Delivery</span><span id="cod-check" style="display:none;">✓</span></div>
+    </div>
+    <div id="payment-online" class="payment-option" onclick="selectPaymentMethod('online')">
+      <div style="display:flex;justify-content:space-between;"><span style="font-weight:bold;">UPI / Online Payment</span><span id="online-check" style="display:none;">✓</span></div>
+    </div>
+    <div id="qr-code-container" style="display:none; margin-top:15px;">
+      <div class="qr-container">
+        <p style="color:#000; margin-bottom:10px; font-weight:bold;">Scan QR to Pay</p>
+        <img id="qr-image" src="https://quickchart.io/qr?text=payments%3A%2F%2Fpay%3Fpa%3D8618365136%40ybl%26pn%3DSOLEVIA%26am%3D0%26cu%3DINR&size=200" alt="UPI QR">
+        <p style="color:#000; margin-top:10px; font-size:12px;">UPI ID: 8618365136@ybl</p>
       </div>
-      <div id="promo-status" style="font-size: 11px; margin-top: 8px; display: none;"></div>
     </div>
-    <div style="margin-top: 20px;">
-      <div style="display: flex; justify-content: space-between; margin-bottom: 10px;"><span>Subtotal</span><span id="summary-subtotal">₹0</span></div>
-      <div id="summary-promo-row" style="display: none; justify-content: space-between; color: #10b981;"><span>Discount</span><span id="summary-promo-discount">-₹0</span></div>
-      <div style="display: flex; justify-content: space-between; font-size: 20px; font-weight: bold; margin-top: 15px; padding-top: 15px; border-top: 1px solid rgba(255,255,255,0.1);"><span>TOTAL</span><span id="cart-total">₹0</span></div>
-      <button onclick="initiateCheckout()" style="background: white; color: black; padding: 16px; border-radius: 40px; font-weight: bold; width: 100%; margin-top: 20px; border: none;">CHECKOUT →</button>
+    <div style="border-top:1px solid rgba(255,255,255,0.1);padding-top:15px;margin:15px 0;">
+      <div style="display:flex;justify-content:space-between;"><span>Total Amount</span><span id="modal-total">₹0</span></div>
+    </div>
+    <button onclick="placeOrderWithPayment()" style="background:white;color:black;padding:14px;border-radius:40px;font-weight:bold;width:100%;border:none;">PLACE ORDER</button>
+  </div>
+</div>
+
+<div id="orders-modal" class="modal-overlay">
+  <div class="modal-container" style="padding:24px;">
+    <div style="display:flex;justify-content:space-between;">
+      <h2>My Orders</h2>
+      <button onclick="closeOrdersModal()" style="background:none;border:none;color:white;font-size:24px;cursor:pointer;">×</button>
+    </div>
+    <div id="orders-list" style="margin-top:20px;"></div>
+  </div>
+</div>
+
+<!-- Product Modal -->
+<div id="product-modal" class="modal-overlay">
+  <div class="modal-container">
+    <div id="modal-image-container" style="position:relative;">
+      <img id="modal-main-img" style="width:100%;height:320px;object-fit:cover;">
+      <button onclick="closeProductModal()" style="position:absolute;top:12px;left:12px;background:rgba(0,0,0,0.6);border:none;padding:8px 12px;border-radius:30px;color:white;cursor:pointer;">×</button>
+    </div>
+    <div id="modal-gallery" class="image-gallery"></div>
+    <div style="padding:20px;">
+      <h2 id="modal-name" style="font-size:22px;margin:8px 0;"></h2>
+      <p id="modal-price" style="font-size:24px;font-weight:bold;"></p>
+      <div style="margin:16px 0;">
+        <p style="font-size:13px;color:#aaa;margin-bottom:10px;">Select Size (UK)</p>
+        <div id="modal-size-selector" class="size-selector"></div>
+      </div>
+      <button id="modal-add-to-cart" style="background:white;color:black;padding:14px;border-radius:40px;font-weight:bold;width:100%;margin-top:10px;border:none;">ADD TO CART</button>
     </div>
   </div>
+</div>
 
-  <!-- MODALS (Login, Address, Orders, Product) - same as before -->
-  <div id="login-modal" class="modal-overlay"><div class="modal-container"><div style="display: flex; justify-content: space-between; margin-bottom: 20px;"><h2 style="font-size: 24px;">Login</h2><button onclick="closeLoginModal()" style="background: none; border: none; color: white; font-size: 24px;">&times;</button></div><div id="login-form"><input type="email" id="login-email" placeholder="Email" style="margin-bottom: 12px;"><input type="password" id="login-password" placeholder="Password" style="margin-bottom: 20px;"><button onclick="handleLogin()" style="background: white; color: black; padding: 14px; border-radius: 40px; font-weight: bold; width: 100%;">Login</button><p style="text-align: center; margin-top: 16px; color: #a1a1aa;">New user? <button onclick="switchToSignup()" style="background: none; border: none; color: white; text-decoration: underline;">Create account</button></p></div><div id="signup-form" style="display: none;"><input type="text" id="signup-name" placeholder="Full name" style="margin-bottom: 12px;"><input type="email" id="signup-email" placeholder="Email" style="margin-bottom: 12px;"><input type="password" id="signup-password" placeholder="Password (min 6)" style="margin-bottom: 20px;"><button onclick="handleSignup()" style="background: white; color: black; padding: 14px; border-radius: 40px; font-weight: bold; width: 100%;">Create Account</button><p style="text-align: center; margin-top: 16px; color: #a1a1aa;">Have an account? <button onclick="switchToLogin()" style="background: none; border: none; color: white; text-decoration: underline;">Login</button></p></div></div></div>
-  <div id="address-modal" class="modal-overlay"><div class="modal-container"><div style="display: flex; justify-content: space-between; margin-bottom: 20px;"><h2>Delivery & Payment</h2><button onclick="closeAddressModal()" style="background: none; border: none; color: white; font-size: 24px;">&times;</button></div><input id="full-name" placeholder="Full name" style="margin-bottom: 12px;"><input id="phone" placeholder="Phone number" style="margin-bottom: 12px;"><input id="address-line" placeholder="Street address" style="margin-bottom: 12px;"><div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 20px;"><input id="city" placeholder="City"><input id="pincode" placeholder="Pincode"></div><div id="payment-cod" class="payment-option" style="padding: 14px; border-radius: 16px; margin-bottom: 10px; border: 2px solid transparent; background: rgba(255,255,255,0.05); cursor: pointer;" onclick="selectPaymentMethod('cod')"><div style="display: flex; justify-content: space-between;"><span style="font-weight: bold;">Cash on Delivery</span><span id="cod-check" style="display: none;">✓</span></div><p style="font-size: 11px;">Pay when you receive</p></div><div id="payment-online" class="payment-option" style="padding: 14px; border-radius: 16px; margin-bottom: 20px; border: 2px solid transparent; background: rgba(255,255,255,0.05); cursor: pointer;" onclick="selectPaymentMethod('online')"><div style="display: flex; justify-content: space-between;"><span style="font-weight: bold;">Online Payment</span><span id="online-check" style="display: none;">✓</span></div><p style="font-size: 11px;">UPI, Card, NetBanking</p></div><div style="border-top: 1px solid rgba(255,255,255,0.1); padding-top: 15px; margin-bottom: 20px;"><div style="display: flex; justify-content: space-between;"><span>Subtotal</span><span id="modal-subtotal">₹0</span></div><div id="modal-discount-row" style="display: none; justify-content: space-between; color: #10b981;"><span>Discount</span><span id="modal-discount">-₹0</span></div><div style="display: flex; justify-content: space-between; font-size: 18px; font-weight: bold; margin-top: 10px;"><span>Total</span><span id="modal-total">₹0</span></div></div><button onclick="placeOrderWithPayment()" style="background: white; color: black; padding: 14px; border-radius: 40px; font-weight: bold; width: 100%;">PLACE ORDER</button></div></div>
-  <div id="orders-modal" class="modal-overlay"><div class="modal-container"><div style="display: flex; justify-content: space-between; margin-bottom: 20px;"><h2>My Orders</h2><button onclick="closeOrdersModal()" style="background: none; border: none; color: white; font-size: 24px;">&times;</button></div><div id="orders-list"></div></div></div>
-  <div id="product-modal" class="modal-overlay"><div class="modal-container" style="padding: 0;"><div style="position: relative; height: 300px;"><img id="modal-img" style="width: 100%; height: 100%; object-fit: cover;"><button onclick="closeProductModal()" style="position: absolute; top: 12px; left: 12px; background: rgba(0,0,0,0.6); border: none; padding: 8px 12px; border-radius: 30px;">&times;</button><button id="modal-wishlist-btn" style="position: absolute; top: 12px; right: 12px; background: rgba(0,0,0,0.6); border: none; padding: 8px 12px; border-radius: 30px;">♡</button></div><div style="padding: 20px;"><p id="modal-category" style="color: #a1a1aa; font-size: 11px;"></p><h2 id="modal-name" style="font-size: 22px; margin: 8px 0;"></h2><p id="modal-price" style="font-size: 24px; font-weight: bold;"></p><p id="modal-desc" style="color: #d4d4d8; margin-top: 12px;"></p><button onclick="addToCart(selectedProduct)" style="background: white; color: black; padding: 14px; border-radius: 40px; font-weight: bold; width: 100%; margin-top: 20px;">ADD TO CART</button></div></div></div>
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+  import { getAuth, onAuthStateChanged, signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+  import { getFirestore, doc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+  import { getDatabase, ref, onValue, push, get } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
 
-  <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-    import { getAuth, onAuthStateChanged, signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
-    import { getFirestore, doc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
-    import { getDatabase, ref, onValue, push, get } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
+  const firebaseConfig = {
+    apiKey: "AIzaSyCG7DV9nat_lH2ZmjIHu8uknePQyj8tcds",
+    authDomain: "soleva-9c40a.firebaseapp.com",
+    databaseURL: "https://soleva-9c40a-default-rtdb.asia-southeast1.firebasedatabase.app",
+    projectId: "soleva-9c40a",
+    storageBucket: "soleva-9c40a.firebasestorage.app",
+    messagingSenderId: "711185136101",
+    appId: "1:711185136101:web:57094dfc739fa66ac3170c"
+  };
 
-    const firebaseConfig = {
-      apiKey: "AIzaSyCG7DV9nat_lH2ZmjIHu8uknePQyj8tcds",
-      authDomain: "soleva-9c40a.firebaseapp.com",
-      databaseURL: "https://soleva-9c40a-default-rtdb.asia-southeast1.firebasedatabase.app",
-      projectId: "soleva-9c40a",
-      storageBucket: "soleva-9c40a.firebasestorage.app",
-      messagingSenderId: "711185136101",
-      appId: "1:711185136101:web:57094dfc739fa66ac3170c"
-    };
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+  const db = getDatabase(app);
+  const firestore = getFirestore(app);
+  const productsRef = ref(db, "products");
+  const ordersRef = ref(db, "orders");
+  const discountRef = ref(db, "storeSettings/discount");
+  const bannerRef = ref(db, "storeSettings/bannerCarousel");
 
-    const app = initializeApp(firebaseConfig);
-    const auth = getAuth(app);
-    const db = getDatabase(app);
-    const firestore = getFirestore(app);
+  let allProducts = [];
+  let cart = [];
+  let wishlist = [];
+  let currentUser = null;
+  let activePromo = null;
+  let selectedPaymentMethod = "cod";
+  let viewingWishlist = false;
+  let currentDiscount = { type: "none", value: 0 };
+  let bannerImages = [], bannerTitles = [], bannerSubs = [];
+  let currentBannerIndex = 0, bannerInterval = null;
+  let currentModalProduct = null;
+  let selectedModalSize = null;
 
-    const productsRef = ref(db, "products");
-    const ordersRef = ref(db, "orders");
-    const storeSettingsRef = ref(db, "storeSettings/bannerCarousel");
+  const DEMO_PRODUCTS = [
+    { id: "demo1", name: "NEO ZENITH", category: "Streetwear", price: 18999, oldPrice: 24999, images: ["https://images.unsplash.com/photo-1600185365483-26d7a4cc7519?q=80&w=500"], sizes: [6,7,8,9,10] },
+    { id: "demo2", name: "ORBIT PRO", category: "Running", price: 15999, oldPrice: 19999, images: ["https://images.unsplash.com/photo-1608231387042-66d1773070a5?q=80&w=500"], sizes: [7,8,9,10,11] },
+    { id: "demo3", name: "SHADOW MESH", category: "Basketball", price: 20999, oldPrice: 27999, images: ["https://images.unsplash.com/photo-1606107557195-0e29a4b5b4aa?q=80&w=500"], sizes: [8,9,10,11,12] }
+  ];
 
-    let allProducts = [], cart = [], wishlist = [], currentUser = null, activePromo = null, selectedPaymentMethod = "cod", viewingWishlist = false;
-    window.selectedProduct = null;
-    
-    // Banner rotation variables
-    let bannerImages = [], bannerTitles = [], bannerSubs = [], currentBannerIndex = 0, bannerInterval = null;
+  function toast(msg, isError = false) {
+    const existing = document.querySelector('.toast');
+    if (existing) existing.remove();
+    const el = document.createElement('div');
+    el.className = 'toast';
+    el.style.background = isError ? '#dc2626' : 'white';
+    el.style.color = isError ? 'white' : 'black';
+    el.innerText = msg;
+    document.body.appendChild(el);
+    setTimeout(() => el.remove(), 2500);
+  }
 
-    const DEMO_PRODUCTS = [
-      { id: "demo1", name: "NEO ZENITH", category: "Streetwear", price: 18999, image: "https://images.unsplash.com/photo-1600185365483-26d7a4cc7519?q=80&w=500&auto=format", description: "Futuristic silhouette with breathable mesh upper." },
-      { id: "demo2", name: "ORBIT PRO", category: "Running", price: 15999, image: "https://images.unsplash.com/photo-1608231387042-66d1773070a5?q=80&w=500&auto=format", description: "Carbon-fiber propulsion plate for speed." },
-      { id: "demo3", name: "SHADOW MESH", category: "Basketball", price: 20999, image: "https://images.unsplash.com/photo-1606107557195-0e29a4b5b4aa?q=80&w=500&auto=format", description: "High-top support with impact absorption." }
-    ];
+  function getProductPrice(product) {
+    if (currentDiscount.type === "percentage" && currentDiscount.value > 0)
+      return Math.round(product.price * (1 - currentDiscount.value / 100));
+    return product.price;
+  }
 
-    function toast(msg, isError = false) {
-      const existing = document.querySelector('.toast');
-      if (existing) existing.remove();
-      const el = document.createElement('div');
-      el.className = 'toast';
-      el.style.background = isError ? '#dc2626' : 'white';
-      el.style.color = isError ? 'white' : 'black';
-      el.innerText = msg;
-      document.body.appendChild(el);
-      setTimeout(() => el.remove(), 2500);
+  onValue(discountRef, (snapshot) => {
+    const data = snapshot.val();
+    if (data && data.type === "percentage" && data.value > 0) {
+      currentDiscount = { type: "percentage", value: data.value };
+    } else {
+      currentDiscount = { type: "none", value: 0 };
     }
+    document.getElementById("heroDiscountBadge").style.display = currentDiscount.value ? "block" : "none";
+    if (currentDiscount.value) document.getElementById("heroDiscountBadge").innerHTML = `${currentDiscount.value}%<small>OFF</small>`;
+    filterAndRenderProducts();
+  });
 
-    // ========== BANNER LOADING AND ROTATION (FIXED) ==========
-    function loadBannersFromFirebase() {
-      onValue(storeSettingsRef, (snapshot) => {
-        const data = snapshot.val();
-        if (data && data.banners && Array.isArray(data.banners) && data.banners.length > 0) {
-          bannerImages = data.banners.map(b => b.image || "").filter(url => url && url.trim() !== "");
-          bannerTitles = data.banners.map(b => b.title || "SOLEVIA DROP");
-          bannerSubs = data.banners.map(b => b.subtitle || "LIMITED RELEASE");
-        } else {
-          // Default banners if none in Firebase
-          bannerImages = [
-            "https://images.unsplash.com/photo-1542291026-7eec264c27ff?q=80&w=1200&auto=format",
-            "https://images.unsplash.com/photo-1608231387042-66d1773070a5?q=80&w=1200&auto=format",
-            "https://images.unsplash.com/photo-1600185365483-26d7a4cc7519?q=80&w=1200&auto=format"
-          ];
-          bannerTitles = ["FUTURE SNEAKERS", "ORBIT PRO", "NEO ZENITH"];
-          bannerSubs = ["LIMITED RELEASE", "RUNNING SERIES", "STREETWEAR EDITION"];
-        }
-        startBannerRotation();
+  onValue(bannerRef, (snap) => {
+    const data = snap.val();
+    if (data?.banners?.length) {
+      bannerImages = data.banners.map(b => b.image);
+      bannerTitles = data.banners.map(b => b.title);
+      bannerSubs = data.banners.map(b => b.subtitle || "LIMITED");
+    } else {
+      bannerImages = ["https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=1200"];
+      bannerTitles = ["FUTURE SNEAKERS"];
+      bannerSubs = ["LIMITED RELEASE"];
+    }
+    if (bannerInterval) clearInterval(bannerInterval);
+    if (bannerImages.length > 1) bannerInterval = setInterval(() => { currentBannerIndex = (currentBannerIndex + 1) % bannerImages.length; updateHero(); }, 5000);
+    updateHero();
+  });
+
+  function updateHero() {
+    document.getElementById("hero-bg").style.backgroundImage = `url('${bannerImages[currentBannerIndex]}')`;
+    document.getElementById("banner-title").innerText = bannerTitles[currentBannerIndex] || "SOLEVIA";
+    document.getElementById("banner-subtitle").innerText = bannerSubs[currentBannerIndex] || "LIMITED";
+  }
+
+  onValue(productsRef, (snapshot) => {
+    const data = snapshot.val();
+    if (data && Object.keys(data).length) {
+      allProducts = Object.keys(data).map(id => ({ id, ...data[id], images: data[id].images || [data[id].image] }));
+    } else {
+      allProducts = [...DEMO_PRODUCTS];
+    }
+    filterAndRenderProducts();
+  });
+
+  async function loadWishlist() {
+    if (!currentUser) { wishlist = []; updateWishlistCounters(); return; }
+    const snap = await getDoc(doc(firestore, "wishlists", currentUser.uid));
+    wishlist = snap.exists() ? snap.data().items || [] : [];
+    updateWishlistCounters();
+  }
+  
+  async function saveWishlist() { 
+    if (currentUser) await setDoc(doc(firestore, "wishlists", currentUser.uid), { items: wishlist }); 
+  }
+
+  function updateWishlistCounters() {
+    const count = Array.isArray(wishlist) ? wishlist.length : 0;
+    const nav = document.getElementById("wishlist-count-nav");
+    const mob = document.getElementById("wishlist-count-mob");
+    if (nav) nav.innerText = count;
+    if (mob) mob.innerText = count;
+  }
+
+  window.toggleWishlist = async (id) => {
+    if (!currentUser) {
+      toast("Login first", true);
+      openLoginModal();
+      return;
+    }
+    const exists = wishlist.includes(id);
+    if (exists) {
+      wishlist = wishlist.filter(item => item !== id);
+      toast("Removed from wishlist");
+    } else {
+      wishlist.push(id);
+      toast("Added to wishlist");
+    }
+    updateWishlistCounters();
+    await saveWishlist();
+    filterAndRenderProducts();
+  };
+
+  window.toggleWishlistView = () => {
+    if (!currentUser) { toast("Login to view wishlist", true); openLoginModal(); return; }
+    viewingWishlist = !viewingWishlist;
+    document.getElementById("grid-title").innerText = viewingWishlist ? "My Wishlist" : "Latest Drops";
+    filterAndRenderProducts();
+  };
+  
+  window.showMainProducts = () => { viewingWishlist = false; document.getElementById("grid-title").innerText = "Latest Drops"; filterAndRenderProducts(); };
+
+  window.addToCart = (product, selectedSize) => {
+    if (!currentUser) { toast("Login first", true); openLoginModal(); return; }
+    if (!selectedSize) { toast("Please select a size", true); return; }
+    const finalPrice = getProductPrice(product);
+    const cartKey = `${product.id}_${selectedSize}`;
+    const existing = cart.find(i => i.cartKey === cartKey);
+    if (existing) existing.quantity++;
+    else cart.push({ ...product, price: finalPrice, originalPrice: product.price, quantity: 1, selectedSize, cartKey });
+    saveCart(); renderCart(); toast(`${product.name} (UK ${selectedSize}) added to cart`);
+  };
+
+  function saveCart() { if (currentUser) localStorage.setItem(`cart_${currentUser.uid}`, JSON.stringify(cart)); }
+  function loadCart() { cart = currentUser ? JSON.parse(localStorage.getItem(`cart_${currentUser.uid}`) || "[]") : []; renderCart(); }
+
+  window.updateCartQuantity = (idx, delta) => { if (cart[idx]) { cart[idx].quantity = Math.max(1, cart[idx].quantity + delta); saveCart(); renderCart(); } };
+  window.removeCartItem = (i) => { cart.splice(i, 1); saveCart(); renderCart(); };
+  window.toggleCart = () => document.getElementById("cart-sidebar").classList.toggle("open");
+
+  function renderCart() {
+    let count = cart.reduce((s, i) => s + i.quantity, 0);
+    document.getElementById("cart-count").innerText = count;
+    document.getElementById("cart-count-mob").innerText = count;
+    const itemsDiv = document.getElementById("cart-items");
+    if (!cart.length) { itemsDiv.innerHTML = '<div style="text-align:center;padding:40px;">Cart empty</div>'; activePromo = null; }
+    else {
+      itemsDiv.innerHTML = cart.map((item, i) => `
+        <div style="background:rgba(255,255,255,0.05);border-radius:12px;padding:12px;margin-bottom:10px;">
+          <div style="display:flex;gap:12px;"><img src="${item.images?.[0] || item.image}" style="width:70px;height:70px;border-radius:10px;object-fit:cover;"><div style="flex:1;"><h3 style="font-size:14px;">${item.name}</h3><p style="font-size:11px;color:#aaa;">Size: UK ${item.selectedSize}</p><p>₹${item.price.toLocaleString()}</p></div><button onclick="removeCartItem(${i})" style="background:none;border:none;color:#a1a1aa;font-size:20px;">×</button></div>
+          <div style="display:flex;justify-content:space-between;margin-top:10px;"><div><button onclick="updateCartQuantity(${i}, -1)" style="background:rgba(255,255,255,0.1);border:none;padding:5px 12px;border-radius:20px;">-</button><span style="margin:0 12px;">${item.quantity}</span><button onclick="updateCartQuantity(${i}, 1)" style="background:rgba(255,255,255,0.1);border:none;padding:5px 12px;border-radius:20px;">+</button></div><span>₹${(item.price * item.quantity).toLocaleString()}</span></div>
+        </div>`).join("");
+    }
+    let subtotal = cart.reduce((s, i) => s + i.price * i.quantity, 0);
+    document.getElementById("summary-subtotal").innerText = `₹${subtotal.toLocaleString()}`;
+    let total = subtotal;
+    if (activePromo) { let discount = activePromo.type === "percentage" ? Math.floor(subtotal * activePromo.value / 100) : activePromo.value; total = Math.max(0, subtotal - discount); document.getElementById("summary-promo-discount").innerText = `-₹${discount}`; document.getElementById("summary-promo-row").style.display = "flex"; }
+    else document.getElementById("summary-promo-row").style.display = "none";
+    document.getElementById("cart-total").innerText = `₹${total.toLocaleString()}`;
+    updateWishlistCounters();
+  }
+
+  window.applyPromoCode = () => {
+    const code = document.getElementById("promo-input").value.trim().toUpperCase();
+    if (code === "SOLEVIA10") { activePromo = { type: "percentage", value: 10 }; toast("10% off applied"); }
+    else if (code === "FUTURE20") { activePromo = { type: "percentage", value: 20 }; toast("20% off applied"); }
+    else { activePromo = null; toast("Invalid code", true); }
+    renderCart();
+  };
+
+  function filterAndRenderProducts() {
+    let search = document.getElementById("search").value.toLowerCase();
+    let category = document.getElementById("filter").value;
+    let filtered = viewingWishlist && currentUser ? allProducts.filter(p => wishlist.includes(p.id)) : allProducts.filter(p => p.name.toLowerCase().includes(search) && (category === "all" || p.category === category));
+    document.getElementById("product-count").innerText = `${filtered.length} items`;
+    const container = document.getElementById("products");
+    if (!filtered.length) { container.innerHTML = '<div style="grid-column:span4;text-align:center;padding:60px;">No products</div>'; return; }
+    container.innerHTML = filtered.map(p => {
+      let isWishlisted = currentUser && wishlist.includes(p.id);
+      let displayPrice = getProductPrice(p);
+      let discountPercent = currentDiscount.type === "percentage" && currentDiscount.value > 0 ? currentDiscount.value : 0;
+      let productImage = (p.images && p.images[0]) || p.image || "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=400";
+      return `<div class="product-card"><button class="wishlist-btn" onclick="event.stopPropagation(); window.toggleWishlist('${p.id}')">${isWishlisted ? "♥" : "♡"}</button><div onclick="openModal('${p.id}')"><img src="${productImage}" class="product-img"><div class="product-info"><p class="product-category">${p.category}</p><h3 class="product-name">${p.name}</h3><div class="product-price"><span class="current-price">₹${displayPrice.toLocaleString()}</span>${p.price !== displayPrice ? `<span class="original-price">₹${p.price.toLocaleString()}</span>` : ''}${discountPercent ? `<span class="discount-tag">${discountPercent}% OFF</span>` : ''}</div><button class="add-cart-btn" onclick="event.stopPropagation(); openModal('${p.id}')">SELECT SIZE</button></div></div></div>`;
+    }).join("");
+  }
+
+  window.openModal = (id) => {
+    let p = allProducts.find(p => p.id == id);
+    if (!p) return;
+    currentModalProduct = p;
+    selectedModalSize = null;
+    const displayPrice = getProductPrice(p);
+    const images = (p.images && p.images.length) ? p.images : [p.image || "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=400"];
+    const availableSizes = p.sizes || [6,7,8,9,10,11];
+    
+    document.getElementById("modal-main-img").src = images[0];
+    document.getElementById("modal-name").innerText = p.name;
+    document.getElementById("modal-price").innerHTML = `₹${displayPrice.toLocaleString()}${p.price !== displayPrice ? `<span style="text-decoration:line-through;margin-left:8px;color:#aaa;">₹${p.price}</span>` : ''}`;
+    
+    const galleryDiv = document.getElementById("modal-gallery");
+    galleryDiv.innerHTML = images.map((img, idx) => `<img src="${img}" class="gallery-thumb ${idx === 0 ? 'active' : ''}" onclick="document.getElementById('modal-main-img').src='${img}'; document.querySelectorAll('.gallery-thumb').forEach(t=>t.classList.remove('active')); this.classList.add('active')">`).join('');
+    
+    const sizeDiv = document.getElementById("modal-size-selector");
+    sizeDiv.innerHTML = availableSizes.map(size => `<div class="size-option" data-size="${size}">UK ${size}</div>`).join('');
+    document.querySelectorAll('#modal-size-selector .size-option').forEach(opt => {
+      opt.addEventListener('click', () => {
+        document.querySelectorAll('#modal-size-selector .size-option').forEach(o => o.classList.remove('selected'));
+        opt.classList.add('selected');
+        selectedModalSize = parseInt(opt.dataset.size);
       });
-    }
-
-    function updateHeroContent() {
-      if (!bannerImages.length) return;
-      const heroBg = document.getElementById("hero-bg");
-      if (heroBg) heroBg.style.backgroundImage = `url('${bannerImages[currentBannerIndex]}')`;
-      document.getElementById("banner-title").innerText = bannerTitles[currentBannerIndex] || ".SOLEVIA";
-      document.getElementById("banner-subtitle").innerText = bannerSubs[currentBannerIndex] || "NEW DROP";
-      document.getElementById("banner-desc").innerHTML = "Premium sneakers engineered with futuristic aesthetics and ultimate comfort.";
-    }
-
-    function startBannerRotation() {
-      if (bannerInterval) clearInterval(bannerInterval);
-      if (bannerImages.length > 1) {
-        bannerInterval = setInterval(() => {
-          currentBannerIndex = (currentBannerIndex + 1) % bannerImages.length;
-          updateHeroContent();
-        }, 5000);
-      }
-      updateHeroContent();
-    }
-    
-    // ========== END BANNER FIX ==========
-
-    function selectPaymentMethod(method) {
-      selectedPaymentMethod = method;
-      document.getElementById("cod-check").style.display = method === "cod" ? "inline" : "none";
-      document.getElementById("online-check").style.display = method === "online" ? "inline" : "none";
-      document.getElementById("payment-cod").style.borderColor = method === "cod" ? "#10b981" : "transparent";
-      document.getElementById("payment-online").style.borderColor = method === "online" ? "#10b981" : "transparent";
-    }
-
-    function updateAuthUI() {
-      const authDiv = document.getElementById("auth-desktop");
-      if (currentUser) {
-        authDiv.innerHTML = `<span style="font-size: 13px;">${currentUser.email.split('@')[0]}</span><button onclick="handleLogout()" class="nav-btn" style="margin-left: 10px;">LOGOUT</button>`;
-      } else {
-        authDiv.innerHTML = `<button onclick="openLoginModal()" class="nav-btn">LOGIN</button>`;
-      }
-    }
-
-    window.openLoginModal = () => { document.getElementById("login-modal").style.display = "flex"; document.getElementById("login-form").style.display = "block"; document.getElementById("signup-form").style.display = "none"; };
-    window.closeLoginModal = () => { document.getElementById("login-modal").style.display = "none"; };
-    window.switchToSignup = () => { document.getElementById("login-form").style.display = "none"; document.getElementById("signup-form").style.display = "block"; };
-    window.switchToLogin = () => { document.getElementById("login-form").style.display = "block"; document.getElementById("signup-form").style.display = "none"; };
-    window.closeAddressModal = () => { document.getElementById("address-modal").style.display = "none"; };
-    window.closeOrdersModal = () => { document.getElementById("orders-modal").style.display = "none"; };
-    window.closeProductModal = () => { document.getElementById("product-modal").style.display = "none"; };
-
-    window.handleLogin = async () => {
-      const email = document.getElementById("login-email").value.trim();
-      const password = document.getElementById("login-password").value;
-      if (!email || !password) { toast("Please enter email and password", true); return; }
-      try { await signInWithEmailAndPassword(auth, email, password); toast("Login successful"); closeLoginModal(); } 
-      catch (error) { toast("Login failed: " + error.message, true); }
-    };
-
-    window.handleSignup = async () => {
-      const name = document.getElementById("signup-name").value.trim();
-      const email = document.getElementById("signup-email").value.trim();
-      const password = document.getElementById("signup-password").value;
-      if (!name || !email || !password) { toast("Please fill all fields", true); return; }
-      if (password.length < 6) { toast("Password must be at least 6 characters", true); return; }
-      try {
-        const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-        await setDoc(doc(firestore, "users", userCredential.user.uid), { name, email, createdAt: new Date() });
-        toast("Account created! Please login."); switchToLogin();
-      } catch (error) { toast("Signup failed: " + error.message, true); }
-    };
-
-    window.handleLogout = async () => { await signOut(auth); toast("Logged out"); cart = []; wishlist = []; renderCart(); filterAndRenderProducts(); };
-
-    async function loadWishlist() {
-      if (!currentUser) { wishlist = []; updateWishlistCounters(); return; }
-      try {
-        const wishlistRef = doc(firestore, "wishlists", currentUser.uid);
-        const wishlistSnap = await getDoc(wishlistRef);
-        wishlist = wishlistSnap.exists() ? wishlistSnap.data().items || [] : [];
-        updateWishlistCounters();
-      } catch (error) { wishlist = []; }
-    }
-
-    async function saveWishlist() {
-      if (!currentUser) return;
-      try { await setDoc(doc(firestore, "wishlists", currentUser.uid), { items: wishlist, updatedAt: new Date() }); } catch (error) {}
-    }
-
-    window.toggleWishlist = async (productId) => {
-      if (!currentUser) { toast("Please login first", true); openLoginModal(); return; }
-      const idx = wishlist.indexOf(productId);
-      if (idx > -1) { wishlist.splice(idx, 1); toast("Removed from wishlist"); } 
-      else { wishlist.push(productId); toast("Added to wishlist"); }
-      await saveWishlist(); updateWishlistCounters(); if (viewingWishlist) filterAndRenderProducts();
-    };
-
-    function updateWishlistCounters() {
-      const count = wishlist.length;
-      document.getElementById("wishlist-count-nav").innerText = count;
-      document.getElementById("wishlist-count-mob").innerText = count;
-    }
-
-    window.toggleWishlistView = () => {
-      if (!currentUser) { toast("Please login to view wishlist", true); openLoginModal(); return; }
-      viewingWishlist = !viewingWishlist;
-      document.getElementById("grid-title").innerText = viewingWishlist ? "My Wishlist" : "Latest Drops";
-      filterAndRenderProducts();
-    };
-
-    window.showMainProducts = () => { viewingWishlist = false; document.getElementById("grid-title").innerText = "Latest Drops"; filterAndRenderProducts(); };
-
-    function addToCart(product) {
-      if (!currentUser) { toast("Please login first", true); openLoginModal(); return; }
-      cart.push({ ...product, price: product.displayPrice || product.price });
-      saveCart(); renderCart(); toast(`${product.name} added to cart`);
-    }
-
-    function saveCart() { if (currentUser) localStorage.setItem(`cart_${currentUser.uid}`, JSON.stringify(cart)); }
-    function loadCart() { if (currentUser) { const saved = localStorage.getItem(`cart_${currentUser.uid}`); cart = saved ? JSON.parse(saved) : []; } else { cart = []; } renderCart(); }
-
-    window.removeCartItem = (i) => { cart.splice(i, 1); saveCart(); renderCart(); };
-    window.toggleCart = () => { document.getElementById("cart-sidebar").classList.toggle("open"); renderCart(); };
-
-    function renderCart() {
-      const count = cart.length;
-      document.getElementById("cart-count").innerText = count;
-      document.getElementById("cart-count-mob").innerText = count;
-      const itemsDiv = document.getElementById("cart-items");
-      if (!cart.length) { itemsDiv.innerHTML = '<div style="text-align: center; padding: 40px; color: #a1a1aa;">Your cart is empty</div>'; activePromo = null; }
-      else {
-        itemsDiv.innerHTML = cart.map((item, i) => `<div style="background: rgba(255,255,255,0.05); border-radius: 12px; padding: 12px; display: flex; gap: 12px; margin-bottom: 10px;"><img src="${item.image}" style="width: 70px; height: 70px; border-radius: 10px; object-fit: cover;"><div style="flex:1;"><h3 style="font-size: 14px; font-weight: bold;">${item.name}</h3><p style="color:#a1a1aa;">₹${item.price.toLocaleString()}</p></div><button onclick="removeCartItem(${i})" style="background: none; border: none; color:#a1a1aa;">&times;</button></div>`).join("");
-      }
-      const subtotal = cart.reduce((s, i) => s + i.price, 0);
-      document.getElementById("summary-subtotal").innerText = `₹${subtotal.toLocaleString()}`;
-      let total = subtotal;
-      if (activePromo) {
-        let discount = activePromo.type === "percentage" ? Math.floor(subtotal * activePromo.value / 100) : activePromo.value;
-        total = Math.max(0, subtotal - discount);
-        document.getElementById("summary-promo-discount").innerText = `-₹${discount.toLocaleString()}`;
-        document.getElementById("summary-promo-row").style.display = "flex";
-      } else { document.getElementById("summary-promo-row").style.display = "none"; }
-      document.getElementById("cart-total").innerText = `₹${total.toLocaleString()}`;
-    }
-
-    window.applyPromoCode = () => {
-      const code = document.getElementById("promo-input").value.trim().toUpperCase();
-      const statusEl = document.getElementById("promo-status");
-      if (!code) { toast("Enter a code", true); return; }
-      if (cart.length === 0) { toast("Cart empty", true); return; }
-      if (code === "SOLEVA10") { activePromo = { type: "percentage", value: 10 }; statusEl.style.display = "block"; statusEl.style.color = "#10b981"; statusEl.innerText = "10% discount applied!"; }
-      else if (code === "FUTURE20") { activePromo = { type: "percentage", value: 20 }; statusEl.style.display = "block"; statusEl.style.color = "#10b981"; statusEl.innerText = "20% discount applied!"; }
-      else { statusEl.style.display = "block"; statusEl.style.color = "#ef4444"; statusEl.innerText = "Invalid code"; activePromo = null; }
-      renderCart();
-    };
-
-    onValue(productsRef, (snapshot) => {
-      const data = snapshot.val();
-      allProducts = data && Object.keys(data).length ? Object.keys(data).map(id => ({ id, ...data[id] })) : DEMO_PRODUCTS;
-      filterAndRenderProducts();
     });
-
-    function filterAndRenderProducts() {
-      const search = document.getElementById("search").value.toLowerCase();
-      const category = document.getElementById("filter").value;
-      let filtered = allProducts;
-      if (viewingWishlist && currentUser) filtered = allProducts.filter(p => wishlist.includes(p.id));
-      else filtered = allProducts.filter(p => p.name.toLowerCase().includes(search) && (category === "all" || p.category === category));
-      renderProducts(filtered);
-    }
-
-    function renderProducts(products) {
-      document.getElementById("product-count").innerText = `${products.length} items`;
-      const container = document.getElementById("products");
-      if (!products.length) { container.innerHTML = '<div style="grid-column: span 4; text-align: center; padding: 60px; color: #a1a1aa;">No products found</div>'; return; }
-      container.innerHTML = products.map(p => {
-        const isWishlisted = currentUser && wishlist.includes(p.id);
-        return `<div class="product-card"><button class="wishlist-btn" onclick="event.stopPropagation(); window.toggleWishlist('${p.id}')">${isWishlisted ? "♥" : "♡"}</button><div onclick="openModal('${p.id}')"><img src="${p.image}" class="product-img" onerror="this.src='https://placehold.co/400x400/333/white?text=No+Image'"><div class="product-info"><p class="product-category">${p.category || 'Uncategorized'}</p><h3 class="product-name">${p.name}</h3><p class="product-price">₹${p.price.toLocaleString()}</p><button class="add-cart-btn" onclick="event.stopPropagation(); addToCart(${JSON.stringify(p)})">ADD TO CART</button></div></div></div>`;
-      }).join("");
-    }
-
-    window.openModal = (id) => {
-      const p = allProducts.find(p => p.id == id);
-      if (!p) return;
-      window.selectedProduct = { ...p };
-      document.getElementById("product-modal").style.display = "flex";
-      document.getElementById("modal-img").src = p.image;
-      document.getElementById("modal-category").innerText = p.category || '';
-      document.getElementById("modal-name").innerText = p.name;
-      document.getElementById("modal-price").innerHTML = `₹${p.price.toLocaleString()}`;
-      document.getElementById("modal-desc").innerText = p.description || "Premium production model.";
-      const isWishlisted = currentUser && wishlist.includes(p.id);
-      document.getElementById("modal-wishlist-btn").innerHTML = isWishlisted ? "♥" : "♡";
-      document.getElementById("modal-wishlist-btn").onclick = () => window.toggleWishlist(p.id);
+    
+    document.getElementById("modal-add-to-cart").onclick = () => {
+      if (!selectedModalSize) { toast("Please select a size", true); return; }
+      addToCart(currentModalProduct, selectedModalSize);
+      closeProductModal();
     };
+    
+    document.getElementById("product-modal").style.display = "flex";
+  };
+  
+  window.closeProductModal = () => document.getElementById("product-modal").style.display = "none";
 
-    window.addToCart = addToCart;
-
-    window.initiateCheckout = () => {
-      if (!currentUser) { toast("Please login to checkout", true); openLoginModal(); return; }
-      if (cart.length === 0) { toast("Cart empty", true); return; }
-      const subtotal = cart.reduce((s, i) => s + i.price, 0);
-      let total = subtotal;
-      if (activePromo) {
-        let discount = activePromo.type === "percentage" ? Math.floor(subtotal * activePromo.value / 100) : activePromo.value;
-        total = Math.max(0, subtotal - discount);
-        document.getElementById("modal-discount-row").style.display = "flex";
-        document.getElementById("modal-discount").innerText = `-₹${discount.toLocaleString()}`;
-      } else { document.getElementById("modal-discount-row").style.display = "none"; }
-      document.getElementById("modal-subtotal").innerText = `₹${subtotal.toLocaleString()}`;
-      document.getElementById("modal-total").innerText = `₹${total.toLocaleString()}`;
-      document.getElementById("address-modal").style.display = "flex";
-      selectPaymentMethod("cod");
-    };
-
-    window.placeOrderWithPayment = async () => {
-      const fullName = document.getElementById("full-name").value.trim();
-      const phone = document.getElementById("phone").value.trim();
-      const address = document.getElementById("address-line").value.trim();
-      const city = document.getElementById("city").value.trim();
-      const pincode = document.getElementById("pincode").value.trim();
-      if (!fullName || !phone || !address || !city || !pincode) { toast("Please complete all address fields", true); return; }
-      if (selectedPaymentMethod === "online") { toast("UPI / Online Payment Coming Soon! Please select Cash on Delivery", true); return; }
-      let total = cart.reduce((s, i) => s + i.price, 0);
+  window.selectPaymentMethod = (method) => {
+    selectedPaymentMethod = method;
+    document.getElementById("cod-check").style.display = method === "cod" ? "inline" : "none";
+    document.getElementById("online-check").style.display = method === "online" ? "inline" : "none";
+    document.getElementById("payment-cod").style.borderColor = method === "cod" ? "#10b981" : "transparent";
+    document.getElementById("payment-online").style.borderColor = method === "online" ? "#10b981" : "transparent";
+    const qrDiv = document.getElementById("qr-code-container");
+    if (method === "online") {
+      let total = cart.reduce((s, i) => s + i.price * i.quantity, 0);
       if (activePromo) total = activePromo.type === "percentage" ? Math.floor(total * (1 - activePromo.value / 100)) : Math.max(0, total - activePromo.value);
-      await push(ordersRef, {
-        items: cart.map(i => ({ name: i.name, price: i.price })),
-        total: total, address: { fullName, phone, address, city, pincode }, paymentMethod: "Cash on Delivery",
-        customerId: currentUser.uid, createdAt: Date.now(), status: "pending", orderId: "ORD" + Date.now().toString().slice(-8)
-      });
-      toast("Order placed! Payment: Cash on Delivery");
+      const upiUrl = `payments://pay?pa=8618365136@ybl&pn=SOLEVIA&am=${total}&cu=INR`;
+      document.getElementById("qr-image").src = `https://quickchart.io/qr?text=${encodeURIComponent(upiUrl)}&size=200`;
+      qrDiv.style.display = "block";
+    } else qrDiv.style.display = "none";
+  };
+
+  window.initiateCheckout = () => {
+    if (!currentUser) { toast("Login to checkout", true); openLoginModal(); return; }
+    if (!cart.length) { toast("Cart empty", true); return; }
+    let total = cart.reduce((s, i) => s + i.price * i.quantity, 0);
+    if (activePromo) total = activePromo.type === "percentage" ? Math.floor(total * (1 - activePromo.value / 100)) : Math.max(0, total - activePromo.value);
+    document.getElementById("modal-total").innerText = `₹${total.toLocaleString()}`;
+    document.getElementById("address-modal").style.display = "flex";
+    selectPaymentMethod("cod");
+  };
+  
+  window.closeAddressModal = () => document.getElementById("address-modal").style.display = "none";
+  window.closeOrdersModal = () => document.getElementById("orders-modal").style.display = "none";
+
+  window.placeOrderWithPayment = async () => {
+    let fullName = document.getElementById("full-name").value.trim();
+    let phone = document.getElementById("phone").value.trim();
+    let address = document.getElementById("address-line").value.trim();
+    let city = document.getElementById("city").value.trim();
+    let pincode = document.getElementById("pincode").value.trim();
+    if (!fullName || !phone || !address || !city || !pincode) { toast("Complete all fields", true); return; }
+    if (!/^\d{10}$/.test(phone)) { toast("Invalid phone", true); return; }
+    let total = cart.reduce((s, i) => s + i.price * i.quantity, 0);
+    if (activePromo) total = activePromo.type === "percentage" ? Math.floor(total * (1 - activePromo.value / 100)) : Math.max(0, total - activePromo.value);
+    
+    if (selectedPaymentMethod === "online") {
+      toast("Scan QR and pay. Order will be placed after payment.", false);
+      setTimeout(async () => {
+        await push(ordersRef, { items: cart.map(i => ({ name: i.name, price: i.price, quantity: i.quantity, size: i.selectedSize })), total, address: { fullName, phone, address, city, pincode }, paymentMethod: "Online UPI", customerId: currentUser.uid, createdAt: Date.now(), status: "confirmed", orderId: "ORD" + Date.now() });
+        toast("Order placed! Payment verification pending.", false);
+        cart = []; activePromo = null; saveCart(); renderCart();
+        document.getElementById("address-modal").style.display = "none";
+        document.getElementById("cart-sidebar").classList.remove("open");
+        ["full-name","phone","address-line","city","pincode"].forEach(id => document.getElementById(id).value = "");
+      }, 1000);
+    } else {
+      await push(ordersRef, { items: cart.map(i => ({ name: i.name, price: i.price, quantity: i.quantity, size: i.selectedSize })), total, address: { fullName, phone, address, city, pincode }, paymentMethod: "Cash on Delivery", customerId: currentUser.uid, createdAt: Date.now(), status: "pending", orderId: "ORD" + Date.now() });
+      toast("Order placed successfully! Cash on Delivery", false);
       cart = []; activePromo = null; saveCart(); renderCart();
       document.getElementById("address-modal").style.display = "none";
       document.getElementById("cart-sidebar").classList.remove("open");
-    };
+      ["full-name","phone","address-line","city","pincode"].forEach(id => document.getElementById(id).value = "");
+    }
+  };
 
-    window.openOrderTracking = async () => {
-      if (!currentUser) { toast("Please login to view orders", true); openLoginModal(); return; }
-      const snapshot = await get(ordersRef);
-      const ordersDiv = document.getElementById("orders-list");
-      if (snapshot.exists()) {
-        const myOrders = [];
-        snapshot.forEach(child => { const o = child.val(); if (o.customerId === currentUser.uid) myOrders.push(o); });
-        myOrders.sort((a,b) => b.createdAt - a.createdAt);
-        if (!myOrders.length) ordersDiv.innerHTML = '<div style="text-align: center; padding: 40px;">No orders yet</div>';
-        else {
-          ordersDiv.innerHTML = myOrders.map(o => `<div style="background: rgba(255,255,255,0.05); padding: 15px; border-radius: 16px; margin-bottom: 12px;"><div style="display: flex; justify-content: space-between;"><span style="font-size: 12px;">${o.orderId}</span><span class="status-${o.status || 'pending'}">${(o.status || 'pending').toUpperCase()}</span></div><p style="font-size: 10px; color: #a1a1aa; margin: 8px 0;">${new Date(o.createdAt).toLocaleString()}</p>${o.items.map(i => `<div style="display: flex; justify-content: space-between; font-size: 13px; padding: 5px 0;"><span>${i.name}</span><span>₹${i.price.toLocaleString()}</span></div>`).join('')}<div style="border-top: 1px solid rgba(255,255,255,0.1); margin-top: 10px; padding-top: 10px; display: flex; justify-content: space-between; font-weight: bold;"><span>Total</span><span>₹${o.total.toLocaleString()}</span></div></div>`).join('');
-        }
-      } else ordersDiv.innerHTML = '<div style="text-align: center; padding: 40px;">No orders found</div>';
-      document.getElementById("orders-modal").style.display = "flex";
-    };
+  window.openOrderTracking = async () => {
+    if (!currentUser) { toast("Login first", true); openLoginModal(); return; }
+    const snap = await get(ordersRef);
+    const ordersDiv = document.getElementById("orders-list");
+    let myOrders = [];
+    snap.forEach(child => { let o = child.val(); if (o.customerId === currentUser.uid) myOrders.push(o); });
+    if (!myOrders.length) ordersDiv.innerHTML = '<div style="text-align:center;padding:40px;">No orders</div>';
+    else ordersDiv.innerHTML = myOrders.map(o => `<div style="background:rgba(255,255,255,0.05);padding:15px;border-radius:16px;margin-bottom:12px;"><div style="display:flex;justify-content:space-between;"><span>${o.orderId}</span><span style="color:#fbbf24;">${(o.status || 'pending').toUpperCase()}</span></div><p style="font-size:10px;">${new Date(o.createdAt).toLocaleString()}</p>${o.items.map(i => `<div>${i.name} (UK ${i.size}) x${i.quantity} - ₹${i.price * i.quantity}</div>`).join('')}<div style="border-top:1px solid rgba(255,255,255,0.1);margin-top:10px;padding-top:10px;"><strong>Total: ₹${o.total}</strong></div></div>`).join('');
+    document.getElementById("orders-modal").style.display = "flex";
+  };
 
-    document.getElementById("search").addEventListener("input", filterAndRenderProducts);
-    document.getElementById("filter").addEventListener("change", filterAndRenderProducts);
-    onAuthStateChanged(auth, async (user) => {
-      currentUser = user; updateAuthUI();
-      if (user) { await loadWishlist(); loadCart(); filterAndRenderProducts(); } 
-      else { wishlist = []; cart = []; updateWishlistCounters(); renderCart(); filterAndRenderProducts(); }
-    });
-    
-    // Initialize banner system
-    loadBannersFromFirebase();
+  function updateAuthUI() {
+    const authDiv = document.getElementById("auth-desktop");
+    if (currentUser) authDiv.innerHTML = `<span style="font-size:13px;">${currentUser.email.split('@')[0]}</span><button onclick="handleLogout()" class="nav-btn" style="margin-left:10px;">LOGOUT</button>`;
+    else authDiv.innerHTML = `<button onclick="openLoginModal()" class="nav-btn">LOGIN</button>`;
+  }
+  
+  window.openLoginModal = () => document.getElementById("login-modal").style.display = "flex";
+  window.closeLoginModal = () => document.getElementById("login-modal").style.display = "none";
+  window.switchToSignup = () => { document.getElementById("login-form").style.display = "none"; document.getElementById("signup-form").style.display = "block"; };
+  window.switchToLogin = () => { document.getElementById("login-form").style.display = "block"; document.getElementById("signup-form").style.display = "none"; };
+  
+  window.handleLogin = async () => {
+    const email = document.getElementById("login-email").value.trim();
+    const password = document.getElementById("login-password").value;
+    if (!email || !password) { toast("Enter email & password", true); return; }
+    try {
+      await signInWithEmailAndPassword(auth, email, password);
+      toast("Login successful");
+    } catch (error) {
+      if (error.code === "auth/invalid-credential") toast("Invalid email or password", true);
+      else if (error.code === "auth/too-many-requests") toast("Too many attempts. Try later.", true);
+      else toast(error.message, true);
+    }
+  };
+  
+  window.handleSignup = async () => {
+    const name = document.getElementById("signup-name").value.trim();
+    const email = document.getElementById("signup-email").value.trim();
+    const password = document.getElementById("signup-password").value;
+    if (!name || !email || !password) { toast("Fill all fields", true); return; }
+    if (password.length < 6) { toast("Password must be at least 6 characters", true); return; }
+    try {
+      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+      await setDoc(doc(firestore, "users", userCredential.user.uid), { name, email, createdAt: Date.now() });
+      toast("Account created successfully");
+    } catch (error) {
+      if (error.code === "auth/email-already-in-use") toast("Email already registered", true);
+      else if (error.code === "auth/invalid-email") toast("Invalid email", true);
+      else toast(error.message, true);
+    }
+  };
+  
+  window.handleLogout = async () => { await signOut(auth); toast("Logged out"); cart = []; renderCart(); filterAndRenderProducts(); };
+
+  onAuthStateChanged(auth, async (user) => {
+    currentUser = user;
+    updateAuthUI();
+    if (user) {
+      await loadWishlist();
+      loadCart();
+      document.getElementById("login-email").value = "";
+      document.getElementById("login-password").value = "";
+      document.getElementById("signup-name").value = "";
+      document.getElementById("signup-email").value = "";
+      document.getElementById("signup-password").value = "";
+      closeLoginModal();
+    } else {
+      wishlist = [];
+      cart = [];
+      updateWishlistCounters();
+      renderCart();
+    }
     filterAndRenderProducts();
-  </script>
+  });
+  
+  window.addEventListener("keydown", (e) => {
+    if (e.key === "Escape") {
+      document.querySelectorAll(".modal-overlay").forEach(modal => { modal.style.display = "none"; });
+      document.getElementById("cart-sidebar").classList.remove("open");
+    }
+  });
+  
+  document.getElementById("search").addEventListener("input", () => filterAndRenderProducts());
+  document.getElementById("filter").addEventListener("change", filterAndRenderProducts());
+  document.querySelectorAll('.modal-overlay').forEach(overlay => { overlay.addEventListener('click', (e) => { if (e.target === overlay) overlay.style.display = 'none'; }); });
+  filterAndRenderProducts();
+</script>
 </body>
-
 </html>
+```
